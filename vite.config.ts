@@ -18,6 +18,9 @@ export default defineConfig({
     // import を並べ替える。グループ（外部パッケージ → ~/ → 相対）ごとに分け、グループの中は名前順。
     // 副作用だけの import（import "./x.css" など）は動かさない。読み込む順番に意味があるため
     sortImports: true,
+    // Markdown の中のコードブロックは整形しない。docs のコード例は、説明のために書いた形のまま残す
+    // （整形すると、JSX の例の行末に ; が付くなどして読みにくくなる）
+    embeddedLanguageFormatting: "off",
     // TanStack Router が生成するファイル。整形しても次の生成で書き戻される
     ignorePatterns: ["src/routeTree.gen.ts"],
     overrides: [

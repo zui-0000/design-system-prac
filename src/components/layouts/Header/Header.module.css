@@ -1,8 +1,19 @@
 /*
- * ヘッダー全体。ロゴとナビゲーションを横に並べ、両端に寄せる。
- * 画面が狭くて入りきらないときは、ナビゲーションを次の行に折り返す。
+ * ヘッダーの外枠。コンテナクエリの「コンテナ」にする。
+ * 中の要素は、画面の幅ではなく、このヘッダーの幅に合わせて見た目を変えられる。
  */
 .header {
+  container: header / inline-size;
+
+  border-bottom: 1px solid #d9d9e0;
+  background-color: #ffffff;
+}
+
+/*
+ * ロゴとナビゲーションを横に並べ、両端に寄せる。
+ * それでも入りきらないときは、ナビゲーションを次の行に折り返す。
+ */
+.inner {
   display: flex;
   flex-wrap: wrap;
   /* 両端に寄せる。ロゴは左端、ナビゲーションは右端 */
@@ -13,8 +24,6 @@
   gap: 0.5rem 1.5rem;
 
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #d9d9e0;
-  background-color: #ffffff;
 }
 
 .logo {
@@ -64,4 +73,18 @@
 .link[aria-current="page"] {
   font-weight: 700;
   background-color: #e8e8ee;
+}
+
+/*
+ * ヘッダーの幅が 30rem（初期設定で 480px）より狭いときは、余白を詰めて 1 行に収める。
+ * コンテナ自身（.header）は条件の対象なので、ここで変えるのは中の要素だけ。
+ */
+@container header (width < 30rem) {
+  .inner {
+    column-gap: 0.75rem;
+  }
+
+  .link {
+    padding: 0 0.5rem;
+  }
 }
