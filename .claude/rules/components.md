@@ -35,6 +35,12 @@ paths:
 - `features/` から `ui/` は使ってよい。`ui/` から `features/` は使わない。別の機能（`features/<別の機能名>/`）も使わない
 - ストーリーは書かない。Storybook に並べるのは `ui/` の部品だけ。見た目は `/practice` などのページで確かめる
 
+## `src/components/layouts/`（ページの外側の枠）
+
+- ヘッダーなど、ページの枠になる部品を置く。各ページが自分で import して使う（`src/routes/__root.tsx` には置かない）
+- ファイル名の付け方は `ui/` と同じ（`Header/Header.tsx`）。ストーリーは書かない
+- `ui/` から `layouts/` は使わない
+
 ## `src/components/pages/`（ページ）
 
 - 1 ページ 1 フォルダ。フォルダ名はページの名前（PascalCase）、中身は `index.tsx` と `index.module.css`
@@ -47,8 +53,27 @@ paths:
 
 - ページは `src/routes/` から import して使う。経路の宣言はページに書かない
 - 別のページを import しない
+- ページは自分で枠を組む。`<Header />` などの `layouts/` の部品と、本文を包む `<main>` をページの中に書く
 
 ## 依存の検査
 
 - 上の依存の決まりは `.dependency-cruiser.jsonc` で検査している。import を変えたら `vp run lint:deps` を実行する
 - 結果の `modules` が 0 なら、ファイルを読めていない（TypeScript 7 のため `parser: "swc"` にしている）
+
+## リンク
+
+- `Link` の `to` には URL を直接書かず、`src/constants/pages.ts` の `PAGES` を使う（`docs/07-ルーティング.md`）
+- 外部サイトの URL も直接書かず、`src/constants/urls.ts` の `URLS` を使う。新しい外部リンクを足すときは `URLS` に足す
+- 外部リンクは `target="_blank" rel="noreferrer"` で別のタブで開き、`↗`（`aria-hidden="true"`）と `global-visually-hidden` の「（新しいタブで開く）」を添える
+
+## スタイル
+
+- 部品のスタイルは、部品と同じフォルダの CSS Modules（`<名前>.module.css`）に書く
+- どの部品でも使うクラスだけ `src/styles/global.css` に書く。名前の先頭に `global-` を付ける（例: `global-visually-hidden`）。使うときは `className="global-visually-hidden"` と文字列で書く
+
+## import のパス
+
+- `src/` の中のファイルは `~/` から書く（`~/components/ui/Card/Card`）。親のフォルダへの `../` は原則使わない（lint でエラーになる）
+- `../` が必要なとき（まとめ役の `index.ts` を通すと循環参照になるときなど）だけ、`// oxlint-disable-next-line no-restricted-imports -- 理由` を書いて例外にする
+- 循環参照は `vp run lint:deps` が止める
+- 同じフォルダのファイルだけ `./` で書く（`./Card.module.css`）
