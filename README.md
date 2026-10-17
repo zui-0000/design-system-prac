@@ -1,36 +1,7 @@
 # design-system-prac
 
-React で自分のデザインシステムを作り、[Storybook](https://storybook.js.org/) で一覧にするための学習用リポジトリ。ツールチェーンは [Vite+](https://viteplus.dev/)（`vp`）を使う。
-
-## フォルダ構成
-
-```text
-.
-├── .claude/rules/          # Claude Code に読ませるルール（UX・コンポーネント・ルーティング）
-├── .dependency-cruiser.jsonc  # import の決まり（依存の向き）の検査
-├── .storybook/             # Storybook の設定
-├── .vite-hooks/
-│   ├── pre-commit          # コミット前に実行する Git フック（整形・lint・型チェック・依存の検査）
-│   └── commit-msg          # コミットメッセージを検査する Git フック（commitlint）
-├── docs/                   # 学んだことのメモ
-├── public/                 # そのまま配信する静的ファイル
-├── src/
-│   ├── main.tsx            # #root に App を描く
-│   ├── App.tsx             # ルーターを作る
-│   ├── routeTree.gen.ts    # 経路の一覧（自動生成。手で触らない）
-│   ├── routes/             # 経路の宣言（ファイル名が URL になる）
-│   ├── constants/          # 定数（ページの URL の pages.ts、外部サイトの URL の urls.ts）
-│   ├── components/
-│   │   ├── ui/             # どこでも使う部品（Card/Card.tsx の形）
-│   │   ├── features/       # 機能ごとの部品（Card/CardList/index.tsx の形）
-│   │   ├── layouts/        # ページの枠になる部品（Header/index.tsx の形）
-│   │   └── pages/          # ページ（Practice/index.tsx の形）
-│   └── styles/             # 全体に効く CSS
-├── commitlint.config.js    # コミットメッセージの決まり
-├── package.json         # 依存関係と、Node.js・pnpm のバージョン（devEngines）
-├── pnpm-workspace.yaml  # catalog（Vite+ と Vitest のバージョンをそろえる）
-└── vite.config.ts       # Vite・lint・format・テストの設定
-```
+React で自分のデザインシステムを作り、[Storybook](https://storybook.js.org/) で一覧にするための学習用リポジトリ。
+ツールチェーンは [Vite+](https://viteplus.dev/)（`vp`）を使う。
 
 ## セットアップ（初回のみ）
 
@@ -83,17 +54,11 @@ Git フックの有効・無効は各 PC のローカル設定（`git config cor
 vp exec playwright install chromium
 ```
 
-`vp test` は、Storybook のストーリーを 1 つずつテストとして、Playwright の Chromium で動かす。ストーリーが壊れずに表示されるかと、アクセシビリティの違反がないかを確かめる。テストコードを書く必要はない。入れていないと `vp test` が失敗する。
+`vp test` は、Storybook のストーリーを 1 つずつテストとして、Playwright の Chromium で動かす。
+ストーリーが壊れずに表示されるかと、アクセシビリティの違反がないかを確かめる。テストコードを書く必要はない。入れていないと `vp test` が失敗する。
 
-`vite.config.ts` の `test.projects` には `storybook` プロジェクトしかないので、普通の単体テスト（`*.test.ts`）を置いても今は実行されない。単体テストを書くときは、`projects` に単体テスト用のプロジェクトを足す。
-
-### 5. Storybook を起動する
-
-```zsh
-vp run storybook
-```
-
-ブラウザで <http://localhost:6006/> を開く。部品はこの画面で確認する。
+`vite.config.ts` の `test.projects` には `storybook` プロジェクトしかないので、普通の単体テスト（`*.test.ts`）を置いても今は実行されない。
+単体テストを書くときは、`projects` に単体テスト用のプロジェクトを足す。
 
 ## よく使うコマンド
 
@@ -104,6 +69,7 @@ vp run storybook
 | 開発サーバーを起動する           | `vp dev`                             | <http://localhost:5173/>。                                                                      |
 | 本番用にビルドする               | `vp run build`                       | 型チェック（`tsc -b`）をしてからビルドする。出力先は `dist/`                                    |
 | 依存の向きを検査する             | `vp run lint:deps`                   | `ui/`・`features/`・`pages/` の import の決まり（[docs/06](docs/06-コンポーネントの置き方.md)） |
+| CSS の色の決まりを検査する       | `vp run lint:css`                    | 部品の CSS に色の値や色の材料を書いていないか（[docs/12](docs/12-デザイントークン.md)）         |
 | lint + フォーマット + 型チェック | `vp check`                           | 確認だけ。ファイルは書き換えない                                                                |
 | 上記をまとめて自動修正           | `vp check --fix`                     | フォーマットと lint の自動修正をしてから型チェックする                                          |
 | テストを実行する                 | `vp test`                            | ストーリーをテストとして実行する（単体テストは未設定）。Chromium が必要                         |
@@ -122,13 +88,16 @@ Storybook は組み込みコマンドではないので、`vp run storybook` で
 
 ## コミット時に自動で実行されること
 
-コミットすると、pre-commit フック（`.vite-hooks/pre-commit`）が `vp staged` を実行する。`vp staged` は、ステージされたファイルに対して `vp check --fix` を実行する（設定は `vite.config.ts` の `staged` ブロック）。
+コミットすると、pre-commit フック（`.vite-hooks/pre-commit`）が `vp staged` を実行する。
+`vp staged` は、ステージされたファイルに対して `vp check --fix` を実行する（設定は `vite.config.ts` の `staged` ブロック）。
 
 - フォーマットや lint で自動修正できるものは、修正された内容がそのままコミットされる
 - 型エラーなど自動で直せない問題があると、コミットが中止される
 - `src/` の `.ts`・`.tsx` をステージしていれば、依存の向きの検査（`vp run lint:deps`）も動く。違反があるとコミットが中止される
+- `src/` の CSS をステージしていれば、Stylelint で色の決まりも検査する。違反があるとコミットが中止される
 
-コミットメッセージは、commit-msg フック（`.vite-hooks/commit-msg`）が commitlint で検査する。`feat: ヘッダーを作る` のように `<type>: <説明>` の形で書く。形が違うとコミットが中止される（[docs/11](docs/11-コミットメッセージの決まり.md)）。
+コミットメッセージは、commit-msg フック（`.vite-hooks/commit-msg`）が commitlint で検査する。
+`feat: ヘッダーを作る` のように `<type>: <説明>` の形で書く。形が違うとコミットが中止される（[docs/11](docs/11-コミットメッセージの決まり.md)）。
 
 一時的にフックを飛ばしたいときは、環境変数を付けてコミットする。
 
@@ -149,3 +118,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/09 import のパス](docs/09-import%20のパス.md): `~/` で src を参照する設定、`../` を原則禁止にする方法、循環参照の検査、import の並べ替え
 - [docs/10 ヘッダーを作る](docs/10-ヘッダーを作る.md): `space-between` と `flex-wrap`、押せる範囲、`aria-current`、外部リンクを別のタブで開くときの伝え方
 - [docs/11 コミットメッセージの決まり](docs/11-コミットメッセージの決まり.md): commitlint の入れ方、Vite+ のフックで commit-msg を動かす方法、既定から変えたルール
+- [docs/12 デザイントークン](docs/12-デザイントークン.md): 基本と意味の 2 段の構造、デジタル庁デザインシステムを元にした値、ダークモードの切り替え
