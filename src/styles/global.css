@@ -1,3 +1,17 @@
+/*
+ * デザイントークン。色の材料（primitive/）を先に読み込む。tokens/color.css がそれを参照するため。
+ * 部品から使ってよいのは tokens/ の直下だけ。primitive/ の中は使わない。
+ */
+@import "./tokens/primitive/color.css";
+@import "./tokens/color.css";
+@import "./tokens/font-size.css";
+@import "./tokens/font-family.css";
+@import "./tokens/line-height.css";
+@import "./tokens/border-radius.css";
+@import "./tokens/elevation.css";
+@import "./tokens/spacing.css";
+@import "./tokens/z-index.css";
+
 /* すべての要素に共通する土台の設定 */
 
 /*
@@ -20,9 +34,11 @@ p {
 }
 
 body {
-  font-family: system-ui, sans-serif;
-  /* 行の高さは単位なしで書く。文字サイズが変わっても、その 1.5 倍に追従する */
-  line-height: 1.5;
+  font-family: var(--font-family-body);
+  /* 行の高さは単位なしで書く（--line-height-150 は 1.5）。文字サイズが変わっても、その 1.5 倍に追従する */
+  line-height: var(--line-height-body);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
 }
 
 /*

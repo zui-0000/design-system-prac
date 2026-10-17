@@ -1,0 +1,29 @@
+/*
+ * 文字サイズと文字の太さのトークン。名前は px の値（太さは font-weight の値）。
+ * 値は、デジタル庁デザインシステムのデザイントークン（@digital-go-jp/design-tokens 2.0.1）を元にしている。
+ * ライセンスは ./DADS-LICENSE.txt（MIT License, Copyright (c) 2023 デジタル庁）。
+ * rem の値の後ろのコメントは、ブラウザの文字サイズが初期設定（16px）のときの px の値。
+ */
+
+:root {
+  /* 文字サイズ */
+  --font-size-14: 0.875rem; /* 14px */
+  --font-size-16: 1rem; /* 16px */
+  --font-size-17: 1.0625rem; /* 17px */
+  --font-size-18: 1.125rem; /* 18px */
+  --font-size-20: 1.25rem; /* 20px */
+  --font-size-22: 1.375rem; /* 22px */
+  --font-size-24: 1.5rem; /* 24px */
+  --font-size-26: 1.625rem; /* 26px */
+  --font-size-28: 1.75rem; /* 28px */
+  --font-size-32: 2rem; /* 32px */
+  --font-size-36: 2.25rem; /* 36px */
+  --font-size-45: 2.8125rem; /* 45px */
+  --font-size-48: 3rem; /* 48px */
+  --font-size-57: 3.5625rem; /* 57px */
+  --font-size-64: 4rem; /* 64px */
+
+  /* 文字の太さ */
+  --font-weight-400: 400;
+  --font-weight-700: 700;
+}

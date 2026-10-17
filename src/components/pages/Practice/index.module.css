@@ -1,6 +1,6 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 2rem 1rem;
+  gap: var(--spacing-24);
+  padding: var(--spacing-32) var(--spacing-16);
 }

@@ -1,0 +1,21 @@
+/*
+ * 余白のトークン。名前は px の値（font-size.css などと同じ付け方）。
+ * 4px を基本の単位にして、小さい余白は細かく、大きい余白は粗く刻む。
+ * gap・margin・padding はこの値から選ぶ。
+ * コメントの px は、ブラウザの文字サイズが初期設定（16px）のときの値。文字を大きくすると一緒に大きくなる。
+ */
+:root {
+  --spacing-2: 0.125rem; /* 2px */
+  --spacing-4: 0.25rem; /* 4px */
+  --spacing-8: 0.5rem; /* 8px */
+  --spacing-12: 0.75rem; /* 12px */
+  --spacing-16: 1rem; /* 16px */
+  --spacing-24: 1.5rem; /* 24px */
+  --spacing-32: 2rem; /* 32px */
+  --spacing-40: 2.5rem; /* 40px */
+  --spacing-48: 3rem; /* 48px */
+  --spacing-64: 4rem; /* 64px */
+
+  /* 押せる部品の最小の大きさ（.claude/rules/ux.md の「押しやすさ」） */
+  --size-touch-target: 2.75rem; /* 44px */
+}
