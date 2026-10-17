@@ -18,14 +18,18 @@ styles/
     ├── elevation.css        影
     ├── spacing.css          余白
     ├── z-index.css          重なりの順番
-    └── DADS-LICENSE.txt     デジタル庁デザインシステムを元にした値のライセンス
+    ├── DADS-LICENSE.txt     デジタル庁デザインシステムを元にした値のライセンス
+    └── stories/             Storybook のトークン一覧のページ（Foundations/Tokens）
+        ├── Tokens.mdx       ページ
+        ├── Tokens.tsx       一覧の見本を描く部品（Tokens.mdx だけが使う）
+        └── Tokens.module.css
 ```
 
 ## 部品から使うトークン
 
 **`tokens/primitive/color.css` のトークンは、部品から使わない。** 色は `tokens/color.css` のトークンだけを使う。
 
-部品の CSS では、`tokens/` の直下のトークンを `var()` で使う。import は要らない（`global.css` が `:root` に定義している）。
+部品の CSS では、`tokens/` の直下の CSS のトークンを `var()` で使う。import は要らない（`global.css` が `:root` に定義している）。
 
 | 決めたいもの     | ファイル            | 例                                              |
 | ---------------- | ------------------- | ----------------------------------------------- |

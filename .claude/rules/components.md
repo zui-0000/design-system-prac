@@ -71,7 +71,7 @@ paths:
 ## スタイル
 
 - 部品のスタイルは、部品と同じフォルダの CSS Modules（`<名前>.module.css`）に書く
-- トークンは `src/styles/tokens/` の直下のファイルから使う。`src/styles/tokens/primitive/` の中のトークンは使わない
+- トークンは `src/styles/tokens/` の直下の CSS ファイルから使う。`src/styles/tokens/primitive/` の中のトークンは使わない
 - 色は `src/styles/tokens/color.css` の意味のトークン（`--color-primary`・`--color-foreground` など）だけを使う。`#fff` のような値や、`--color-primitive-*`・`--color-neutral-*`・`--color-semantic-*` を部品に直接書かない（ダークモードで切り替わらなくなる）
 - CSS を変えたら `vp run lint:css` を実行する。色の値や色の材料を書くと Stylelint が止める
 - 余白は `--spacing-*`、文字サイズは `--font-size-*`、角丸は `--border-radius-*`、影は `--elevation-*`、重なりは `--z-index-*` から選ぶ。合う値がなければ、値を直接書く前にトークンを足すか相談する
