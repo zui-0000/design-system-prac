@@ -13,6 +13,9 @@ export default defineConfig({
     // src の TS を変えたときは、依存の向きも検査する（.dependency-cruiser.jsonc）。
     // 関数にすると、ステージしたファイルの名前を引数に付けずに実行する
     "src/**/*.{ts,tsx}": () => "vp run lint:deps",
+    // CSS は、ステージしたファイルだけを Stylelint で検査する（stylelint.config.js）。
+    // tokens/ だけをステージしたときは検査するファイルが 0 になるので、--allow-empty-input で通す
+    "src/**/*.css": "stylelint --allow-empty-input",
   },
   fmt: {
     // import を並べ替える。グループ（外部パッケージ → ~/ → 相対）ごとに分け、グループの中は名前順。
