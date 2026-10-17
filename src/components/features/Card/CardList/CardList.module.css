@@ -1,0 +1,31 @@
+/*
+ * カードを並べる一覧。
+ * 列の数を決めず、「1 列の幅の下限」だけを決める。入る数だけ列が並び、画面が狭くなると自動で減る。
+ */
+.list {
+  display: grid;
+  /*
+   * repeat(auto-fit, ...): 入るだけ列を作る
+   * minmax(下限, 1fr): 1 列は下限より狭くならず、余った幅は列で均等に分ける
+   * min(16rem, 100%): 一覧の幅が 16rem より狭いときは、一覧の幅を下限にする（はみ出し防止）
+   */
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: 1.5rem;
+
+  /* <ul> にブラウザが付ける黒丸と余白を消す */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * li を flex にして、中の Card を li の高さいっぱいに伸ばす。
+ * Grid は同じ行の li の高さをそろえるので、Card の高さもそろい、footer の位置もそろう。
+ */
+.item {
+  display: flex;
+}
+
+.item > * {
+  flex: 1;
+}
