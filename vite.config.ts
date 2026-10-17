@@ -45,7 +45,6 @@ export default defineConfig({
       // ----------------------------------------------------------------------
       // React Compiler 系のルール。
       // 違反があると Compiler が最適化をスキップするので error にする
-      // （vite-plus-prac の docs/05 を参照）
       // ----------------------------------------------------------------------
       "react/error-boundaries": "error",
       "react/globals": "error",

@@ -62,7 +62,7 @@ SB_CLI_0003 (ExecaCommandFailedError): Command failed: npm config get registry -
 npm error EBADDEVENGINES Invalid name "pnpm" does not match "npm" for "packageManager"
 ```
 
-`--package-manager pnpm` を指定しているのに、npm が呼ばれている。npm 11 は `package.json` の `devEngines.packageManager` を読み、pnpm 用と書いてあると自分の実行を止める（vite-plus-prac の docs/04）。うっかり `npm install` したときのためのガードが、ここでは邪魔になった。
+`--package-manager pnpm` を指定しているのに、npm が呼ばれている。npm 11 は `package.json` の `devEngines.packageManager` を読み、pnpm 用と書いてあると自分の実行を止める。うっかり `npm install` したときのためのガードが、ここでは邪魔になった。
 
 ### 原因（Storybook のバグ）
 
@@ -202,7 +202,7 @@ storybookTest({ configDir: path.join(dirname, ".storybook") });
 
 ## `vp update` と `vp update -L`
 
-作業の後、`package.json` のバージョンが古く見えたので `vp update` を実行した。`react` などの範囲の下限（`^19.2.8` → `^19.3.0`）が上がっただけで、入っているバージョンは変わらなかった。理由は vite-plus-prac の docs/02 と同じで、`^` の範囲の中で最新版がもう入っていたため。
+作業の後、`package.json` のバージョンが古く見えたので `vp update` を実行した。`react` などの範囲の下限（`^19.2.8` → `^19.3.0`）が上がっただけで、入っているバージョンは変わらなかった。`^` の範囲の中で、最新版がもう入っていたため。
 
 `vp update` を実行しても、`vp outdated` には次の 5 つが残る。どれもわざと上げていない。
 
@@ -227,4 +227,3 @@ storybookTest({ configDir: path.join(dirname, ".storybook") });
 - [Storybook: Vitest addon](https://storybook.js.org/docs/writing-tests/integrations/vitest-addon)
 - [pnpm: allowBuilds](https://pnpm.io/settings/build#allowbuilds)
 - [pnpm: strictDepBuilds](https://pnpm.io/settings/build#strictdepbuilds)
-- vite-plus-prac の docs/02（`vp update`）、docs/04（`vp install` と pnpm）、docs/05（React Compiler）、docs/06（Vite+ の更新）

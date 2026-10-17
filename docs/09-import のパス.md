@@ -2,7 +2,7 @@
 
 記録日: 2026-10-18
 
-`src/` の中のファイルは、`~/` から書いて import する。ts-monorepo-orpc-prac と同じ書き方。
+`src/` の中のファイルは、`~/` から書いて import する。
 
 ```tsx
 // 後
@@ -128,7 +128,7 @@ src/constants/pages.ts → src/routeTree.gen.ts → src/routes/index.tsx → src
 
 ## import の順番は整形で並べ替える
 
-`vite.config.ts` の `fmt` で、Oxfmt の `sortImports` を有効にしている（ts-monorepo-orpc-prac の `.oxfmtrc.jsonc` と同じ設定）。保存したときと、`vp check --fix`（コミット時も）で並べ替わる。
+`vite.config.ts` の `fmt` で、Oxfmt の `sortImports` を有効にしている。保存したときと、`vp check --fix`（コミット時も）で並べ替わる。
 
 ```ts
 // vite.config.ts
