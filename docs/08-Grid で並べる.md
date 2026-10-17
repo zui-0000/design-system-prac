@@ -15,7 +15,7 @@
 
 ## 1 行で、列の数が勝手に変わる
 
-`src/components/features/Card/CardList/CardList.module.css` より。
+`src/components/features/Card/CardList/index.module.css` より。
 
 ```css
 .list {

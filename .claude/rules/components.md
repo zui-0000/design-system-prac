@@ -24,13 +24,15 @@ paths:
 ## `src/components/features/`（機能ごとの部品）
 
 - 特定の機能（データや部品）に結びついた部品を置く。どの機能でも使える部品は `ui/` に置く
-- `features/<機能名>/<部品名>/` の形にする。ファイル名の付け方は `ui/` と同じ
+- `features/<機能名>/<部品名>/` の形にする。中身は `index.tsx` と `index.module.css`（`pages/` と同じ）
 
   ```
   features/Card/CardList/
-  ├── CardList.tsx
-  └── CardList.module.css
+  ├── index.tsx          export function CardList()
+  └── index.module.css
   ```
+
+- import はフォルダまで書く（`~/components/features/Card/CardList`）
 
 - `features/` から `ui/` は使ってよい。`ui/` から `features/` は使わない。別の機能（`features/<別の機能名>/`）も使わない
 - ストーリーは書かない。Storybook に並べるのは `ui/` の部品だけ。見た目は `/practice` などのページで確かめる
@@ -38,7 +40,7 @@ paths:
 ## `src/components/layouts/`（ページの外側の枠）
 
 - ヘッダーなど、ページの枠になる部品を置く。各ページが自分で import して使う（`src/routes/__root.tsx` には置かない）
-- ファイル名の付け方は `ui/` と同じ（`Header/Header.tsx`）。ストーリーは書かない
+- 中身は `index.tsx` と `index.module.css`（`Header/index.tsx`）。import はフォルダまで書く（`~/components/layouts/Header`）。ストーリーは書かない
 - `ui/` から `layouts/` は使わない
 
 ## `src/components/pages/`（ページ）

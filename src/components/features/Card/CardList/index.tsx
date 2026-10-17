@@ -1,6 +1,6 @@
 import { Children, type ReactNode } from "react";
 
-import styles from "./CardList.module.css";
+import styles from "./index.module.css";
 
 type CardListProps = {
   /** 並べるカード */

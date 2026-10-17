@@ -21,8 +21,8 @@ React で自分のデザインシステムを作り、[Storybook](https://storyb
 │   ├── constants/          # 定数（ページの URL の pages.ts、外部サイトの URL の urls.ts）
 │   ├── components/
 │   │   ├── ui/             # どこでも使う部品（Card/Card.tsx の形）
-│   │   ├── features/       # 機能ごとの部品（Card/CardList/CardList.tsx の形）
-│   │   ├── layouts/        # ページの枠になる部品（Header/Header.tsx の形）
+│   │   ├── features/       # 機能ごとの部品（Card/CardList/index.tsx の形）
+│   │   ├── layouts/        # ページの枠になる部品（Header/index.tsx の形）
 │   │   └── pages/          # ページ（Practice/index.tsx の形）
 │   └── styles/             # 全体に効く CSS
 ├── package.json         # 依存関係と、Node.js・pnpm のバージョン（devEngines）

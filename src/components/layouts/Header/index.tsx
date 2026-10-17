@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { PAGES } from "~/constants/pages";
 import { URLS } from "~/constants/urls";
 
-import styles from "./Header.module.css";
+import styles from "./index.module.css";
 
 export function Header() {
   return (

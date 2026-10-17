@@ -1,5 +1,5 @@
-import { CardList } from "~/components/features/Card/CardList/CardList";
-import { Header } from "~/components/layouts/Header/Header";
+import { CardList } from "~/components/features/Card/CardList";
+import { Header } from "~/components/layouts/Header";
 import { Card } from "~/components/ui/Card/Card";
 
 import styles from "./index.module.css";

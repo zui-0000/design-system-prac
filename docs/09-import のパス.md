@@ -74,7 +74,7 @@ x eslint(no-restricted-imports): '../../ui/Card/Card' import is restricted from 
 
 ```ts
 // oxlint-disable-next-line no-restricted-imports -- まとめ役の index.ts を通すと循環参照になるため
-import { CardItem } from "../CardItem/CardItem";
+import { CardItem } from "../CardItem";
 ```
 
 `warn`（警告だけ）にしなかったのは、警告はだれも読まなくなり、いつの間にか `../` が増えるため。何も書かなければ止まり、例外にするなら理由が残る形にした。
@@ -87,21 +87,21 @@ import { CardItem } from "../CardItem/CardItem";
 
 ```ts
 // features/Card/index.ts（まとめ役）
-export { CardList } from "./CardList/CardList";
-export { CardItem } from "./CardItem/CardItem";
+export { CardList } from "./CardList";
+export { CardItem } from "./CardItem";
 
-// features/Card/CardList/CardList.tsx
+// features/Card/CardList/index.tsx
 import { CardItem } from "~/components/features/Card"; // まとめ役を通して、自分のフォルダを読む
 ```
 
-`CardList.tsx` → `index.ts` → `CardList.tsx` と、自分が自分を読む循環になる。まとめ役を通さずに `../CardItem/CardItem` を直接指せば避けられる。これが `../` を例外にする典型的な場面。
+`CardList/index.tsx` → `Card/index.ts` → `CardList/index.tsx` と、自分が自分を読む循環になる。まとめ役を通さずに `../CardItem` を直接指せば避けられる。これが `../` を例外にする典型的な場面。
 
 `.dependency-cruiser.jsonc` の `no-circular` で、循環参照を見つけたら止める。上の形をわざと作ると、こう出る。
 
 ```
-  error no-circular: src/components/features/Card/CardList/CardList.tsx →
+  error no-circular: src/components/features/Card/CardList/index.tsx →
       src/components/features/Card/index.ts →
-      src/components/features/Card/CardList/CardList.tsx
+      src/components/features/Card/CardList/index.tsx
     循環参照になっています。まとめ役のファイル（index.ts）を通さずに、使うファイルを直接 import してください（docs/09）
 ```
 
@@ -145,7 +145,7 @@ import { Link } from "@tanstack/react-router"; // 外部パッケージ
 import { PAGES } from "~/constants/pages"; // ~/（src の中）
 import { URLS } from "~/constants/urls";
 
-import styles from "./Header.module.css"; // 同じフォルダ
+import styles from "./index.module.css"; // 同じフォルダ
 ```
 
 **副作用だけの import は動かさない。** `import "./styles/global.css"` のように、値を受け取らない import は、読み込む順番そのものに意味がある（後に読んだ CSS が勝つ）。並べ替えると見た目が変わることがあるので、書いた位置に残る。
