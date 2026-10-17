@@ -10,7 +10,8 @@
     "preview": "vp preview",
     "prepare": "vp config",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint:deps": "depcruise src --config .dependency-cruiser.jsonc --output-type err-long"
   },
   "dependencies": {
     "@tanstack/react-router": "1.170.44",
@@ -22,6 +23,7 @@
     "@storybook/addon-docs": "^10.6.2",
     "@storybook/addon-vitest": "^10.6.2",
     "@storybook/react-vite": "^10.6.2",
+    "@swc/core": "1.16.18",
     "@tanstack/react-router-devtools": "1.167.2",
     "@tanstack/router-plugin": "1.168.46",
     "@types/node": "^24.19.2",
@@ -30,6 +32,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/browser-playwright": "catalog:",
     "@vitest/coverage-v8": "catalog:",
+    "dependency-cruiser": "18.6.0",
     "oxc-transform-react": "^0.152.0",
     "playwright": "^1.64.0",
     "storybook": "^10.6.2",

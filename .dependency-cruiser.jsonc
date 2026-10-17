@@ -1,0 +1,54 @@
+// dependency-cruiser の設定。src/components の依存の向きを検査する。
+// 理由は docs/06-コンポーネントの置き方.md の「依存の向きを検査する」にある。
+// 標準で探すファイル名に .jsonc は入っていないので、実行するときは --config で指定する（package.json の lint:deps）。
+{
+  "forbidden": [
+    {
+      // 汎用の部品（ui）が、特定の機能やページに依存しないようにする
+      "name": "ui-not-to-features-or-pages",
+      // 違反したときに表示する文言（-T err-long で出る）
+      "comment": "ui/ の部品から features/ か pages/ を import しています。ui/ はどの機能にも依存しない汎用の部品にしてください（docs/06）",
+      "severity": "error",
+      "from": { "path": "^src/components/ui/" },
+      "to": { "path": "^src/components/(features|pages)/" }
+    },
+    {
+      // 依存の向きを pages → features → ui の一方向に保つ
+      "name": "features-not-to-pages",
+      "comment": "features/ の部品から pages/ を import しています。依存は pages → features → ui の一方向にしてください（docs/06）",
+      "severity": "error",
+      "from": { "path": "^src/components/features/" },
+      "to": { "path": "^src/components/pages/" }
+    },
+    {
+      // 機能どうしを絡ませない。共有したいものは ui に出す
+      // $1 は from でキャプチャした機能名。同じ機能の中の import は許す
+      "name": "no-cross-feature",
+      "comment": "別の機能（features/ の別のフォルダ）を import しています。共有したい部品は ui/ に移してください（docs/06）",
+      "severity": "error",
+      "from": { "path": "^src/components/features/([^/]+)/" },
+      "to": {
+        "path": "^src/components/features/",
+        "pathNot": "^src/components/features/$1/"
+      }
+    },
+    {
+      // ページどうしを絡ませない
+      "name": "no-cross-page",
+      "comment": "別のページを import しています。共有したい部品は ui/ か features/ に移してください（docs/06）",
+      "severity": "error",
+      "from": { "path": "^src/components/pages/([^/]+)/" },
+      "to": {
+        "path": "^src/components/pages/",
+        "pathNot": "^src/components/pages/$1/"
+      }
+    }
+  ],
+  "options": {
+    // TypeScript 7 には、dependency-cruiser が使う JS の API がまだない。
+    // 標準のままだと TS のファイルを 1 つも読めず、「違反なし」で通ってしまうので、swc で読む
+    "parser": "swc",
+    "doNotFollow": { "path": "node_modules" },
+    "tsConfig": { "fileName": "tsconfig.app.json" }
+  }
+}

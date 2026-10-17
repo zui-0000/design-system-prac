@@ -9,10 +9,20 @@ import { playwright } from "vite-plus/test/browser-playwright";
 export default defineConfig({
   staged: {
     "*": "vp check --fix",
+    // src の TS を変えたときは、依存の向きも検査する（.dependency-cruiser.jsonc）。
+    // 関数にすると、ステージしたファイルの名前を引数に付けずに実行する
+    "src/**/*.{ts,tsx}": () => "vp run lint:deps",
   },
   fmt: {
     // TanStack Router が生成するファイル。整形しても次の生成で書き戻される
     ignorePatterns: ["src/routeTree.gen.ts"],
+    overrides: [
+      {
+        // JSONC は末尾のカンマを書けるが、VS Code は警告を出す。カンマを付けないように整形する
+        files: ["**/*.jsonc"],
+        options: { trailingComma: "none" },
+      },
+    ],
   },
   lint: {
     ignorePatterns: ["src/routeTree.gen.ts"],

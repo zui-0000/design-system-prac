@@ -32,7 +32,7 @@ paths:
   └── CardList.module.css
   ```
 
-- `features/` から `ui/` は使ってよい。`ui/` から `features/` は使わない
+- `features/` から `ui/` は使ってよい。`ui/` から `features/` は使わない。別の機能（`features/<別の機能名>/`）も使わない
 - ストーリーは書かない。Storybook に並べるのは `ui/` の部品だけ。見た目は `/practice` などのページで確かめる
 
 ## `src/components/pages/`（ページ）
@@ -46,3 +46,9 @@ paths:
   ```
 
 - ページは `src/routes/` から import して使う。経路の宣言はページに書かない
+- 別のページを import しない
+
+## 依存の検査
+
+- 上の依存の決まりは `.dependency-cruiser.jsonc` で検査している。import を変えたら `vp run lint:deps` を実行する
+- 結果の `modules` が 0 なら、ファイルを読めていない（TypeScript 7 のため `parser: "swc"` にしている）

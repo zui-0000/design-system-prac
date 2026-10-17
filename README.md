@@ -7,6 +7,7 @@ React で自分のデザインシステムを作り、[Storybook](https://storyb
 ```text
 .
 ├── .claude/rules/          # Claude Code に読ませるルール（UX・コンポーネント・ルーティング）
+├── .dependency-cruiser.jsonc  # import の決まり（依存の向き）の検査
 ├── .storybook/             # Storybook の設定
 ├── .vite-hooks/
 │   └── pre-commit          # コミット前に実行する Git フック
@@ -33,42 +34,48 @@ Node.js と pnpm は `vp` が自動で用意するので、事前にインスト
 
 ### 1. `vp` をインストールする
 
-```bash
+```zsh
 curl -fsSL https://vite.plus | bash
 ```
 
-インストールが終わったら**新しいターミナルを開き**、次のコマンドでバージョンを確認する。1.1.0 以上になっていれば OK。
+インストールが終わったら**新しいターミナルを開き**、次のコマンドでバージョンを確認する。
 
-```bash
+1.1.0 以上になっていれば OK。
+
+```zsh
 vp --version
-```
 
-すでに古い `vp` を入れている場合は、`vp upgrade` で更新する。
+＃すでに古いvpを入れている場合は以下のコマンドで更新する
+vp upgrade
+```
 
 ### 2. Node.js・pnpm・依存関係をインストールする
 
-```bash
+```zsh
 vp env install   # Node.js 24.21.0 と pnpm 12.11.2 を入れる
 vp install       # 依存関係をインストールする
 ```
 
 - `vp install` は中で pnpm 12.11.2 の `pnpm install` を実行するので、`pnpm install` を別に実行する必要はない
+
 - Node.js のバージョンは `package.json` の `devEngines.runtime` に書いてあり、`onFail` を `"error"` にしている。違うバージョンの Node.js で実行するとエラーになる
 - `vp install` の最後に `prepare` スクリプト（`vp config`）が動き、Git フックも有効になる
 
 ### 3. Git フックが有効になっているか確かめる
 
-```bash
+```zsh
 vp hooks status   # 「Hooks dir: .vite-hooks」と表示されれば OK
 ```
 
-Git フックの有効・無効は各 PC のローカル設定（`git config core.hooksPath`）なので、クローンしただけでは引き継がれない。表示されなければ `vp hooks enable` を実行する。
+Git フックの有効・無効は各 PC のローカル設定（`git config core.hooksPath`）なので、クローンしただけでは引き継がれない。
+
+表示されなければ `vp hooks enable` を実行する。
 
 ### 4. テスト用のブラウザを入れる（任意）
 
 `vp test` を使うときだけ必要。Storybook で部品を見るだけなら飛ばしてよい。
 
-```bash
+```zsh
 vp exec playwright install chromium
 ```
 
@@ -78,7 +85,7 @@ vp exec playwright install chromium
 
 ### 5. Storybook を起動する
 
-```bash
+```zsh
 vp run storybook
 ```
 
@@ -86,20 +93,21 @@ vp run storybook
 
 ## よく使うコマンド
 
-| やりたいこと                     | コマンド                             | 補足                                                                      |
-| -------------------------------- | ------------------------------------ | ------------------------------------------------------------------------- |
-| Storybook を起動する             | `vp run storybook`                   | <http://localhost:6006/>                                                  |
-| Storybook を静的にビルドする     | `vp run build-storybook`             | 出力先は `storybook-static/`                                              |
-| 開発サーバーを起動する           | `vp dev`                             | <http://localhost:5173/>。`/` は `/practice` に転送される                 |
-| 本番用にビルドする               | `vp run build`                       | 型チェック（`tsc -b`）をしてからビルドする。出力先は `dist/`              |
-| lint + フォーマット + 型チェック | `vp check`                           | 確認だけ。ファイルは書き換えない                                          |
-| 上記をまとめて自動修正           | `vp check --fix`                     | フォーマットと lint の自動修正をしてから型チェックする                    |
-| テストを実行する                 | `vp test`                            | ストーリーをテストとして実行する（単体テストは未設定）。Chromium が必要   |
-| テストを監視モードで実行する     | `vp test watch`                      | ファイルを保存するたびに再実行する                                        |
-| 依存関係をインストールする       | `vp install`                         | clone した直後や、`git pull` で lockfile が変わった後に実行する           |
-| パッケージを追加する             | `vp add <名前>` / `vp add -D <名前>` | `-D` は devDependencies に追加する                                        |
-| 更新できるパッケージを確認する   | `vp outdated`                        | Vitest は Vite+ 同梱版に合わせているので、`vp update -L` を一括で使わない |
-| 環境の状態を診断する             | `vp env doctor`                      | Node.js や pnpm が想定どおりに選ばれているかを確認する                    |
+| やりたいこと                     | コマンド                             | 補足                                                                                            |
+| -------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| Storybook を起動する             | `vp run storybook`                   | <http://localhost:6006/>                                                                        |
+| Storybook を静的にビルドする     | `vp run build-storybook`             | 出力先は `storybook-static/`                                                                    |
+| 開発サーバーを起動する           | `vp dev`                             | <http://localhost:5173/>。                                                                      |
+| 本番用にビルドする               | `vp run build`                       | 型チェック（`tsc -b`）をしてからビルドする。出力先は `dist/`                                    |
+| 依存の向きを検査する             | `vp run lint:deps`                   | `ui/`・`features/`・`pages/` の import の決まり（[docs/06](docs/06-コンポーネントの置き方.md)） |
+| lint + フォーマット + 型チェック | `vp check`                           | 確認だけ。ファイルは書き換えない                                                                |
+| 上記をまとめて自動修正           | `vp check --fix`                     | フォーマットと lint の自動修正をしてから型チェックする                                          |
+| テストを実行する                 | `vp test`                            | ストーリーをテストとして実行する（単体テストは未設定）。Chromium が必要                         |
+| テストを監視モードで実行する     | `vp test watch`                      | ファイルを保存するたびに再実行する                                                              |
+| 依存関係をインストールする       | `vp install`                         | clone した直後や、`git pull` で lockfile が変わった後に実行する                                 |
+| パッケージを追加する             | `vp add <名前>` / `vp add -D <名前>` | `-D` は devDependencies に追加する                                                              |
+| 更新できるパッケージを確認する   | `vp outdated`                        | Vitest は Vite+ 同梱版に合わせているので、`vp update -L` を一括で使わない                       |
+| 環境の状態を診断する             | `vp env doctor`                      | Node.js や pnpm が想定どおりに選ばれているかを確認する                                          |
 
 ### `vp <名前>` と `vp run <名前>` の違い
 
@@ -114,6 +122,7 @@ Storybook は組み込みコマンドではないので、`vp run storybook` で
 
 - フォーマットや lint で自動修正できるものは、修正された内容がそのままコミットされる
 - 型エラーなど自動で直せない問題があると、コミットが中止される
+- `src/` の `.ts`・`.tsx` をステージしていれば、依存の向きの検査（`vp run lint:deps`）も動く。違反があるとコミットが中止される
 
 一時的にフックを飛ばしたいときは、環境変数を付けてコミットする。
 
