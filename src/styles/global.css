@@ -1,0 +1,26 @@
+/* すべての要素に共通する土台の設定 */
+
+/*
+ * width / height に padding と border を含める。
+ * 初期値の content-box だと、width: 200px に padding: 16px を足すと 232px になり、計算が狂う。
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ブラウザが見出しや段落に付ける margin を消す。余白は部品の側で決める */
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  /* 行の高さは単位なしで書く。文字サイズが変わっても、その 1.5 倍に追従する */
+  line-height: 1.5;
+}
