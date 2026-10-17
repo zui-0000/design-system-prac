@@ -15,6 +15,11 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    // src 配下を ~/ で参照する。TS 7 では baseUrl が廃止され、paths は tsconfig の場所を基準に解決される。
+    // バンドラ側の解決は vite.config.ts の resolve.alias が受け持つ
+    "paths": {
+      "~/*": ["./src/*"]
+    },
 
     /* Linting */
     "noUnusedLocals": true,

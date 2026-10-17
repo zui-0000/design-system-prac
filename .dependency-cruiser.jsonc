@@ -4,13 +4,26 @@
 {
   "forbidden": [
     {
-      // 汎用の部品（ui）が、特定の機能やページに依存しないようにする
-      "name": "ui-not-to-features-or-pages",
+      // 循環参照（A → B → A）を見つける。読み込みの順番によって、import した値が undefined になる
+      "name": "no-circular",
+      "comment": "循環参照になっています。まとめ役のファイル（index.ts）を通さずに、使うファイルを直接 import してください（docs/09）",
+      "severity": "error",
+      "from": {},
+      "to": {
+        "circular": true,
+        // import type だけでつながる循環は除く。型は実行時に消えるので、読み込みの順番の問題が起きない
+        // （src/constants/pages.ts が routeTree.gen.ts から型だけを読んでいて、ここで循環する）
+        "viaOnly": { "dependencyTypesNot": ["type-only"] }
+      }
+    },
+    {
+      // 汎用の部品（ui）が、特定の機能・ページ・枠に依存しないようにする
+      "name": "ui-not-to-others",
       // 違反したときに表示する文言（-T err-long で出る）
-      "comment": "ui/ の部品から features/ か pages/ を import しています。ui/ はどの機能にも依存しない汎用の部品にしてください（docs/06）",
+      "comment": "ui/ の部品から features/・pages/・layouts/ を import しています。ui/ はどの機能にも依存しない汎用の部品にしてください（docs/06）",
       "severity": "error",
       "from": { "path": "^src/components/ui/" },
-      "to": { "path": "^src/components/(features|pages)/" }
+      "to": { "path": "^src/components/(features|pages|layouts)/" }
     },
     {
       // 依存の向きを pages → features → ui の一方向に保つ

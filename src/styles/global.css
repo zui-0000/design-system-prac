@@ -24,3 +24,21 @@ body {
   /* 行の高さは単位なしで書く。文字サイズが変わっても、その 1.5 倍に追従する */
   line-height: 1.5;
 }
+
+/*
+ * ここに書くクラスは CSS Modules を通らず、どこからでも同じ名前で使える。
+ * CSS Modules のクラスと見分けるため、名前の先頭に global- を付ける。
+ */
+
+/*
+ * 画面には見せず、スクリーンリーダーには読ませる文字。
+ * display: none や visibility: hidden にすると、読み上げからも消えてしまう。
+ */
+.global-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

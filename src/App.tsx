@@ -2,6 +2,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { FC } from "react";
 import { useState } from "react";
+
 import { routeTree } from "./routeTree.gen";
 
 /** Link と useNavigate の `to` を、実在する経路だけに絞る */

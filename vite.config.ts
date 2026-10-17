@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
@@ -14,6 +15,9 @@ export default defineConfig({
     "src/**/*.{ts,tsx}": () => "vp run lint:deps",
   },
   fmt: {
+    // import を並べ替える。グループ（外部パッケージ → ~/ → 相対）ごとに分け、グループの中は名前順。
+    // 副作用だけの import（import "./x.css" など）は動かさない。読み込む順番に意味があるため
+    sortImports: true,
     // TanStack Router が生成するファイル。整形しても次の生成で書き戻される
     ignorePatterns: ["src/routeTree.gen.ts"],
     overrides: [
@@ -53,6 +57,19 @@ export default defineConfig({
       "react/unsupported-syntax": "error",
       "react/use-memo": "error",
       "vite-plus/prefer-vite-plus-imports": "error",
+      // 親のフォルダへさかのぼる import（../）を禁止し、~/ で書かせる。同じフォルダの ./ は許す
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["../*", "../**"],
+              message:
+                "親のフォルダへの相対パスは使わず、~/ から書いてください（例: ~/components/ui/Card/Card）",
+            },
+          ],
+        },
+      ],
     },
     options: {
       typeAware: true,
@@ -64,6 +81,10 @@ export default defineConfig({
         specifier: "vite-plus/oxlint-plugin",
       },
     ],
+  },
+  resolve: {
+    // tsconfig.app.json の paths と対で必要。tsc は型を、こちらは実際の解決を受け持つ
+    alias: { "~": path.join(import.meta.dirname, "src") },
   },
   plugins: lazyPlugins(() => [
     // src/routes/ の構成から src/routeTree.gen.ts を作る。react より前に置く必要がある
