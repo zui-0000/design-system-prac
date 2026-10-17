@@ -1,0 +1,3 @@
+# コミットメッセージを commitlint で検査する（commitlint.config.js）。
+# $1 は Git が渡すコミットメッセージのファイルのパス。
+commitlint --edit "$1"

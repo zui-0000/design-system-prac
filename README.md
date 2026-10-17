@@ -10,7 +10,8 @@ React で自分のデザインシステムを作り、[Storybook](https://storyb
 ├── .dependency-cruiser.jsonc  # import の決まり（依存の向き）の検査
 ├── .storybook/             # Storybook の設定
 ├── .vite-hooks/
-│   └── pre-commit          # コミット前に実行する Git フック
+│   ├── pre-commit          # コミット前に実行する Git フック（整形・lint・型チェック・依存の検査）
+│   └── commit-msg          # コミットメッセージを検査する Git フック（commitlint）
 ├── docs/                   # 学んだことのメモ
 ├── public/                 # そのまま配信する静的ファイル
 ├── src/
@@ -25,6 +26,7 @@ React で自分のデザインシステムを作り、[Storybook](https://storyb
 │   │   ├── layouts/        # ページの枠になる部品（Header/index.tsx の形）
 │   │   └── pages/          # ページ（Practice/index.tsx の形）
 │   └── styles/             # 全体に効く CSS
+├── commitlint.config.js    # コミットメッセージの決まり
 ├── package.json         # 依存関係と、Node.js・pnpm のバージョン（devEngines）
 ├── pnpm-workspace.yaml  # catalog（Vite+ と Vitest のバージョンをそろえる）
 └── vite.config.ts       # Vite・lint・format・テストの設定
@@ -126,6 +128,8 @@ Storybook は組み込みコマンドではないので、`vp run storybook` で
 - 型エラーなど自動で直せない問題があると、コミットが中止される
 - `src/` の `.ts`・`.tsx` をステージしていれば、依存の向きの検査（`vp run lint:deps`）も動く。違反があるとコミットが中止される
 
+コミットメッセージは、commit-msg フック（`.vite-hooks/commit-msg`）が commitlint で検査する。`feat: ヘッダーを作る` のように `<type>: <説明>` の形で書く。形が違うとコミットが中止される（[docs/11](docs/11-コミットメッセージの決まり.md)）。
+
 一時的にフックを飛ばしたいときは、環境変数を付けてコミットする。
 
 ```bash
@@ -144,3 +148,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/08 Grid で並べる](docs/08-Grid%20で並べる.md): `auto-fit` と `minmax()` で列の数を自動で変える方法、ボタンの位置がそろう仕組み、部品が自分の幅を決めない理由
 - [docs/09 import のパス](docs/09-import%20のパス.md): `~/` で src を参照する設定、`../` を原則禁止にする方法、循環参照の検査、import の並べ替え
 - [docs/10 ヘッダーを作る](docs/10-ヘッダーを作る.md): `space-between` と `flex-wrap`、押せる範囲、`aria-current`、外部リンクを別のタブで開くときの伝え方
+- [docs/11 コミットメッセージの決まり](docs/11-コミットメッセージの決まり.md): commitlint の入れ方、Vite+ のフックで commit-msg を動かす方法、既定から変えたルール
