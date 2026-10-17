@@ -6,15 +6,21 @@ React で自分のデザインシステムを作り、[Storybook](https://storyb
 
 ```text
 .
-├── .claude/rules/       # Claude Code に読ませるルール（UX のルール）
-├── .storybook/          # Storybook の設定
+├── .claude/rules/          # Claude Code に読ませるルール（UX・コンポーネント・ルーティング）
+├── .storybook/             # Storybook の設定
 ├── .vite-hooks/
-│   └── pre-commit       # コミット前に実行する Git フック
-├── docs/                # 学んだことのメモ
-├── public/              # そのまま配信する静的ファイル
+│   └── pre-commit          # コミット前に実行する Git フック
+├── docs/                   # 学んだことのメモ
+├── public/                 # そのまま配信する静的ファイル
 ├── src/
-│   ├── components/ui/   # UI の部品（1 部品 1 フォルダ）
-│   └── styles/          # 全体に効く CSS
+│   ├── main.tsx            # #root に App を描く
+│   ├── App.tsx             # ルーターを作る
+│   ├── routeTree.gen.ts    # 経路の一覧（自動生成。手で触らない）
+│   ├── routes/             # 経路の宣言（ファイル名が URL になる）
+│   ├── components/
+│   │   ├── ui/             # UI の部品（Card/Card.tsx の形）
+│   │   └── pages/          # ページ（Practice/index.tsx の形）
+│   └── styles/             # 全体に効く CSS
 ├── package.json         # 依存関係と、Node.js・pnpm のバージョン（devEngines）
 ├── pnpm-workspace.yaml  # catalog（Vite+ と Vitest のバージョンをそろえる）
 └── vite.config.ts       # Vite・lint・format・テストの設定
@@ -83,7 +89,7 @@ vp run storybook
 | -------------------------------- | ------------------------------------ | ------------------------------------------------------------------------- |
 | Storybook を起動する             | `vp run storybook`                   | <http://localhost:6006/>                                                  |
 | Storybook を静的にビルドする     | `vp run build-storybook`             | 出力先は `storybook-static/`                                              |
-| 開発サーバーを起動する           | `vp dev`                             | <http://localhost:5173/>。今は Vite の初期画面のまま                      |
+| 開発サーバーを起動する           | `vp dev`                             | <http://localhost:5173/>。`/` は `/practice` に転送される                 |
 | 本番用にビルドする               | `vp run build`                       | 型チェック（`tsc -b`）をしてからビルドする。出力先は `dist/`              |
 | lint + フォーマット + 型チェック | `vp check`                           | 確認だけ。ファイルは書き換えない                                          |
 | 上記をまとめて自動修正           | `vp check --fix`                     | フォーマットと lint の自動修正をしてから型チェックする                    |
@@ -121,3 +127,5 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/03 UX のルール](docs/03-UX%20のルール.md): `.claude/rules/ux.md` の理由と、元にした心理学の法則の仕分け
 - [docs/04 Flexbox で並べる](docs/04-Flexbox%20で並べる.md): `display: flex` の基本、コンテナとアイテム、`gap` と margin の使い分け
 - [docs/05 px と rem](docs/05-px%20と%20rem.md): rem を使う理由、em との違い、ズームと文字サイズの設定の違い
+- [docs/06 コンポーネントの置き方](docs/06-コンポーネントの置き方.md): 部品（`ui/`）とページ（`pages/`）でファイル名の付け方を変える理由
+- [docs/07 ルーティング](docs/07-ルーティング.md): TanStack Router の構成、`routeTree.gen.ts` の扱い、型が効く仕組み
