@@ -18,7 +18,8 @@ React で自分のデザインシステムを作り、[Storybook](https://storyb
 │   ├── routeTree.gen.ts    # 経路の一覧（自動生成。手で触らない）
 │   ├── routes/             # 経路の宣言（ファイル名が URL になる）
 │   ├── components/
-│   │   ├── ui/             # UI の部品（Card/Card.tsx の形）
+│   │   ├── ui/             # どこでも使う部品（Card/Card.tsx の形）
+│   │   ├── features/       # 機能ごとの部品（Card/CardList/CardList.tsx の形）
 │   │   └── pages/          # ページ（Practice/index.tsx の形）
 │   └── styles/             # 全体に効く CSS
 ├── package.json         # 依存関係と、Node.js・pnpm のバージョン（devEngines）
@@ -127,5 +128,6 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/03 UX のルール](docs/03-UX%20のルール.md): `.claude/rules/ux.md` の理由と、元にした心理学の法則の仕分け
 - [docs/04 Flexbox で並べる](docs/04-Flexbox%20で並べる.md): `display: flex` の基本、コンテナとアイテム、`gap` と margin の使い分け
 - [docs/05 px と rem](docs/05-px%20と%20rem.md): rem を使う理由、em との違い、ズームと文字サイズの設定の違い
-- [docs/06 コンポーネントの置き方](docs/06-コンポーネントの置き方.md): 部品（`ui/`）とページ（`pages/`）でファイル名の付け方を変える理由
+- [docs/06 コンポーネントの置き方](docs/06-コンポーネントの置き方.md): `ui/`・`features/`・`pages/` の分け方と、ファイル名の付け方を変える理由
 - [docs/07 ルーティング](docs/07-ルーティング.md): TanStack Router の構成、`routeTree.gen.ts` の扱い、型が効く仕組み
+- [docs/08 Grid で並べる](docs/08-Grid%20で並べる.md): `auto-fit` と `minmax()` で列の数を自動で変える方法、ボタンの位置がそろう仕組み、部品が自分の幅を決めない理由

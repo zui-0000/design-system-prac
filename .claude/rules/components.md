@@ -19,7 +19,21 @@ paths:
   ```
 
 - パーツに分かれる部品（`CardTitle` など）も、同じフォルダに置く
-- 部品を作ったら、必ずストーリーを書く（Storybook で一覧にするため）
+- 部品を作ったら、必ずストーリーを書く（Storybook で一覧にするため）。タイトルは `UI/<部品名>`
+
+## `src/components/features/`（機能ごとの部品）
+
+- 特定の機能（データや部品）に結びついた部品を置く。どの機能でも使える部品は `ui/` に置く
+- `features/<機能名>/<部品名>/` の形にする。ファイル名の付け方は `ui/` と同じ
+
+  ```
+  features/Card/CardList/
+  ├── CardList.tsx
+  └── CardList.module.css
+  ```
+
+- `features/` から `ui/` は使ってよい。`ui/` から `features/` は使わない
+- ストーリーは書かない。Storybook に並べるのは `ui/` の部品だけ。見た目は `/practice` などのページで確かめる
 
 ## `src/components/pages/`（ページ）
 
