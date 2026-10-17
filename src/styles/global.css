@@ -1,6 +1,6 @@
 /*
  * デザイントークン。色の材料（primitive/）を先に読み込む。tokens/color.css がそれを参照するため。
- * 部品から使ってよいのは tokens/ の直下だけ。primitive/ の中は使わない。
+ * 部品から使ってよいのは tokens/ の直下の CSS だけ。primitive/ の中は使わない。
  */
 @import "./tokens/primitive/color.css";
 @import "./tokens/color.css";

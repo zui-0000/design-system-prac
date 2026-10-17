@@ -1,0 +1,96 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import borderRadiusCss from "~/styles/tokens/border-radius.css?raw";
+import colorCss from "~/styles/tokens/color.css?raw";
+import elevationCss from "~/styles/tokens/elevation.css?raw";
+import fontFamilyCss from "~/styles/tokens/font-family.css?raw";
+import fontSizeCss from "~/styles/tokens/font-size.css?raw";
+import lineHeightCss from "~/styles/tokens/line-height.css?raw";
+import paletteCss from "~/styles/tokens/primitive/color.css?raw";
+import spacingCss from "~/styles/tokens/spacing.css?raw";
+import zIndexCss from "~/styles/tokens/z-index.css?raw";
+
+import { ColorTokens, PaletteTokens, ScaleTokens } from "./Tokens.tsx";
+
+<Meta title="Foundations/Tokens" />
+
+# デザイントークン
+
+`src/styles/tokens/` のトークンの一覧。一覧は CSS ファイルから作っているので、トークンを足すとここにも出る。
+仕組みと理由は `docs/12-デザイントークン.md` にある。OS の外観をダークにすると、暗い配色で見られる。
+
+## 色（`tokens/color.css`）
+
+部品が使う色。`Aa` は、その色の上に載せる文字の色（`-foreground`）。
+
+<ColorTokens css={colorCss} prefix="--color-" />
+
+## 余白（`tokens/spacing.css`）
+
+<ScaleTokens css={spacingCss} prefix="--spacing-" kind="spacing" />
+
+## 文字サイズ（`tokens/font-size.css`）
+
+<ScaleTokens css={fontSizeCss} prefix="--font-size-" kind="fontSize" />
+
+## 文字の太さ（`tokens/font-size.css`）
+
+<ScaleTokens css={fontSizeCss} prefix="--font-weight-" kind="fontWeight" />
+
+## 書体（`tokens/font-family.css`）
+
+<ScaleTokens css={fontFamilyCss} prefix="--font-family-" kind="plain" />
+
+## 行の高さ（`tokens/line-height.css`）
+
+<ScaleTokens css={lineHeightCss} prefix="--line-height-" kind="lineHeight" />
+
+## 角丸（`tokens/border-radius.css`）
+
+<ScaleTokens css={borderRadiusCss} prefix="--border-radius-" kind="radius" />
+
+## 影（`tokens/elevation.css`）
+
+<ScaleTokens css={elevationCss} prefix="--elevation-" kind="elevation" />
+
+## 重なりの順番（`tokens/z-index.css`）
+
+<ScaleTokens css={zIndexCss} prefix="--z-index-" kind="plain" />
+
+## 色の材料（`tokens/primitive/color.css`）
+
+**部品からは使わない。** 上の「色」のトークンが参照する材料。
+
+### 青
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-blue-" />
+
+### 水色
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-light-blue-" />
+
+### 緑
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-green-" />
+
+### 赤
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-red-" />
+
+### 黄
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-yellow-" />
+
+### 橙
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-orange-" />
+
+### 灰色
+
+420 と 536 は、白の背景とのコントラストの境目（420 は 3:1、536 は 4.5:1）。
+
+<PaletteTokens css={paletteCss} prefix="--color-neutral-solid-gray-" />
+
+### 状態の色
+
+<PaletteTokens css={paletteCss} prefix="--color-semantic-" />

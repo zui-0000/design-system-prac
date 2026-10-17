@@ -9,8 +9,9 @@ const useColorToken =
 
 /** @type {import('stylelint').Config} */
 export default {
-  // トークンの定義そのものは、色の値や材料を書く場所なので検査しない
-  ignoreFiles: ["src/styles/tokens/**"],
+  // トークンの定義そのものは、色の値や材料を書く場所なので検査しない。
+  // tokens/stories/（Storybook の一覧のページ）の CSS は、部品と同じく検査する
+  ignoreFiles: ["src/styles/tokens/*.css", "src/styles/tokens/primitive/**"],
 
   rules: {
     // #fff のような色の値を書かない
