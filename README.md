@@ -45,7 +45,7 @@ curl -fsSL https://vite.plus | bash
 ```zsh
 vp --version
 
-＃すでに古いvpを入れている場合は以下のコマンドで更新する
+# すでに古い vp を入れている場合は、以下のコマンドで更新する
 vp upgrade
 ```
 
