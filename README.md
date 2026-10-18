@@ -64,29 +64,30 @@ vp exec playwright install chromium
 
 VS Code を使うときだけ。拡張機能の画面で `@recommended` と検索すると、このリポジトリのおすすめ（`.vscode/extensions.json`）が出る。
 
-| 拡張機能                  | できること                                                            |
-| ------------------------- | --------------------------------------------------------------------- |
-| Vite Plus Extension Pack  | Oxc（lint と整形）と Vitest の拡張機能をまとめて入れる                |
-| CSS Variable Autocomplete | `var(--` でトークンの候補が出る。Cmd + クリックでトークンの定義に飛ぶ |
+| 拡張機能                  | できること                                                                                 |
+| ------------------------- | ------------------------------------------------------------------------------------------ |
+| Vite Plus Extension Pack  | Oxc（lint と整形）と Vitest の拡張機能をまとめて入れる                                     |
+| CSS Variable Autocomplete | `var(--` でトークンの候補が出る。Cmd + クリックでトークンの定義に飛ぶ                      |
+| Stylelint                 | CSS の決まりの違反に、書いている最中に赤線が出る（[docs/12](docs/12-デザイントークン.md)） |
 
 ## よく使うコマンド
 
-| やりたいこと                     | コマンド                             | 補足                                                                                            |
-| -------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| Storybook を起動する             | `vp run storybook`                   | <http://localhost:6006/>                                                                        |
-| Storybook を静的にビルドする     | `vp run build-storybook`             | 出力先は `storybook-static/`                                                                    |
-| 開発サーバーを起動する           | `vp dev`                             | <http://localhost:5173/>。                                                                      |
-| 本番用にビルドする               | `vp run build`                       | 型チェック（`tsc -b`）をしてからビルドする。出力先は `dist/`                                    |
-| 依存の向きを検査する             | `vp run lint:deps`                   | `ui/`・`features/`・`pages/` の import の決まり（[docs/06](docs/06-コンポーネントの置き方.md)） |
-| CSS の色の決まりを検査する       | `vp run lint:css`                    | 部品の CSS に色の値や色の材料を書いていないか（[docs/12](docs/12-デザイントークン.md)）         |
-| lint + フォーマット + 型チェック | `vp check`                           | 確認だけ。ファイルは書き換えない                                                                |
-| 上記をまとめて自動修正           | `vp check --fix`                     | フォーマットと lint の自動修正をしてから型チェックする                                          |
-| テストを実行する                 | `vp test`                            | ストーリーをテストとして実行する（単体テストは未設定）。Chromium が必要                         |
-| テストを監視モードで実行する     | `vp test watch`                      | ファイルを保存するたびに再実行する                                                              |
-| 依存関係をインストールする       | `vp install`                         | clone した直後や、`git pull` で lockfile が変わった後に実行する                                 |
-| パッケージを追加する             | `vp add <名前>` / `vp add -D <名前>` | `-D` は devDependencies に追加する                                                              |
-| 更新できるパッケージを確認する   | `vp outdated`                        | Vitest は Vite+ 同梱版に合わせているので、`vp update -L` を一括で使わない                       |
-| 環境の状態を診断する             | `vp env doctor`                      | Node.js や pnpm が想定どおりに選ばれているかを確認する                                          |
+| やりたいこと                     | コマンド                             | 補足                                                                                                         |
+| -------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Storybook を起動する             | `vp run storybook`                   | <http://localhost:6006/>                                                                                     |
+| Storybook を静的にビルドする     | `vp run build-storybook`             | 出力先は `storybook-static/`                                                                                 |
+| 開発サーバーを起動する           | `vp dev`                             | <http://localhost:5173/>。                                                                                   |
+| 本番用にビルドする               | `vp run build`                       | 型チェック（`tsc -b`）をしてからビルドする。出力先は `dist/`                                                 |
+| 依存の向きを検査する             | `vp run lint:deps`                   | `ui/`・`features/`・`pages/` の import の決まり（[docs/06](docs/06-コンポーネントの置き方.md)）              |
+| CSS の決まりを検査する           | `vp run lint:css`                    | 部品の CSS に色の値や色の材料、定義のない CSS 変数を書いていないか（[docs/12](docs/12-デザイントークン.md)） |
+| lint + フォーマット + 型チェック | `vp check`                           | 確認だけ。ファイルは書き換えない                                                                             |
+| 上記をまとめて自動修正           | `vp check --fix`                     | フォーマットと lint の自動修正をしてから型チェックする                                                       |
+| テストを実行する                 | `vp test`                            | ストーリーをテストとして実行する（単体テストは未設定）。Chromium が必要                                      |
+| テストを監視モードで実行する     | `vp test watch`                      | ファイルを保存するたびに再実行する                                                                           |
+| 依存関係をインストールする       | `vp install`                         | clone した直後や、`git pull` で lockfile が変わった後に実行する                                              |
+| パッケージを追加する             | `vp add <名前>` / `vp add -D <名前>` | `-D` は devDependencies に追加する                                                                           |
+| 更新できるパッケージを確認する   | `vp outdated`                        | Vitest は Vite+ 同梱版に合わせているので、`vp update -L` を一括で使わない                                    |
+| 環境の状態を診断する             | `vp env doctor`                      | Node.js や pnpm が想定どおりに選ばれているかを確認する                                                       |
 
 ### `vp <名前>` と `vp run <名前>` の違い
 
@@ -103,7 +104,7 @@ Storybook は組み込みコマンドではないので、`vp run storybook` で
 - フォーマットや lint で自動修正できるものは、修正された内容がそのままコミットされる
 - 型エラーなど自動で直せない問題があると、コミットが中止される
 - `src/` の `.ts`・`.tsx` をステージしていれば、依存の向きの検査（`vp run lint:deps`）も動く。違反があるとコミットが中止される
-- `src/` の CSS をステージしていれば、Stylelint で色の決まりも検査する。違反があるとコミットが中止される
+- `src/` の CSS をステージしていれば、Stylelint で色の決まりと、定義のない CSS 変数も検査する。違反があるとコミットが中止される
 
 コミットメッセージは、commit-msg フック（`.vite-hooks/commit-msg`）が commitlint で検査する。
 `feat: ヘッダーを作る` のように `<type>: <説明>` の形で書く。形が違うとコミットが中止される（[docs/11](docs/11-コミットメッセージの決まり.md)）。

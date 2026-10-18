@@ -264,6 +264,9 @@ importers:
       stylelint:
         specifier: 17.16.0
         version: 17.16.0(supports-color@7.2.0)(typescript@7.0.2)
+      stylelint-value-no-unknown-custom-properties:
+        specifier: 6.1.1
+        version: 6.1.1(stylelint@17.16.0(supports-color@7.2.0)(typescript@7.0.2))
       typescript:
         specifier: ~7.0.2
         version: 7.0.2
@@ -3306,6 +3309,12 @@ packages:
     resolution: {integrity: sha512-SlyRoSkdh1dYP0PzclLE7r0M9sgbFKKMFXpFRUMNuKhQSbC6VQIGzq3E0qsfvGJaUFJPGv6Ws1NZ/haTAjfbMA==}
     engines: {node: '>=12'}
 
+  stylelint-value-no-unknown-custom-properties@6.1.1:
+    resolution: {integrity: sha512-eQ1zidKD5t9zMEaskjGUY4W47lH76qMlmsDSmCAPEwtaGzB4Ls7ORTfysC1D6hamp2zFC+vN1vpQ+GFz3Tw3lw==}
+    engines: {node: '>=18.12.0'}
+    peerDependencies:
+      stylelint: '>=16'
+
   stylelint@17.16.0:
     resolution: {integrity: sha512-ejlWnbJ13x1GU32+zZXa6sYQJsKKkwSdv2B4rAdO3OWdEmvhSJKcXi5pOphQYSzyaj1kXpuGJr7pcMBNfDIuPw==}
     engines: {node: '>=20.19.0'}
@@ -6062,6 +6071,12 @@ snapshots:
       min-indent: 1.0.1
 
   strip-indent@4.1.1: {}
+
+  stylelint-value-no-unknown-custom-properties@6.1.1(stylelint@17.16.0(supports-color@7.2.0)(typescript@7.0.2)):
+    dependencies:
+      postcss-value-parser: 4.2.0
+      resolve: 1.22.13
+      stylelint: 17.16.0(supports-color@7.2.0)(typescript@7.0.2)
 
   stylelint@17.16.0(supports-color@7.2.0)(typescript@7.0.2):
     dependencies:

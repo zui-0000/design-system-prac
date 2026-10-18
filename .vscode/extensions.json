@@ -1,3 +1,7 @@
 {
-  "recommendations": ["VoidZero.vite-plus-extension-pack", "vunguyentuan.vscode-css-variables"]
+  "recommendations": [
+    "VoidZero.vite-plus-extension-pack",
+    "vunguyentuan.vscode-css-variables",
+    "stylelint.vscode-stylelint"
+  ]
 }

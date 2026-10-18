@@ -1,19 +1,40 @@
 // ==========================================================================
 // CSS の lint（Stylelint）。部品の CSS に、色の値やトークンの材料を直接書かせない。
+// 定義のない CSS 変数（var(--color-primay) のような打ち間違い）も止める。
 // 部品の色は src/styles/tokens/color.css の意味のトークンだけを使う。理由は docs/12 にある。
 // 整形は Oxfmt（vp check）が受け持つので、ここでは見た目の書き方のルールは入れない。
 // ==========================================================================
 
+import path from "node:path";
+
 const useColorToken =
   "src/styles/tokens/color.css の意味のトークン（--color-primary など）を使ってください（docs/12）";
 
+// トークンの入口。アプリと同じく global.css から @import をたどって、定義のある CSS 変数を集める。
+// プラグインは相対パスを実行した場所から探すので、どこから実行しても同じになるよう絶対パスにする
+const tokenEntry = path.join(import.meta.dirname, "src/styles/global.css");
+
 /** @type {import('stylelint').Config} */
 export default {
+  plugins: ["stylelint-value-no-unknown-custom-properties"],
+
   // トークンの定義そのものは、色の値や材料を書く場所なので検査しない。
   // tokens/stories/（Storybook の一覧のページ）の CSS は、部品と同じく検査する
   ignoreFiles: ["src/styles/tokens/*.css", "src/styles/tokens/primitive/**"],
 
   rules: {
+    // 定義のない CSS 変数を使わない。打ち間違えても、CSS はエラーにならず、その指定がなかったことになるため。
+    // 定義のある名前は、global.css が読み込むトークンと、同じファイルで定義した変数（--button-* など）。
+    // 色の材料もトークンとして定義はあるので、ここでは止めない（下の declaration-property-value-disallowed-list が止める）
+    "csstools/value-no-unknown-custom-properties": [
+      true,
+      {
+        importFrom: [tokenEntry],
+        message: (name) =>
+          `${name} は定義されていない CSS 変数です。打ち間違いがないか、src/styles/tokens/ のトークンの名前を確かめてください（docs/12）`,
+      },
+    ],
+
     // #fff のような色の値を書かない
     "color-no-hex": [true, { message: `色の値を直接書かず、${useColorToken}` }],
 
