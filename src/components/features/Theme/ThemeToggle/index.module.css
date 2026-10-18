@@ -1,0 +1,7 @@
+/*
+ * つまみの中の太陽のアイコン。Lucide は currentColor（文字の色）で描くので、color を変えると線の色が変わる。
+ * つまみが決めた色（.thumb の color）より、こちらが勝つ
+ */
+.sun {
+  color: var(--color-sun);
+}

@@ -1,0 +1,124 @@
+/*
+ * オンとオフを切り替える部品。外側（.switch）が溝、内側（.thumb）がつまみ。
+ * 状態は、Base UI が付ける属性（オンのときの data-checked、無効のときの data-disabled）で見た目を変える。
+ * Base UI は、溝とつまみの両方に同じ属性を付ける。
+ */
+.switch {
+  /*
+   * つまみの大きさ。アイコン（--size-icon、文字が 16px なら 20px）に、まわりの余白を足して 24px。
+   * 溝の大きさは、つまみから計算する。溝の横はつまみ 2 つ分なので、つまみが動く距離はつまみ 1 つ分になる。
+   */
+  --switch-thumb-size: calc(var(--size-icon) + var(--spacing-4));
+  /* 溝の色。オフは灰色（--color-input）、オンは .switch[data-checked] でメインの色にする */
+  --switch-track: var(--color-input);
+
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  /* 溝 = つまみ + 内側の余白（2px ずつ）+ 枠（1px ずつ）。文字が 16px なら 54px × 30px */
+  width: calc(var(--switch-thumb-size) * 2 + var(--spacing-2) * 2 + 2px);
+  height: calc(var(--switch-thumb-size) + var(--spacing-2) * 2 + 2px);
+  min-width: var(--size-touch-target);
+  padding: var(--spacing-2);
+
+  /* つまみとアイコンの大きさは文字の大きさで決まるので、置く場所によって変わらないようにそろえる */
+  font-size: var(--font-size-16);
+
+  /*
+   * 溝は塗りつぶす。--color-input も --color-primary も、ページの背景に対して 3:1 以上あるので、線がなくても溝の形が分かる。
+   * 線は透明にしておき、無効のときだけ色を付ける（透明の線の下には、溝の背景の色が見える）
+   */
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-full);
+  background-color: var(--switch-track);
+  cursor: pointer;
+}
+
+/*
+ * 押せる範囲を、縦 44px（--size-touch-target）に広げる（.claude/rules/ux.md の「押しやすさ」）。
+ * 溝の見た目は 30px のまま、見えない ::after を上下にはみ出させる。横は溝の幅（54px）で 44px を超えている。
+ * ::after は .switch の一部なので、ここを押しても .switch を押したことになる。
+ */
+.switch::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: var(--size-touch-target);
+  translate: 0 -50%;
+}
+
+/* オンのとき。溝をメインの色で塗る */
+.switch[data-checked] {
+  --switch-track: var(--color-primary);
+}
+
+/* マウスを乗せたときは、溝の色を --color-foreground に少し寄せる（Button と同じ考え方） */
+.switch:hover:not([data-disabled]) {
+  background-color: color-mix(in oklab, var(--switch-track), var(--color-foreground) 8%);
+}
+
+/* キーボードで選んだときだけ、フォーカスの輪を出す（Button と同じ） */
+.switch:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/*
+ * つまみ。オンでもオフでも、ページの背景の色（明るい配色なら白）で塗る。
+ * 溝（--color-input・--color-primary）に対して 3:1 以上あるので、溝の上でつまみが見分けられる
+ */
+.thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--switch-thumb-size);
+  height: var(--switch-thumb-size);
+  border-radius: var(--border-radius-full);
+
+  /* 中のアイコンの色。使う側がアイコンに色を付ければ、そちらが勝つ（ヘッダーの太陽など） */
+  color: var(--color-muted-foreground);
+  background-color: var(--color-background);
+}
+
+/* つまみの中のアイコン（svg）。Lucide のアイコンは内側に余白があるので、つまみより 4px 小さいだけで、まわりがあいて見える */
+.thumb svg {
+  flex-shrink: 0;
+  width: var(--size-icon);
+  height: var(--size-icon);
+}
+
+/* オンのとき。つまみを右へ、つまみ 1 つ分動かす。中のアイコンは、溝と同じメインの色にする */
+.thumb[data-checked] {
+  translate: var(--switch-thumb-size) 0;
+  color: var(--color-primary);
+}
+
+/* 無効のときは、オンでもオフでも控えめな色にする（Button と同じ） */
+.switch[data-disabled] {
+  --switch-track: var(--color-muted);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+.thumb[data-disabled] {
+  color: var(--color-muted-foreground);
+  background-color: var(--color-border);
+}
+
+/* 動きを減らす設定の人には、つまみの移動と色の切り替えをなめらかにしない（その場で切り替わる） */
+@media (prefers-reduced-motion: no-preference) {
+  .switch {
+    transition:
+      background-color 150ms,
+      border-color 150ms;
+  }
+
+  .thumb {
+    transition:
+      translate 150ms,
+      background-color 150ms,
+      color 150ms;
+  }
+}

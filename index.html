@@ -5,6 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>design-system-prac</title>
+    <script>
+      // 前に選んだ配色を、画面を描く前に <html data-theme> に付ける（docs/15）。
+      // React の部品が動くのは画面を描いた後なので、ここで付けないと、一瞬 OS の配色で描かれてから切り替わる。
+      // ここからは TS を import できないので、キーは src/constants/localStorage.ts の LOCAL_STORAGE_KEYS.THEME と、
+      // 配色の値は src/constants/theme.ts の THEMES と同じ文字列を書く
+      try {
+        const theme = localStorage.getItem("design-system-prac-theme");
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.dataset.theme = theme;
+        }
+      } catch {
+        // 保存を読めないときは、OS の配色のままにする
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

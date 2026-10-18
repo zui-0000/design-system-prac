@@ -14,7 +14,53 @@ import { Card } from "../../ui/Card/Card";
 
 - `../../` を数えなくてよい。ファイルを別のフォルダに動かしても、import を書き換えなくて済む
 - どこから読んでも同じ書き方になるので、検索しやすい
-- 同じフォルダのファイル（`./Card.module.css` など）は `./` のまま書く。部品のフォルダの中で閉じていることが分かるため
+- 同じフォルダと、1 つ下のフォルダのファイル（`./Card.module.css`・`./hooks/useTheme` など）は `./` で書く。部品のフォルダの中で閉じていることが分かるため
+
+最初は `./` を同じフォルダだけにしていたが、2026-10-19 に 1 つ下まで広げた。部品のフォルダに `hooks/` や `utils/` を置くようになり、すぐ下のファイルを `~/` から書くと、かえって長くなったため。
+
+```tsx
+// ThemeToggle/index.tsx から、すぐ下の hooks/useTheme.ts を読む
+import { useTheme } from "~/components/features/Theme/ThemeToggle/hooks/useTheme"; // ~/ だと長い
+import { useTheme } from "./hooks/useTheme"; // 1 つ下なので ./ で書く
+```
+
+| 読む先                                                        | 書き方 | 例                                                                  |
+| ------------------------------------------------------------- | ------ | ------------------------------------------------------------------- |
+| 同じフォルダ                                                  | `./`   | `./index.module.css`                                                |
+| 1 つ下のフォルダ                                              | `./`   | `./hooks/useTheme`、`./blocks/ScaleTokens`                          |
+| 同じまとまりの中の隣のフォルダ（`hooks/` から `utils/` など） | `../`  | `../utils/theme`、`../utils/parseTokens`、`../blocks/PaletteTokens` |
+| 2 つ以上下、またはまとまりの外                                | `~/`   | `~/components/ui/Button/Button`、`~/constants/pages`                |
+
+2 つ以上下を `./` にしないのは、`./a/b/c` のように深くなると、`~/` と同じくらい長くなり、どこを指しているか分かりにくくなるため。
+
+**相対パス（`./`・`../`）は、「同じまとまりの中」の印にする。** まとまりは、部品のフォルダ（`ThemeToggle/` など）と、`src/styles/stories/`。部品のフォルダの `hooks/`・`utils/` から 1 つ上がっても、同じ部品のフォルダの中に留まるので、`../` を 1 つだけ許した（2026-10-19）。部品のフォルダごと別の場所に動かしても、中の相対パスは書き換えなくて済む。
+
+まとまりの外（別の部品、`src/constants/` など）へは、1 つ上がるだけで届く場合も `~/` から書く。`ui/Card/Card.stories.tsx` から `Button` を読むなら `~/components/ui/Button/Button` で、`../Button/Button` とは書かない。相対パスにすると、`~/constants/pages` が読む場所によって `../constants/pages` になったりして、同じファイルの書き方が場所で変わってしまう。
+
+### `../` を許す場所は lint で決める
+
+`vite.config.ts` の lint の `overrides` で、部品のフォルダの `hooks/`・`utils/` と、`src/styles/stories/` の下のフォルダの中のファイルにだけ、`../` を 1 つ許している。ほかの場所では、今までどおり `../` が止まる。
+
+```ts
+overrides: [
+  {
+    files: ["src/components/**/hooks/**", "src/components/**/utils/**", "src/styles/stories/*/**"],
+    rules: {
+      "no-restricted-imports": ["error", { patterns: [{ group: ["../../*", "../../**"], message: "…" }] }],
+    },
+  },
+],
+```
+
+わざと書いて確かめた結果。
+
+| 書いた場所                         | import                           | 結果                 |
+| ---------------------------------- | -------------------------------- | -------------------- |
+| `ThemeToggle/hooks/`               | `../utils/theme`                 | 通る                 |
+| `ThemeToggle/hooks/`               | `../../../../../constants/theme` | 止まる（2 つ以上上） |
+| `ui/Card/`（部品のフォルダの直下） | `../Button/Button`               | 止まる（別の部品へ） |
+
+`.mdx`（Storybook のページ）は Oxlint の対象ではないので、決まりは手で守る（`primitive/color.mdx` から `../blocks/PaletteTokens`）。
 
 `@` ではなく `~` にしたのは、`@storybook/react-vite` のような、スコープ付きの npm パッケージと見分けるため。
 

@@ -50,6 +50,13 @@
     var(--color-neutral-solid-gray-700)
   );
 
+  /*
+   * 形を見せるための色。オフの Switch の溝に使う（後で、入力欄の枠にも使う）。名前は shadcn/ui の input に合わせた。
+   * --color-border（飾りの線）と違い、ページの背景に対して 3:1 以上にする（明るい 3.03:1、暗い 5.74:1）。
+   * 灰 420 は、明るい背景に対して 3:1 を守れるいちばん薄い灰色。暗い背景にも 3:1 以上あるので、どちらの配色でも同じ値にしている
+   */
+  --color-input: var(--color-neutral-solid-gray-420);
+
   /* フォーカスの輪 */
   --color-ring: var(--color-primary);
 
@@ -60,4 +67,25 @@
   --color-success: light-dark(var(--color-primitive-green-800), var(--color-primitive-green-400));
   --color-error: light-dark(var(--color-primitive-red-800), var(--color-primitive-red-400));
   --color-warning: light-dark(var(--color-primitive-orange-800), var(--color-primitive-yellow-400));
+
+  /*
+   * ライトモードを表す太陽のアイコンの色（ヘッダーのスイッチのつまみ、docs/15）。
+   * 載せる先は Switch のつまみ（--color-background）なので、それに対して 3:1 以上にする
+   * （明るい 3.18:1、暗い 7.58:1）。--color-warning（注意の文字）とは役目が違うので分ける。
+   */
+  --color-sun: light-dark(var(--color-primitive-orange-600), var(--color-primitive-orange-400));
+}
+
+/*
+ * ヘッダーのスイッチで選んだ配色（docs/15）。<html data-theme="dark"> のように付いていると、OS の設定より優先する。
+ * color-scheme を 1 つに決めると、上の light-dark() がすべてそちらの値を選ぶ。部品の CSS は何も変えなくてよい。
+ * 何も付いていなければ、上の color-scheme: light dark のまま（OS の設定に合わせる）。
+ * 値（light・dark）は、src/constants/theme.ts の THEMES と同じ文字列にする。
+ */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }

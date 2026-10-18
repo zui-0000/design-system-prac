@@ -16,7 +16,7 @@ styles/
 │   ├── border-radius.css    角丸
 │   ├── elevation.css        影
 │   ├── spacing.css          余白
-│   ├── size.css             部品の大きさ（押せる部品の最小の大きさなど）
+│   ├── size.css             部品の大きさ（押せる部品の最小の大きさ、アイコンの大きさ）
 │   ├── z-index.css          重なりの順番
 │   └── DADS-LICENSE.txt     デジタル庁デザインシステムを元にした値のライセンス
 └── stories/                 Storybook のトークンのページ（Design Tokens）。トークンのファイルと 1 対 1
@@ -54,7 +54,7 @@ styles/
 | ---------------------- | ------------------- | ----------------------------------------------- |
 | 色                     | `color.css`         | `var(--color-primary)`、`var(--color-border)`   |
 | 余白                   | `spacing.css`       | `var(--spacing-16)`                             |
-| 部品の大きさ           | `size.css`          | `var(--size-touch-target)`                      |
+| 部品の大きさ           | `size.css`          | `var(--size-touch-target)`、`var(--size-icon)`  |
 | 書体・文字サイズ・太さ | `font.css`          | `var(--font-size-20)`、`var(--font-weight-700)` |
 | 行の高さ               | `line-height.css`   | `var(--line-height-130)`                        |
 | 角丸                   | `border-radius.css` | `var(--border-radius-8)`                        |
@@ -69,6 +69,6 @@ VS Code では、おすすめの拡張機能（CSS Variable Autocomplete）を�
 vp run lint:css
 ```
 
-部品の CSS に、色の値（`#fff` など）や色の材料（`--color-primitive-*` など）を書いていないか、定義のない CSS 変数（打ち間違い）を使っていないかを、Stylelint で確かめる。コミット時にも動く。VS Code では、おすすめの拡張機能（Stylelint）を入れると、書いている最中に赤線が出る。
+部品の CSS に、色の値（`#fff` など）や色の材料（`--color-primitive-*` など）を書いていないか、定義のない CSS 変数（打ち間違い）を使っていないか、配色ごとの書き分け（`@media (prefers-color-scheme)` など）をしていないかを、Stylelint で確かめる。コミット時にも動く。VS Code では、おすすめの拡張機能（Stylelint）を入れると、書いている最中に赤線が出る。
 
 検査するルールは、リポジトリのルートの [`stylelint.config.js`](../../stylelint.config.js) を参照。

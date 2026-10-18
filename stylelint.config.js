@@ -10,6 +10,9 @@ import path from "node:path";
 const useColorToken =
   "src/styles/tokens/color.css の意味のトークン（--color-primary など）を使ってください（docs/12）";
 
+const noThemeBranch =
+  "配色（ライト・ダーク）ごとに書き分けないでください。意味のトークン（--color-primary など）を使えば、どちらの配色にも切り替わります（docs/15）";
+
 // トークンの入口。アプリと同じく global.css から @import をたどって、定義のある CSS 変数を集める。
 // プラグインは相対パスを実行した場所から探すので、どこから実行しても同じになるよう絶対パスにする
 const tokenEntry = path.join(import.meta.dirname, "src/styles/global.css");
@@ -54,5 +57,12 @@ export default {
         message: `色の材料（--color-primitive-* など）は使わず、${useColorToken}`,
       },
     ],
+
+    // 配色（ライト・ダーク）ごとの書き分けを、部品の CSS に書かない。
+    // @media (prefers-color-scheme) は OS の設定しか見ないので、ヘッダーのスイッチで選んだ配色では切り替わらない。
+    // [data-theme] で書き分けると、部品ごとに 2 重に書くことになる。
+    // 意味のトークンを使えば、どちらの配色にも切り替わる（docs/15）
+    "media-feature-name-disallowed-list": [["prefers-color-scheme"], { message: noThemeBranch }],
+    "selector-attribute-name-disallowed-list": [["data-theme"], { message: noThemeBranch }],
   },
 };

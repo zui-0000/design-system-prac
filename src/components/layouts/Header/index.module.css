@@ -33,6 +33,17 @@
   text-decoration: none;
 }
 
+/*
+ * 右端にまとめて置くもの（ナビゲーションと、配色のスイッチ）。
+ * 1 つの塊にしておくと、.inner の space-between で、ロゴと塊が両端に分かれる
+ */
+.end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
 /* ナビゲーションの一覧。リンクを横に並べ、入りきらなければ折り返す */
 .navList {
   display: flex;

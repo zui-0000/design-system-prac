@@ -133,3 +133,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/12 デザイントークン](docs/12-デザイントークン.md): 基本と意味の 2 段の構造、デジタル庁デザインシステムを元にした値、ダークモードの切り替え
 - [docs/13 Base UI と Button](docs/13-Base%20UI%20と%20Button.md): 段階 3 の始まり。Base UI の作法、ボタンの状態ごとの色とコントラスト、a11y のチェックをエラーにしたこと、アイコン（Lucide）の選び方と置き方
 - [docs/14 TS の値で見た目を変える](docs/14-TS%20の値で見た目を変える.md): CSS Modules で、状態は data 属性、種類はクラス、連続した値は CSS 変数で伝える使い分けと、その落とし穴
+- [docs/15 ダークモードを切り替える](docs/15-ダークモードを切り替える.md): 部品の CSS を変えずに `<html data-theme>` で配色を切り替える仕組み、`localStorage` に保存して画面を描く前に付ける理由、zustand を使わない理由、Toggle から Switch に変えた理由、Storybook の「配色」

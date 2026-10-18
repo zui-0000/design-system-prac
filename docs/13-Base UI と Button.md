@@ -68,9 +68,9 @@ type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   variant?: "primary" | "secondary";
 };
 
-export function Button({ variant = "secondary", ...props }: ButtonProps) {
+export const Button = ({ variant = "secondary", ...props }: ButtonProps) => {
   return <BaseButton {...props} className={`${styles.button} ${styles[variant]}`} />;
-}
+};
 ```
 
 | 決めたこと                            | 理由                                                                                                                                                                                                                                            |
@@ -243,15 +243,15 @@ import { SaveIcon } from "lucide-react";
 ```css
 .button svg {
   flex-shrink: 0;
-  width: 1.25em;
-  height: 1.25em;
+  width: var(--size-icon); /* 1.25em */
+  height: var(--size-icon);
 }
 ```
 
-- `1.25em` は文字の大きさの 1.25 倍（文字が 16px なら 20px）。Lucide は `width="24"`・`height="24"` を付けて描くが、CSS の指定のほうが勝つ
+- `--size-icon`（`1.25em`）は文字の大きさの 1.25 倍（文字が 16px なら 20px）。Lucide は `width="24"`・`height="24"` を付けて描くが、CSS の指定のほうが勝つ
 - 色は、Lucide が `stroke="currentColor"`（文字の色）で描くので、種類・暗い配色・無効の色にそのまま合う
 - 並べ方は、もとからある `inline-flex`・`align-items: center`・`gap: var(--spacing-8)` で決まる（上の「並べ方」）
-- `1.25em` は今は Button の中だけの値。ほかの部品でもアイコンを使うようになったら、トークン（`size.css`）にするか考える
+- 最初は `1.25em` を Button に直接書いていた。Switch のつまみ（[docs/15](15-ダークモードを切り替える.md)）でもアイコンを使うようになったので、2026-10-18 に `size.css` の `--size-icon` にした。em の値を CSS 変数に入れても、計算されるのは使った場所なので、その部品の文字の大きさの 1.25 倍になる
 
 ### 読み上げ
 
