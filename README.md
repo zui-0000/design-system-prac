@@ -130,3 +130,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/11 コミットメッセージの決まり](docs/11-コミットメッセージの決まり.md): commitlint の入れ方、Vite+ のフックで commit-msg を動かす方法、既定から変えたルール
 - [docs/12 デザイントークン](docs/12-デザイントークン.md): 基本と意味の 2 段の構造、デジタル庁デザインシステムを元にした値、ダークモードの切り替え
 - [docs/13 Base UI と Button](docs/13-Base%20UI%20と%20Button.md): 段階 3 の始まり。Base UI の作法、ボタンの状態ごとの色とコントラスト、a11y のチェックをエラーにしたこと
+- [docs/14 TS の値で見た目を変える](docs/14-TS%20の値で見た目を変える.md): CSS Modules で、状態は data 属性、種類はクラス、連続した値は CSS 変数で伝える使い分けと、その落とし穴
