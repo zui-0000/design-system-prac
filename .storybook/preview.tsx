@@ -12,10 +12,9 @@ const preview: Preview = {
     },
 
     a11y: {
-      // 'todo' - show a11y violations in the test UI only
-      // 'error' - fail CI on a11y violations
-      // 'off' - skip a11y checks entirely
-      test: "todo",
+      // アクセシビリティの違反（文字と背景のコントラスト不足など）があれば、vp test を失敗させる。
+      // 'todo' は画面に出すだけ、'off' は検査しない
+      test: "error",
     },
   },
 };
