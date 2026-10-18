@@ -3,6 +3,7 @@ vite-plus 1.1.0 の node_modules/vite-plus/AGENTS.md を日本語にしたもの
 Vite+ の目印（VITE PLUS START / END のコメント）を外してあるので、
 vp config（vp install のたびに prepare で動く）が英語のテンプレートで上書きしない。
 Vite+ を更新したら、元のファイルと見比べて、変わったところを手で反映する。
+最後の「Base UI を使う」は、このリポジトリで足したもの（元のファイルにはない）。
 -->
 
 # Vite+ を使う
@@ -25,3 +26,7 @@ Vite+ を更新したら、元のファイルと見比べて、変わったと�
 - [ ] `vp check` と `vp test` で、変更のフォーマット・lint・型チェック・テストを行う
 - [ ] 確認に必要な `vite.config.ts` のタスクや `package.json` のスクリプトがあれば、`vp run <script>` で実行する
 - [ ] セットアップ・Node.js・パッケージマネージャーの動きがおかしいときは `vp env doctor` を実行し、相談するときにその出力を添える
+
+# Base UI を使う
+
+UI の部品は、Base UI（`@base-ui/react`）に同じ役目の部品があれば、それを包んで作る。入れているバージョンの docs が `node_modules/@base-ui/react/docs/` にある（入口は `index.md`）。Base UI の API や作法は、推測せずにここを読んで確かめる。

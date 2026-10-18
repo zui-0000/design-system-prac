@@ -19,6 +19,8 @@ paths:
   ```
 
 - パーツに分かれる部品（`CardTitle` など）も、同じフォルダに置く
+- Base UI（`@base-ui/react`）に同じ役目の部品があれば、それを包んで作る（Button など）。見た目は CSS Modules で付け、状態は Base UI が付ける `data-*` 属性（`[data-disabled]` など）で見分ける
+- 見た目をそろえるため、`ui/` の部品は `className` と `style` を受け付けない。置く位置や間隔は、使う側の親が決める
 - 部品を作ったら、必ずストーリーを書く（Storybook で一覧にするため）。タイトルは `UI/<部品名>`
 
 ## `src/components/features/`（機能ごとの部品）
