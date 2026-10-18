@@ -1,10 +1,11 @@
 import { CardList } from "~/components/features/Card/CardList";
 import { Header } from "~/components/layouts/Header";
+import { Button } from "~/components/ui/Button/Button";
 import { Card } from "~/components/ui/Card/Card";
 
 import styles from "./index.module.css";
 
-const action = <button type="button">詳しく見る</button>;
+const action = <Button>詳しく見る</Button>;
 
 /** CSS の練習に使うページ */
 export function PracticePage() {

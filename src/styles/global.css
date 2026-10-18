@@ -33,6 +33,14 @@ p {
   margin: 0;
 }
 
+/* ボタンや入力欄は、ブラウザの初期設定では親の書体と文字サイズを受け継がない。受け継ぐようにする */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 body {
   font-family: var(--font-family-body);
   /* 行の高さは単位なしで書く（--line-height-150 は 1.5）。文字サイズが変わっても、その 1.5 倍に追従する */
