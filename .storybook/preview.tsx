@@ -4,6 +4,28 @@ import "~/styles/global.css";
 
 const preview: Preview = {
   parameters: {
+    options: {
+      // サイドバーの並び順。何も決めないと、Storybook がファイルを読み込んだ順になる。
+      // トークンのページは global.css で読み込む順に並べ、部品から使わない材料（Primitive）を最後にする
+      storySort: {
+        order: [
+          "Design Tokens",
+          [
+            "Color",
+            "Font",
+            "Line Height",
+            "Border Radius",
+            "Elevation",
+            "Spacing",
+            "Size",
+            "Z Index",
+            "Primitive",
+          ],
+          "UI",
+        ],
+      },
+    },
+
     controls: {
       matchers: {
         color: /(background|color)$/i,

@@ -1,5 +1,6 @@
 /*
- * 行の高さのトークン。名前は % の値。単位なしの倍率なので、文字サイズが変わっても追従する。
+ * 行の高さのトークン。名前は % の値（本文用の --line-height-body だけは役割の名前）。
+ * 単位なしの倍率なので、文字サイズが変わっても追従する。
  * 値は、デジタル庁デザインシステムのデザイントークン（@digital-go-jp/design-tokens 2.0.1）を元にしている。
  * ライセンスは ./DADS-LICENSE.txt（MIT License, Copyright (c) 2023 デジタル庁）。
  */
@@ -13,4 +14,7 @@
   --line-height-160: 1.6;
   --line-height-170: 1.7;
   --line-height-175: 1.75;
+
+  /* 本文の行の高さ（global.css の body が使う） */
+  --line-height-body: var(--line-height-150);
 }

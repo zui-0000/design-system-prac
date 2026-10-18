@@ -1,0 +1,13 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import zIndexCss from "~/styles/tokens/z-index.css?raw";
+
+import { ScaleTokens } from "~/styles/stories/blocks/ScaleTokens";
+
+<Meta title="Design Tokens/Z Index" />
+
+# 重なりの順番
+
+`src/styles/tokens/z-index.css` のトークン。値ではなく、どこで使うかの名前を付けている。
+
+<ScaleTokens css={zIndexCss} prefix="--z-index-" kind="plain" />

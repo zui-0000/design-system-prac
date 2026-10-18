@@ -53,15 +53,11 @@
   /* フォーカスの輪 */
   --color-ring: var(--color-primary);
 
-  /* 状態の文字の色（明るいときは白、暗いときは --color-background に対して 4.5:1 以上） */
-  --color-success: light-dark(var(--color-semantic-success-2), var(--color-primitive-green-400));
-  --color-error: light-dark(var(--color-semantic-error-1), var(--color-primitive-red-400));
-  --color-warning: light-dark(
-    var(--color-semantic-warning-orange-2),
-    var(--color-primitive-yellow-400)
-  );
-
-  /* 文字 */
-  --font-family-body: var(--font-family-sans);
-  --line-height-body: var(--line-height-150);
+  /*
+   * 状態の文字の色（明るいときは白、暗いときは --color-background に対して 4.5:1 以上）。
+   * 明るいときの色は、DADS の状態の色（success-2・error-1・warning-orange-2）と同じ。
+   */
+  --color-success: light-dark(var(--color-primitive-green-800), var(--color-primitive-green-400));
+  --color-error: light-dark(var(--color-primitive-red-800), var(--color-primitive-red-400));
+  --color-warning: light-dark(var(--color-primitive-orange-800), var(--color-primitive-yellow-400));
 }

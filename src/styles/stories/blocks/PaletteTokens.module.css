@@ -1,0 +1,23 @@
+/* 色の材料の一覧（PaletteTokens）。1 色の段階を、小さな面で 1 行に並べる */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(5rem, 100%), 1fr));
+  gap: var(--spacing-8);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.swatch {
+  height: 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-4);
+}
+
+.value {
+  font-size: var(--font-size-14);
+  color: var(--color-muted-foreground);
+}

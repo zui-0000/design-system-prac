@@ -1,7 +1,10 @@
 /*
  * 色の材料（基本のトークン）。部品からは直接使わない。部品が使う色は ../color.css にある。
+ * primitive は TS のプリミティブ型（string・number）と同じ言葉で、意味の名前が付く前の材料の値のこと
+ * （docs/12 の「primitive という名前」）。
  * ../color.css の意味のトークン（--color-primary など）が、ここの色を参照する。
  * ブランドの色の段（DADS の --color-key-*）は除いた。その役目は ../color.css の --color-primary などが持つ。
+ * 状態の色の段（DADS の --color-semantic-*）も除いた。成功・エラー・警告という意味は、../color.css の --color-success などが持つ。
  * 値は、デジタル庁デザインシステムのデザイントークン（@digital-go-jp/design-tokens 2.0.1）を元にしている。
  * ライセンスは ../DADS-LICENSE.txt（MIT License, Copyright (c) 2023 デジタル庁）。
  */
@@ -166,14 +169,4 @@
   --color-neutral-opacity-gray-700: rgba(0, 0, 0, 0.7);
   --color-neutral-opacity-gray-800: rgba(0, 0, 0, 0.8);
   --color-neutral-opacity-gray-900: rgba(0, 0, 0, 0.9);
-
-  /* 状態（成功・エラー・警告） */
-  --color-semantic-success-1: var(--color-primitive-green-600);
-  --color-semantic-success-2: var(--color-primitive-green-800);
-  --color-semantic-error-1: var(--color-primitive-red-800);
-  --color-semantic-error-2: var(--color-primitive-red-900);
-  --color-semantic-warning-yellow-1: var(--color-primitive-yellow-700);
-  --color-semantic-warning-yellow-2: var(--color-primitive-yellow-900);
-  --color-semantic-warning-orange-1: var(--color-primitive-orange-600);
-  --color-semantic-warning-orange-2: var(--color-primitive-orange-800);
 }

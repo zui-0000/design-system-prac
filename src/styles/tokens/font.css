@@ -1,11 +1,19 @@
 /*
- * 文字サイズと文字の太さのトークン。名前は px の値（太さは font-weight の値）。
+ * 文字のトークン（書体・文字サイズ・文字の太さ）。名前が --font- で始まるトークンは、ここに置く。
+ * 文字サイズの名前は px の値、太さの名前は font-weight の値。本文用の --font-family-body だけは役割の名前。
  * 値は、デジタル庁デザインシステムのデザイントークン（@digital-go-jp/design-tokens 2.0.1）を元にしている。
  * ライセンスは ./DADS-LICENSE.txt（MIT License, Copyright (c) 2023 デジタル庁）。
  * rem の値の後ろのコメントは、ブラウザの文字サイズが初期設定（16px）のときの px の値。
  */
 
 :root {
+  /* 書体 */
+  --font-family-sans: "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-mono: "Noto Sans Mono", monospace;
+
+  /* 本文の書体（global.css の body が使う） */
+  --font-family-body: var(--font-family-sans);
+
   /* 文字サイズ */
   --font-size-14: 0.875rem; /* 14px */
   --font-size-16: 1rem; /* 16px */

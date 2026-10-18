@@ -1,0 +1,56 @@
+/*
+ * 色以外のトークンの一覧（ScaleTokens）。1 行に「名前・値・見本」を並べる。
+ * <table> にすると、Storybook の docs が付ける縞模様の色が勝つので、Grid で並べる。
+ */
+.rows {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) minmax(0, 2fr);
+  align-items: center;
+}
+
+/* 行の中の 3 つを、親の Grid の列にそのまま並べる */
+.row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  gap: var(--spacing-16);
+  padding-block: var(--spacing-8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.name {
+  font-size: var(--font-size-14);
+  white-space: nowrap;
+}
+
+.value {
+  font-size: var(--font-size-14);
+  color: var(--color-muted-foreground);
+}
+
+/* 以下は見本（kind ごと） */
+
+.text {
+  white-space: nowrap;
+}
+
+.lineHeight {
+  max-width: 20rem;
+  background-color: var(--color-muted);
+}
+
+.bar {
+  height: var(--spacing-16);
+  background-color: var(--color-primary);
+}
+
+.square {
+  background-color: var(--color-primary);
+}
+
+.box {
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-card);
+}

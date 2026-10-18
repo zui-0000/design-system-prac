@@ -1,0 +1,13 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import sizeCss from "~/styles/tokens/size.css?raw";
+
+import { ScaleTokens } from "~/styles/stories/blocks/ScaleTokens";
+
+<Meta title="Design Tokens/Size" />
+
+# 大きさ
+
+`src/styles/tokens/size.css` のトークン。部品そのものの大きさ。見本は、その大きさの正方形。
+
+<ScaleTokens css={sizeCss} prefix="--size-" kind="size" />

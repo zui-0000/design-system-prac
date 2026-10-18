@@ -1,0 +1,72 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import paletteCss from "~/styles/tokens/primitive/color.css?raw";
+import { PaletteTokens } from "~/styles/stories/blocks/PaletteTokens";
+
+<Meta title="Design Tokens/Primitive/Color" />
+
+# 色の材料
+
+`src/styles/tokens/primitive/color.css` のトークン。**部品からは使わない。** Design Tokens/Color のトークンが参照する材料。
+
+ファイルと同じ順に並べている。
+
+## 青（blue）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-blue-" />
+
+## 水色（light-blue）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-light-blue-" />
+
+## シアン（cyan）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-cyan-" />
+
+## 緑（green）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-green-" />
+
+## ライム（lime）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-lime-" />
+
+## 黄（yellow）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-yellow-" />
+
+## 橙（orange）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-orange-" />
+
+## 赤（red）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-red-" />
+
+## マゼンタ（magenta）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-magenta-" />
+
+## 紫（purple）
+
+<PaletteTokens css={paletteCss} prefix="--color-primitive-purple-" />
+
+## 白と黒（white・black）
+
+<PaletteTokens
+  css={paletteCss}
+  prefix="--color-neutral-"
+  exclude={["--color-neutral-solid-gray-", "--color-neutral-opacity-gray-"]}
+/>
+
+## 灰色（solid-gray）
+
+420 と 536 は、白の背景とのコントラストの境目（420 は 3:1、536 は 4.5:1）。
+
+<PaletteTokens css={paletteCss} prefix="--color-neutral-solid-gray-" />
+
+## 透明度のある灰色（opacity-gray）
+
+黒に透明度を付けた灰色。下にある色に重ねて使う。暗い配色では、下の面も暗いので、ほとんど見えない。
+
+<PaletteTokens css={paletteCss} prefix="--color-neutral-opacity-gray-" />

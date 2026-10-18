@@ -18,9 +18,9 @@ const tokenEntry = path.join(import.meta.dirname, "src/styles/global.css");
 export default {
   plugins: ["stylelint-value-no-unknown-custom-properties"],
 
-  // トークンの定義そのものは、色の値や材料を書く場所なので検査しない。
-  // tokens/stories/（Storybook の一覧のページ）の CSS は、部品と同じく検査する
-  ignoreFiles: ["src/styles/tokens/*.css", "src/styles/tokens/primitive/**"],
+  // tokens/ の中は、トークンを定義する場所（色の値や材料を書く）なので検査しない。
+  // styles/stories/（Storybook のトークンの一覧のページ）の CSS は、部品と同じく検査する
+  ignoreFiles: ["src/styles/tokens/**"],
 
   rules: {
     // 定義のない CSS 変数を使わない。打ち間違えても、CSS はエラーにならず、その指定がなかったことになるため。
@@ -49,7 +49,7 @@ export default {
 
     // 色の材料（tokens/primitive/color.css のトークン）を使わない。ダークモードで切り替わらなくなる
     "declaration-property-value-disallowed-list": [
-      { "/.*/": ["/--color-(primitive|neutral|semantic)-/"] },
+      { "/.*/": ["/--color-(primitive|neutral)-/"] },
       {
         message: `色の材料（--color-primitive-* など）は使わず、${useColorToken}`,
       },

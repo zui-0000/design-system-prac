@@ -1,0 +1,11 @@
+/*
+ * 一覧を囲む面。ColorTokens・PaletteTokens・ScaleTokens が使う。
+ * Storybook の docs の背景は配色に関係なく白いので、ここで今の配色（明るい・暗い）の背景と文字の色を付けて、
+ * トークンを正しい組み合わせで見せる。
+ */
+.panel {
+  padding: var(--spacing-16);
+  border-radius: var(--border-radius-8);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+}
