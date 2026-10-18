@@ -17,6 +17,7 @@ styles/
     ├── border-radius.css    角丸
     ├── elevation.css        影
     ├── spacing.css          余白
+    ├── size.css             部品の大きさ（押せる部品の最小の大きさなど）
     ├── z-index.css          重なりの順番
     ├── DADS-LICENSE.txt     デジタル庁デザインシステムを元にした値のライセンス
     └── stories/             Storybook のトークン一覧のページ（Foundations/Tokens）
@@ -35,6 +36,7 @@ styles/
 | ---------------- | ------------------- | ----------------------------------------------- |
 | 色               | `color.css`         | `var(--color-primary)`、`var(--color-border)`   |
 | 余白             | `spacing.css`       | `var(--spacing-16)`                             |
+| 部品の大きさ     | `size.css`          | `var(--size-touch-target)`                      |
 | 文字サイズ・太さ | `font-size.css`     | `var(--font-size-20)`、`var(--font-weight-700)` |
 | 行の高さ         | `line-height.css`   | `var(--line-height-130)`                        |
 | 角丸             | `border-radius.css` | `var(--border-radius-8)`                        |

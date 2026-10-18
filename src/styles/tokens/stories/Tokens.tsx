@@ -71,6 +71,7 @@ type PreviewKind =
   | "fontWeight"
   | "lineHeight"
   | "spacing"
+  | "size"
   | "radius"
   | "elevation"
   /** 見本を描かず、名前と値だけを並べる */
@@ -106,6 +107,7 @@ function renderPreview(kind: PreviewKind, value: string) {
       text: "行の高さの見本。長い文章を折り返したとき、行と行の間がどれくらいあくかを見る。",
     },
     spacing: { className: styles.bar, style: { width: value } },
+    size: { className: styles.square, style: { width: value, height: value } },
     radius: { className: styles.box, style: { borderRadius: value } },
     elevation: { className: styles.box, style: { boxShadow: value } },
   };

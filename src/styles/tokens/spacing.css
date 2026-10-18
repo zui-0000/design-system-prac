@@ -15,7 +15,4 @@
   --spacing-40: 2.5rem; /* 40px */
   --spacing-48: 3rem; /* 48px */
   --spacing-64: 4rem; /* 64px */
-
-  /* 押せる部品の最小の大きさ（.claude/rules/ux.md の「押しやすさ」） */
-  --size-touch-target: 2.75rem; /* 44px */
 }

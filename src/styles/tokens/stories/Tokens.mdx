@@ -7,6 +7,7 @@ import fontFamilyCss from "~/styles/tokens/font-family.css?raw";
 import fontSizeCss from "~/styles/tokens/font-size.css?raw";
 import lineHeightCss from "~/styles/tokens/line-height.css?raw";
 import paletteCss from "~/styles/tokens/primitive/color.css?raw";
+import sizeCss from "~/styles/tokens/size.css?raw";
 import spacingCss from "~/styles/tokens/spacing.css?raw";
 import zIndexCss from "~/styles/tokens/z-index.css?raw";
 
@@ -28,6 +29,12 @@ import { ColorTokens, PaletteTokens, ScaleTokens } from "./Tokens.tsx";
 ## 余白（`tokens/spacing.css`）
 
 <ScaleTokens css={spacingCss} prefix="--spacing-" kind="spacing" />
+
+## 大きさ（`tokens/size.css`）
+
+部品そのものの大きさ。見本は、その大きさの正方形。
+
+<ScaleTokens css={sizeCss} prefix="--size-" kind="size" />
 
 ## 文字サイズ（`tokens/font-size.css`）
 

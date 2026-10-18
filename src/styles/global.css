@@ -10,6 +10,7 @@
 @import "./tokens/border-radius.css";
 @import "./tokens/elevation.css";
 @import "./tokens/spacing.css";
+@import "./tokens/size.css";
 @import "./tokens/z-index.css";
 
 /* すべての要素に共通する土台の設定 */

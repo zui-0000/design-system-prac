@@ -99,6 +99,10 @@
   background-color: var(--color-primary);
 }
 
+.square {
+  background-color: var(--color-primary);
+}
+
 .box {
   width: 4rem;
   height: 4rem;
