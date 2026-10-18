@@ -96,6 +96,8 @@ VS Code を使うときだけ。拡張機能の画面で `@recommended` と検�
 
 Storybook は組み込みコマンドではないので、`vp run storybook` で起動する。ビルドも、`vp run build` は型チェックをしてからビルドし、`vp build` は型チェックをしない。
 
+`vp build` を実行すると「`vpr build` を使って」という note が出る。`package.json` に同じ名前の `build` スクリプトがあることを知らせているだけで、エラーではない（[docs/02](docs/02-Storybook%20を%20Vite+%20で動かす.md)）。
+
 ## コミット時に自動で実行されること
 
 コミットすると、pre-commit フック（`.vite-hooks/pre-commit`）が `vp staged` を実行する。
@@ -118,7 +120,7 @@ VP_GIT_HOOKS=0 git commit -m "..."
 ## ドキュメント
 
 - [docs/01 学習の進め方](docs/01-学習の進め方.md): このリポジトリの目的、5 段階の進め方、CSS で勉強すること、使うツール
-- [docs/02 Storybook を Vite+ で動かす](docs/02-Storybook%20を%20Vite+%20で動かす.md): Storybook を入れる手順と、つまずいたところ
+- [docs/02 Storybook を Vite+ で動かす](docs/02-Storybook%20を%20Vite+%20で動かす.md): Storybook を入れる手順と、つまずいたところ、組み込みコマンドと同じ名前のスクリプトを消した理由
 - [docs/03 UX のルール](docs/03-UX%20のルール.md): `.claude/rules/ux.md` の理由と、元にした心理学の法則の仕分け
 - [docs/04 Flexbox で並べる](docs/04-Flexbox%20で並べる.md): `display: flex` の基本、コンテナとアイテム、`gap` と margin の使い分け
 - [docs/05 px と rem](docs/05-px%20と%20rem.md): rem を使う理由、em との違い、ズームと文字サイズの設定の違い

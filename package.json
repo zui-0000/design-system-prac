@@ -4,10 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev",
     "build": "tsc -b && vp build",
-    "lint": "vp lint",
-    "preview": "vp preview",
     "prepare": "vp config",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

@@ -216,6 +216,50 @@ storybookTest({ configDir: path.join(dirname, ".storybook") });
 
 `vp install` のときに「非推奨のサブ依存が 24 個ある」（`@yuku-parser/*` など）という警告が出る。`vp why` で調べると、Vite+ 本体（`@voidzero-dev/vite-plus-core` 1.1.0）の依存だった。こちらでは直せないので、Vite+ の更新を待つ。
 
+## 組み込みコマンドと同じ名前のスクリプトを消した
+
+2026-10-18 に追記。`vp dev` を実行すると、次の note が出ていた。
+
+```text
+note: You are running `vp dev` as a Vite+ built-in command. If you meant to run the dev npm script, use `vpr dev` instead.
+```
+
+エラーではなく、`vp dev` で合っている。`package.json` に、組み込みコマンドと同じ名前のスクリプト（`"dev": "vp dev"`）があると、取り違えていないかを知らせるために出る。スクリプトの中身が組み込みとまったく同じでも出る。`vpr` は `vp run` を短く書いたもの。
+
+| コマンド                | 動かすもの                                               |
+| ----------------------- | -------------------------------------------------------- |
+| `vp dev`                | Vite+ の組み込みのコマンド。スクリプトでは上書きできない |
+| `vp run dev`・`vpr dev` | `package.json` の `dev` スクリプト                       |
+
+TS でいうと、`npx vitest` と `npm run test` の関係に近い。片方はツールそのものを、もう片方は自分で書いたスクリプトを動かす。
+
+試すと、note が出るかどうかは、同じ名前のスクリプトがあるかどうかで決まっていた。
+
+| コマンド         | 同じ名前のスクリプト | note   |
+| ---------------- | -------------------- | ------ |
+| `vp dev`         | ある                 | 出る   |
+| `vp lint`        | ある                 | 出る   |
+| `vp fmt --check` | ない                 | 出ない |
+
+### スクリプトがあった理由
+
+最初にプロジェクトを作ったとき（`vp create`）に入ったもの。Vite+ の docs（`node_modules/vite-plus/docs/guide/local-cli.md` の Best Practices）は、`vp` を呼ぶスクリプトを置くことを勧めている。グローバルの `vp` を入れていない人でも、`pnpm run dev` で動かせるため。
+
+このリポジトリは、README でグローバルの `vp` を入れることを前提にしている（Node.js も `vp env install` で入れる）。なので、この理由は当てはまらない。
+
+### 消したものと残したもの
+
+| スクリプト | 中身                 | どうしたか                                                   |
+| ---------- | -------------------- | ------------------------------------------------------------ |
+| `dev`      | `vp dev`             | 消した。組み込みと同じ                                       |
+| `lint`     | `vp lint`            | 消した。組み込みと同じ                                       |
+| `preview`  | `vp preview`         | 消した。組み込みと同じ                                       |
+| `build`    | `tsc -b && vp build` | 残した。型チェック（`tsc -b`）をしてからビルドするので、違う |
+
+消した後は、`vp dev`・`vp lint`・`vp preview` で note が出なくなった。`vp build` では今も出る。こちらは「型チェックもしたいなら `vp run build`」という意味のある知らせなので、出てよい。
+
+毎回出る知らせは、そのうち読まれなくなる。中身が同じスクリプトを消して、note が出るのを意味があるときだけにした。失うのは、`pnpm dev` のようにパッケージマネージャーから呼べることだけ。リポジトリの中に、消した 3 つを呼んでいる場所はなかった。
+
 ## 残っていること
 
 - `.storybook/*.ts` が、どの tsconfig の `include` にも入っていない。`vp check` は通るが、`vp run build`（`tsc -b`）はこのファイルを型チェックしない
