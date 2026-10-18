@@ -5,7 +5,7 @@ import { URLS } from "~/constants/urls";
 
 import styles from "./index.module.css";
 
-export function Header() {
+export const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -37,4 +37,4 @@ export function Header() {
       </div>
     </header>
   );
-}
+};

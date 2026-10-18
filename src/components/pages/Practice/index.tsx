@@ -8,7 +8,7 @@ import styles from "./index.module.css";
 const action = <Button>詳しく見る</Button>;
 
 /** CSS の練習に使うページ */
-export function PracticePage() {
+export const PracticePage = () => {
   return (
     <>
       <Header />
@@ -32,4 +32,4 @@ export function PracticePage() {
       </main>
     </>
   );
-}
+};

@@ -9,7 +9,7 @@ type CardProps = {
   footer?: ReactNode;
 };
 
-export function Card({ title, children, footer }: CardProps) {
+export const Card = ({ title, children, footer }: CardProps) => {
   return (
     <article className={styles.card}>
       <h2 className={styles.title}>{title}</h2>
@@ -17,4 +17,4 @@ export function Card({ title, children, footer }: CardProps) {
       {footer && <div className={styles.footer}>{footer}</div>}
     </article>
   );
-}
+};

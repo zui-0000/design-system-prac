@@ -1,4 +1,4 @@
-import { parseTokens } from "~/styles/stories/utils/parseTokens";
+import { parseTokens } from "../utils/parseTokens";
 
 import styles from "./ColorTokens.module.css";
 import panel from "./panel.module.css";
@@ -11,7 +11,7 @@ type ColorTokensProps = {
 };
 
 /** 部品が使う色。-foreground の組があれば、その色で「Aa」を重ねて見せる */
-export function ColorTokens({ css, prefix }: ColorTokensProps) {
+export const ColorTokens = ({ css, prefix }: ColorTokensProps) => {
   const tokens = parseTokens(css, prefix);
   const names = new Set(tokens.map((token) => token.name));
   return (
@@ -36,4 +36,4 @@ export function ColorTokens({ css, prefix }: ColorTokensProps) {
         })}
     </div>
   );
-}
+};

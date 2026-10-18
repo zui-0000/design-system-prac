@@ -7,7 +7,7 @@ type CardListProps = {
   children: ReactNode;
 };
 
-export function CardList({ children }: CardListProps) {
+export const CardList = ({ children }: CardListProps) => {
   return (
     <ul className={styles.list}>
       {Children.map(children, (child) => (
@@ -15,4 +15,4 @@ export function CardList({ children }: CardListProps) {
       ))}
     </ul>
   );
-}
+};

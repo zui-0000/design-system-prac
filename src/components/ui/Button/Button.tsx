@@ -14,6 +14,6 @@ type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
  * ボタン。Base UI の Button を包み、見た目をこの部品で決める。
  * 見た目をそろえるため、使う側からは className と style を渡せない。置く位置や間隔は親が決める。
  */
-export function Button({ variant = "secondary", ...props }: ButtonProps) {
+export const Button = ({ variant = "secondary", ...props }: ButtonProps) => {
   return <BaseButton {...props} className={`${styles.button} ${styles[variant]}`} />;
-}
+};

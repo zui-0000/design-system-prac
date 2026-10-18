@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import { parseTokens } from "~/styles/stories/utils/parseTokens";
+import { parseTokens } from "../utils/parseTokens";
 
 import panel from "./panel.module.css";
 import styles from "./ScaleTokens.module.css";
@@ -26,7 +26,7 @@ type ScaleTokensProps = {
 };
 
 /** 色以外のトークン。1 行に「名前・値・見本」を並べる。見本は、種類ごとに値を当てて描く */
-export function ScaleTokens({ css, prefix, kind }: ScaleTokensProps) {
+export const ScaleTokens = ({ css, prefix, kind }: ScaleTokensProps) => {
   const tokens = parseTokens(css, prefix);
   return (
     <div className={`${panel.panel} ${styles.rows}`}>
@@ -39,9 +39,9 @@ export function ScaleTokens({ css, prefix, kind }: ScaleTokensProps) {
       ))}
     </div>
   );
-}
+};
 
-function renderPreview(kind: PreviewKind, value: string) {
+const renderPreview = (kind: PreviewKind, value: string) => {
   if (kind === "plain") return null;
   const previews: Record<
     Exclude<PreviewKind, "plain">,
@@ -65,4 +65,4 @@ function renderPreview(kind: PreviewKind, value: string) {
       {text}
     </div>
   );
-}
+};

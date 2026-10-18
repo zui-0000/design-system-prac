@@ -1,4 +1,4 @@
-import { parseTokens } from "~/styles/stories/utils/parseTokens";
+import { parseTokens } from "../utils/parseTokens";
 
 import styles from "./PaletteTokens.module.css";
 import panel from "./panel.module.css";
@@ -13,7 +13,7 @@ type PaletteTokensProps = {
 };
 
 /** 色の材料。1 色の段階を 1 行に並べる */
-export function PaletteTokens({ css, prefix, exclude = [] }: PaletteTokensProps) {
+export const PaletteTokens = ({ css, prefix, exclude = [] }: PaletteTokensProps) => {
   const tokens = parseTokens(css, prefix).filter(
     (token) => !exclude.some((excluded) => token.name.startsWith(excluded)),
   );
@@ -28,4 +28,4 @@ export function PaletteTokens({ css, prefix, exclude = [] }: PaletteTokensProps)
       ))}
     </div>
   );
-}
+};

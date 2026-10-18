@@ -62,7 +62,9 @@ export default defineConfig({
       "react/unsupported-syntax": "error",
       "react/use-memo": "error",
       "vite-plus/prefer-vite-plus-imports": "error",
-      // 親のフォルダへさかのぼる import（../）を禁止し、~/ で書かせる。同じフォルダの ./ は許す
+      // 関数はアロー関数で書く（const f = () => {}）。function f() {} の宣言を止める
+      "func-style": ["error", "expression"],
+      // 親のフォルダへさかのぼる import（../）を禁止し、~/ で書かせる。同じフォルダと 1 つ下の ./ は許す（docs/09）
       "no-restricted-imports": [
         "error",
         {
@@ -76,6 +78,33 @@ export default defineConfig({
         },
       ],
     },
+    overrides: [
+      {
+        // 部品のフォルダの hooks/・utils/ と、styles/stories/ の下のフォルダの中だけ、../ を 1 つ許す。
+        // 1 つ上がっても同じまとまり（部品のフォルダ、styles/stories/）の中に留まり、
+        // hooks/useTheme.ts から ../utils/theme を読むような、まとまりの中の import を短く書ける。
+        // 2 つ以上上がる（../../）と、まとまりの外に出るので止める
+        files: [
+          "src/components/**/hooks/**",
+          "src/components/**/utils/**",
+          "src/styles/stories/*/**",
+        ],
+        rules: {
+          "no-restricted-imports": [
+            "error",
+            {
+              patterns: [
+                {
+                  group: ["../../*", "../../**"],
+                  message:
+                    "2 つ以上上のフォルダへの相対パスは使わず、~/ から書いてください（../ は同じ部品のフォルダの中だけ。docs/09）",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
     options: {
       typeAware: true,
       typeCheck: true,
