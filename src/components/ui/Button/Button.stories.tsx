@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { SaveIcon } from "lucide-react";
 
 import { Button } from "./Button";
 
@@ -27,6 +28,19 @@ export const Primary: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+/** アイコンと文字を並べたボタン。アイコンは飾りなので読み上げない（Lucide が aria-hidden を付ける） */
+export const WithIcon: Story = {
+  args: {
+    variant: "primary",
+    children: (
+      <>
+        <SaveIcon />
+        保存する
+      </>
+    ),
   },
 };
 

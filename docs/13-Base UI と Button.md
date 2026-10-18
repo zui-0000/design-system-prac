@@ -58,7 +58,7 @@ shadcn/ui は「部品のパッケージ」ではなく、「部品のソース�
 src/components/ui/Button/
 ├── Button.tsx            Base UI の Button を包む
 ├── Button.module.css
-└── Button.stories.tsx    Secondary・Primary・Disabled・並べたところ
+└── Button.stories.tsx    Secondary・Primary・Disabled・アイコン付き・並べたところ
 ```
 
 ```tsx
@@ -202,6 +202,80 @@ textarea {
   font: inherit;
 }
 ```
+
+## アイコン（Lucide）
+
+2026-10-18 に、アイコンのライブラリとして [Lucide](https://lucide.dev/)（`lucide-react` 1.59.0）を入れ、Button に文字と並べて置けるようにした。
+
+### 選んだ理由
+
+Base UI は、アイコンを持っていないし、どれを使うかも決めていない。docs の例では、`CheckIcon` や `XIcon` を SVG の部品として自分で書き、`children` に入れている。SVG を描く React のアイコンなら、どれでも組み合わせられる。
+
+| ライブラリ            | 1 週間のダウンロード数 | 最新版（2026-10-18 時点） | 特徴                                                   |
+| --------------------- | ---------------------- | ------------------------- | ------------------------------------------------------ |
+| **lucide-react**      | 約 6,766 万            | 1.59.0（2026-10-17）      | 線のアイコン。ほぼ毎日更新される                       |
+| react-icons           | 約 525 万              | 5.7.0（2026-06）          | いろいろなアイコン集をまとめたもの。種類が混ざりやすい |
+| @radix-ui/react-icons | 約 327 万              | 1.3.2（2024-11）          | shadcn/ui の古い初期値。2 年近く更新がない             |
+| @phosphor-icons/react | 約 308 万              | 2.1.10（2025-05）         | 太さが 6 種類ある                                      |
+| @heroicons/react      | 約 254 万              | 2.2.0（2024-11）          | Tailwind のチーム製。数が少なめ                        |
+| @tabler/icons-react   | 約 212 万              | 3.49.0（2026-10）         | 数が多い。shadcn/ui でも選べる                         |
+
+- 段階 4 の shadcn/ui の初期値と同じ。shadcn/ui の設定（`components.json`）の初期値は `"iconLibrary": "lucide"` で、Base UI 版のスタイル（`base-nova`）の例も Lucide。同じアイコンで見比べられる
+- 依存するパッケージがなく、`"sideEffects": false`。Base UI と同じく、`node_modules` には全部入るが、完成品に入るのは使ったアイコンだけ
+- ライセンスは ISC（MIT とほぼ同じ、自由に使えるもの）
+
+ほぼ毎日新しい版が出るので、入れた 1.59.0 も公開から 1 日ほどだった。pnpm の「公開されて間もない版は入れない」決まり（`minimumReleaseAge`）には引っかからず、`pnpm-workspace.yaml` に例外は足されなかった（docs/07）。
+
+### 使い方
+
+```tsx
+import { SaveIcon } from "lucide-react";
+
+<Button variant="primary">
+  <SaveIcon />
+  保存する
+</Button>;
+```
+
+- 名前は `Save` と `SaveIcon` のどちらでも import できる（同じもの）。JSX でアイコンだと分かるように、`Icon` の付いた名前を使う
+- アイコンの大きさは、使う側で決めない（`size` を渡さない）。Button の CSS が決める
+
+```css
+.button svg {
+  flex-shrink: 0;
+  width: 1.25em;
+  height: 1.25em;
+}
+```
+
+- `1.25em` は文字の大きさの 1.25 倍（文字が 16px なら 20px）。Lucide は `width="24"`・`height="24"` を付けて描くが、CSS の指定のほうが勝つ
+- 色は、Lucide が `stroke="currentColor"`（文字の色）で描くので、種類・暗い配色・無効の色にそのまま合う
+- 並べ方は、もとからある `inline-flex`・`align-items: center`・`gap: var(--spacing-8)` で決まる（上の「並べ方」）
+- `1.25em` は今は Button の中だけの値。ほかの部品でもアイコンを使うようになったら、トークン（`size.css`）にするか考える
+
+### 読み上げ
+
+Lucide は、アイコンに初めから `aria-hidden="true"` を付ける。`aria-label` を渡したときだけ、`aria-hidden` を外す。`react-dom/server` で描いて確かめた。
+
+| 置き方                   | 書き方                                            | 読み上げ                         |
+| ------------------------ | ------------------------------------------------- | -------------------------------- |
+| 文字と一緒に置く（飾り） | `<SaveIcon />`                                    | 読まない。ボタンの名前は文字から |
+| アイコンだけのボタン     | `<Button aria-label="保存"><SaveIcon /></Button>` | ボタンの名前は `aria-label` から |
+
+アイコンだけのボタンで名前を付け忘れると、a11y のチェック（`button-name`）で `vp test` が止まる（下の「a11y のチェックをエラーにした」）。
+
+### 測った結果
+
+Storybook の UI/Button → WithIcon で測った。
+
+| 状態                      | アイコンの大きさ | 文字との間 | 縦の中心のずれ | アイコンの色         |
+| ------------------------- | ---------------- | ---------- | -------------- | -------------------- |
+| 明るい配色                | 20 × 20          | 8px        | 0.6px          | 文字と同じ（白）     |
+| 暗い配色                  | 20 × 20          | 8px        | 0.6px          | 文字と同じ（灰 900） |
+| 無効（明るい・暗い）      | 20 × 20          | 8px        | 0.6px          | 文字と同じ（灰）     |
+| ブラウザの文字サイズ 20px | 25 × 25          | 10px       | 0.5px          | 文字と同じ           |
+
+縦の中心のずれ（0.6px）は、書体の上下の余白の差で、目では分からない。
 
 ## a11y のチェックをエラーにした
 
