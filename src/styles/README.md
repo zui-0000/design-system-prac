@@ -43,6 +43,8 @@ styles/
 | 影               | `elevation.css`     | `var(--elevation-1)`                            |
 | 重なり           | `z-index.css`       | `var(--z-index-header)`                         |
 
+VS Code では、おすすめの拡張機能（CSS Variable Autocomplete）を入れると、`var(--` で候補が出て、Cmd + クリックで定義に飛べる（[docs/12](../../docs/12-デザイントークン.md) の「VS Code で定義に飛ぶ」）。
+
 ## 検査
 
 ```zsh

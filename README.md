@@ -60,6 +60,15 @@ vp exec playwright install chromium
 `vite.config.ts` の `test.projects` には `storybook` プロジェクトしかないので、普通の単体テスト（`*.test.ts`）を置いても今は実行されない。
 単体テストを書くときは、`projects` に単体テスト用のプロジェクトを足す。
 
+### 5. VS Code の拡張機能を入れる（任意）
+
+VS Code を使うときだけ。拡張機能の画面で `@recommended` と検索すると、このリポジトリのおすすめ（`.vscode/extensions.json`）が出る。
+
+| 拡張機能                  | できること                                                            |
+| ------------------------- | --------------------------------------------------------------------- |
+| Vite Plus Extension Pack  | Oxc（lint と整形）と Vitest の拡張機能をまとめて入れる                |
+| CSS Variable Autocomplete | `var(--` でトークンの候補が出る。Cmd + クリックでトークンの定義に飛ぶ |
+
 ## よく使うコマンド
 
 | やりたいこと                     | コマンド                             | 補足                                                                                            |

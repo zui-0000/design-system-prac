@@ -19,5 +19,6 @@
   "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
-  }
+  },
+  "cssVariables.lookupFiles": ["src/styles/tokens/*.css"]
 }
