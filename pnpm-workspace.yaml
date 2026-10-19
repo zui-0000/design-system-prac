@@ -1,15 +1,25 @@
+# pnpm の設定。vp install は中で pnpm を動かすので、ここに書いた設定がそのまま効く（docs/18）
+# コメントと空行は、vp install・vp add・vp migrate でも消えない（docs/18 で確かめた）
+
+# 入れるときにスクリプト（postinstall など）を動かしてよいパッケージ。false は動かさない
 allowBuilds:
   esbuild: false
   "@swc/core": false
+
+# ---------------------------------------------------------------------------
+# Vite+ がそろえる版。vp migrate が書き換えるので、手で版を変えない（docs/17）
+# ---------------------------------------------------------------------------
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.3.0
   vite-plus: 1.3.0
   vitest: 5.0.5
   "@vitest/browser-playwright": 5.0.5
   "@vitest/coverage-v8": 5.0.5
+
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"
+
 peerDependencyRules:
   allowAny:
     - vite
@@ -17,3 +27,28 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
+
+# ---------------------------------------------------------------------------
+# pnpm の版の管理。理由は docs/18
+# ---------------------------------------------------------------------------
+# pnpm の版は Vite+ に任せる（Vite+ が devEngines.packageManager を読む）。pnpm が自分で版を切り替えない
+pmOnFail: ignore
+
+# ---------------------------------------------------------------------------
+# 依存の入れ方。理由は docs/18
+# ---------------------------------------------------------------------------
+# 同じパッケージが複数の版で入っていて、1 つの版で全員の範囲を満たせるなら、その版にまとめる
+autoDedupe: true
+
+# ---------------------------------------------------------------------------
+# サプライチェーン攻撃への備え。理由は docs/18
+# ---------------------------------------------------------------------------
+# 公開から 2 日（2880 分）たっていない版は入れない。自分で書いたので「厳しい」動き（足りなければエラー）になる。
+# 止まったら、minimumReleaseAgeExclude には足さず、2 日たった版に入れ直す（vp migrate が足したものも消す）
+minimumReleaseAge: 2880
+
+# 前に公開された版より、公開の証明（trusted publishing・provenance）が弱い版は入れない
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  # 古い 6 系に後から出た修正版。7 系（provenance あり）の後に公開されたので、証明が下がったように見える（誤検知）
+  - semver@6.3.1

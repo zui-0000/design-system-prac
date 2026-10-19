@@ -144,3 +144,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/15 ダークモードを切り替える](docs/15-ダークモードを切り替える.md): 部品の CSS を変えずに `<html data-theme>` で配色を切り替える仕組み、`localStorage` に保存して画面を描く前に付ける理由、zustand を使わない理由、Toggle から Switch に変えた理由、Storybook の「配色」
 - [docs/16 単体テスト](docs/16-単体テスト.md): jsdom で動く `unit` のプロジェクトの設定、`globals: true` と tsconfig を分ける理由、テストの置き場所と名前の決まり
 - [docs/17 Vite+ を更新する](docs/17-Vite+%20を更新する.md): `vp upgrade` → `vp migrate` の手順、このリポジトリで追加で確かめること、1.3.0 に上げたときの記録
+- [docs/18 pnpm の設定](docs/18-pnpm%20の設定.md): `pnpm-workspace.yaml` に足した設定（`pmOnFail`・`autoDedupe`・`minimumReleaseAge`・`trustPolicy`）と、入れなかった設定、新しすぎる版で止まったときの直し方

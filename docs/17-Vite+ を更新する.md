@@ -21,13 +21,13 @@ TS で言えば、グローバルの `vp` は `npm i -g` で入れた CLI、プ�
 
 ## このリポジトリで追加で確かめること
 
-| 確かめること                                                                | 理由                                                                                                                                                                                            |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| catalog の `@vitest/browser-playwright`・`@vitest/coverage-v8` のバージョン | Storybook のテストのために、このリポジトリで足したもの。`vp toolchain vitest` の同梱のバージョンと同じにする。ずれると Vitest が 2 つ入る（[docs/02](02-Storybook%20を%20Vite+%20で動かす.md)） |
-| `pnpm-workspace.yaml` に `minimumReleaseAgeExclude` が足されていないか      | 公開されたばかりのパッケージを入れるために、pnpm が自動で足すことがある。足されていたら受け入れない                                                                                             |
-| `CLAUDE.md`                                                                 | Vite+ の目印を外して日本語にしたので、自動では新しくならない。`node_modules/vite-plus/AGENTS.md` と見比べて、変わったところを手で直す（[docs/02](02-Storybook%20を%20Vite+%20で動かす.md)）     |
-| リリースノート                                                              | 間のバージョンも含めて、このリポジトリに関係する変更がないかを読む（`gh release view v1.3.0 -R voidzero-dev/vite-plus`）                                                                        |
-| 全部の検査                                                                  | `vp check`・`vp test`・`vp run build`・`vp run lint:deps`・`vp run lint:css`・`vp run build-storybook`                                                                                          |
+| 確かめること                                                                | 理由                                                                                                                                                                                                                                                       |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| catalog の `@vitest/browser-playwright`・`@vitest/coverage-v8` のバージョン | Storybook のテストのために、このリポジトリで足したもの。`vp toolchain vitest` の同梱のバージョンと同じにする。ずれると Vitest が 2 つ入る（[docs/02](02-Storybook%20を%20Vite+%20で動かす.md)）                                                            |
+| `pnpm-workspace.yaml` に `minimumReleaseAgeExclude` が足されていないか      | `vp migrate` は、`minimumReleaseAge` を書いていると、Vite+ の道具（`vite-plus`・`@voidzero-dev/*`・`oxlint`・`vitest` など 10 個）を自動で足す（[docs/18](18-pnpm%20の設定.md)）。足されていたら消す。2 日たっていない版で止まったら、2 日待ってから上げる |
+| `CLAUDE.md`                                                                 | Vite+ の目印を外して日本語にしたので、自動では新しくならない。`node_modules/vite-plus/AGENTS.md` と見比べて、変わったところを手で直す（[docs/02](02-Storybook%20を%20Vite+%20で動かす.md)）                                                                |
+| リリースノート                                                              | 間のバージョンも含めて、このリポジトリに関係する変更がないかを読む（`gh release view v1.3.0 -R voidzero-dev/vite-plus`）                                                                                                                                   |
+| 全部の検査                                                                  | `vp check`・`vp test`・`vp run build`・`vp run lint:deps`・`vp run lint:css`・`vp run build-storybook`                                                                                                                                                     |
 
 ## 1.3.0 に上げたとき（2026-10-20）
 
@@ -83,3 +83,5 @@ pmOnFail: ignore # pnpm が、package.json に書いた pnpm のバージョン�
 ```
 
 このリポジトリは、`package.json` の `devEngines.runtime` を `onFail: "error"` にして、違うバージョンの Node.js ならエラーにしている（[docs/01](01-学習の進め方.md) の「ツールの決まり」）。今の形で困っていないので、今回は入れていない。入れるかどうかは、別に確かめてから決める。
+
+2026-10-20 に決めた: `pmOnFail: ignore` は入れ、`runtimeOnFail` は入れない（[docs/18](18-pnpm%20の設定.md)）。
