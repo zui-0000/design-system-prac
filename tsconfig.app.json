@@ -27,5 +27,8 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", ".storybook/preview.tsx"]
+  "include": ["src", ".storybook/preview.tsx"],
+  // テストのフォルダ（__tests__）は tsconfig.test.json で型チェックする。
+  // __tests__ の外に置いたテストはここで型チェックされ、describe・test・expect が無いエラーで止まる（docs/16）
+  "exclude": ["src/**/__tests__", "src/__setup__"]
 }

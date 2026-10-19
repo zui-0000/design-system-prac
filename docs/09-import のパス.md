@@ -29,22 +29,23 @@ import { useTheme } from "./hooks/useTheme"; // 1 つ下なので ./ で書く
 | 同じフォルダ                                                  | `./`   | `./index.module.css`                                                |
 | 1 つ下のフォルダ                                              | `./`   | `./hooks/useTheme`、`./blocks/ScaleTokens`                          |
 | 同じまとまりの中の隣のフォルダ（`hooks/` から `utils/` など） | `../`  | `../utils/theme`、`../utils/parseTokens`、`../blocks/PaletteTokens` |
+| テストの `__tests__/` から、確かめるファイル                  | `../`  | `utils/__tests__/theme.test.ts` から `../theme`                     |
 | 2 つ以上下、またはまとまりの外                                | `~/`   | `~/components/ui/Button/Button`、`~/constants/pages`                |
 
 2 つ以上下を `./` にしないのは、`./a/b/c` のように深くなると、`~/` と同じくらい長くなり、どこを指しているか分かりにくくなるため。
 
-**相対パス（`./`・`../`）は、「同じまとまりの中」の印にする。** まとまりは、部品のフォルダ（`ThemeToggle/` など）と、`src/styles/stories/`。部品のフォルダの `hooks/`・`utils/` から 1 つ上がっても、同じ部品のフォルダの中に留まるので、`../` を 1 つだけ許した（2026-10-19）。部品のフォルダごと別の場所に動かしても、中の相対パスは書き換えなくて済む。
+**相対パス（`./`・`../`）は、「同じまとまりの中」の印にする。** まとまりは、部品のフォルダ（`ThemeToggle/` など）と、`src/styles/stories/`。部品のフォルダの `hooks/`・`utils/` から 1 つ上がっても、同じ部品のフォルダの中に留まるので、`../` を 1 つだけ許した（2026-10-19）。テストの `__tests__/` も、1 つ上がると確かめるファイルのフォルダなので、同じく許した（[docs/16](16-単体テスト.md)）。部品のフォルダごと別の場所に動かしても、中の相対パスは書き換えなくて済む。
 
 まとまりの外（別の部品、`src/constants/` など）へは、1 つ上がるだけで届く場合も `~/` から書く。`ui/Card/Card.stories.tsx` から `Button` を読むなら `~/components/ui/Button/Button` で、`../Button/Button` とは書かない。相対パスにすると、`~/constants/pages` が読む場所によって `../constants/pages` になったりして、同じファイルの書き方が場所で変わってしまう。
 
 ### `../` を許す場所は lint で決める
 
-`vite.config.ts` の lint の `overrides` で、部品のフォルダの `hooks/`・`utils/` と、`src/styles/stories/` の下のフォルダの中のファイルにだけ、`../` を 1 つ許している。ほかの場所では、今までどおり `../` が止まる。
+`vite.config.ts` の lint の `overrides` で、部品のフォルダの `hooks/`・`utils/`、テストの `__tests__/`、`src/styles/stories/` の下のフォルダの中のファイルにだけ、`../` を 1 つ許している。ほかの場所では、今までどおり `../` が止まる。
 
 ```ts
 overrides: [
   {
-    files: ["src/components/**/hooks/**", "src/components/**/utils/**", "src/styles/stories/*/**"],
+    files: ["src/components/**/hooks/**", "src/components/**/utils/**", "src/**/__tests__/**", "src/styles/stories/*/**"],
     rules: {
       "no-restricted-imports": ["error", { patterns: [{ group: ["../../*", "../../**"], message: "…" }] }],
     },
@@ -59,6 +60,8 @@ overrides: [
 | `ThemeToggle/hooks/`               | `../utils/theme`                 | 通る                 |
 | `ThemeToggle/hooks/`               | `../../../../../constants/theme` | 止まる（2 つ以上上） |
 | `ui/Card/`（部品のフォルダの直下） | `../Button/Button`               | 止まる（別の部品へ） |
+| `ThemeToggle/utils/__tests__/`     | `../theme`                       | 通る                 |
+| `ThemeToggle/utils/__tests__/`     | `../../index`                    | 止まる（2 つ以上上） |
 
 `.mdx`（Storybook のページ）は Oxlint の対象ではないので、決まりは手で守る（`primitive/color.mdx` から `../blocks/PaletteTokens`）。
 

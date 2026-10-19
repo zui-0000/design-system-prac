@@ -80,13 +80,14 @@ export default defineConfig({
     },
     overrides: [
       {
-        // 部品のフォルダの hooks/・utils/ と、styles/stories/ の下のフォルダの中だけ、../ を 1 つ許す。
-        // 1 つ上がっても同じまとまり（部品のフォルダ、styles/stories/）の中に留まり、
-        // hooks/useTheme.ts から ../utils/theme を読むような、まとまりの中の import を短く書ける。
-        // 2 つ以上上がる（../../）と、まとまりの外に出るので止める
+        // 部品のフォルダの hooks/・utils/、テストの __tests__/、styles/stories/ の下のフォルダの中だけ、../ を 1 つ許す。
+        // 1 つ上がっても同じまとまり（部品のフォルダ、確かめるファイルのフォルダ、styles/stories/）の中に留まり、
+        // hooks/useTheme.ts から ../utils/theme、utils/__tests__/theme.test.ts から ../theme を読むような、
+        // まとまりの中の import を短く書ける。2 つ以上上がる（../../）と、まとまりの外に出るので止める
         files: [
           "src/components/**/hooks/**",
           "src/components/**/utils/**",
+          "src/**/__tests__/**",
           "src/styles/stories/*/**",
         ],
         rules: {
@@ -97,7 +98,7 @@ export default defineConfig({
                 {
                   group: ["../../*", "../../**"],
                   message:
-                    "2 つ以上上のフォルダへの相対パスは使わず、~/ から書いてください（../ は同じ部品のフォルダの中だけ。docs/09）",
+                    "2 つ以上上のフォルダへの相対パスは使わず、~/ から書いてください（../ は同じまとまりの中だけ。docs/09）",
                 },
               ],
             },
@@ -128,7 +129,23 @@ export default defineConfig({
     }),
   ]),
   test: {
+    // include・setupFiles・environment・globals は、使うプロジェクトの中だけに書く。
+    // 上に書くと両方のプロジェクトに引き継がれ、storybook のプロジェクトでは include が無視されて警告が出る（docs/16）
     projects: [
+      {
+        extends: true,
+        test: {
+          // React を使わない関数や hook を、確かめるファイルと同じ階層の __tests__/ に置いた *.test.ts(x) で確かめる。
+          // __tests__/ の外に置いたテストは動かず、tsconfig.app.json の型チェックで止まる（docs/16）
+          name: "unit",
+          include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+          // Node の上で、ブラウザの document や localStorage を真似る（docs/16）
+          environment: "jsdom",
+          // describe・test・expect を import せずに使う。型は tsconfig.test.json で、テストのファイルにだけ読ませる
+          globals: true,
+          setupFiles: ["./src/__setup__/setup.ts"],
+        },
+      },
       {
         extends: true,
         plugins: [

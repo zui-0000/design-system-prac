@@ -98,5 +98,5 @@ paths:
 - `../` が必要なとき（まとめ役の `index.ts` を通すと循環参照になるときなど）だけ、`// oxlint-disable-next-line no-restricted-imports -- 理由` を書いて例外にする
 - 循環参照は `vp run lint:deps` が止める
 - 同じフォルダと、1 つ下のフォルダのファイルは `./` で書く（`./Card.module.css`・`./hooks/useTheme`）。`~/` から書くと長くなるだけなので。2 つ以上下は `~/` から書く
-- 部品のフォルダの `hooks/`・`utils/` から、同じ部品のフォルダの中を読むときは `../` を 1 つ使う（`../utils/theme`）。`src/styles/stories/` の下のフォルダどうしも同じ（`../utils/parseTokens`）。lint の `overrides` で、そのフォルダの中だけ許している
+- 部品のフォルダの `hooks/`・`utils/` から、同じ部品のフォルダの中を読むときは `../` を 1 つ使う（`../utils/theme`）。テストの `__tests__/` から確かめるファイルを読むときも同じ（`../theme`）。`src/styles/stories/` の下のフォルダどうしも同じ（`../utils/parseTokens`）。lint の `overrides` で、そのフォルダの中だけ許している
 - 別の部品や `src/constants/` など、まとまりの外は、1 つ上がるだけで届いても `~/` から書く（`../Button/Button` ではなく `~/components/ui/Button/Button`）。相対パスは「同じまとまりの中」の印にする（`docs/09-import のパス.md`）

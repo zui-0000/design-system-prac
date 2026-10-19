@@ -1,0 +1,11 @@
+{
+  // テストのファイルの型チェック用。アプリのコードと同じ設定に、describe・test・expect の型だけを足す。
+  // アプリのコード（tsconfig.app.json）に足すと、間違えて expect を書いても型エラーにならないので分けている（docs/16）
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo",
+    "types": ["vite/client", "vite-plus/test/globals"]
+  },
+  "include": ["src/**/__tests__", "src/__setup__"],
+  "exclude": []
+}

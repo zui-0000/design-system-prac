@@ -34,7 +34,7 @@ vp install       # 依存関係をインストールする
 - `vp install` は中で pnpm 12.11.2 の `pnpm install` を実行するので、`pnpm install` を別に実行する必要はない
 
 - Node.js のバージョンは `package.json` の `devEngines.runtime` に書いてあり、`onFail` を `"error"` にしている。違うバージョンの Node.js で実行するとエラーになる
-- `vp install` の最後に `prepare` スクリプト（`vp config`）が動き、Git フックも有効になる
+- `vp install` の最後に `prepare` スクリプトが動く。`vp config` で Git フックを有効にし、`playwright install chromium` でテスト用のブラウザ（Chromium）を入れる
 
 ### 3. Git フックが有効になっているか確かめる
 
@@ -46,19 +46,26 @@ Git フックの有効・無効は各 PC のローカル設定（`git config cor
 
 表示されなければ `vp hooks enable` を実行する。
 
-### 4. テスト用のブラウザを入れる（任意）
+### 4. テスト用のブラウザが入ったか確かめる
 
-`vp test` を使うときだけ必要。Storybook で部品を見るだけなら飛ばしてよい。
+`vp test` を動かすために必要。2 の `vp install` で、`prepare` スクリプトが自動で入れる。
+
+- 初回は、Chromium など 3 つ（約 570MB）をダウンロードするので、`vp install` に 1 分半ほどかかる
+- 入れる先は、PC 全体で 1 か所（macOS では `~/Library/Caches/ms-playwright/`）。ほかのプロジェクトと共有する
+- ネットにつながっていないと、初回の `vp install` が `Failed to download` で失敗する。つながってから、もう一度 `vp install` を実行する
+
+`vp test` が通れば OK。
+
+ブラウザだけを消してしまったときは、手で入れ直す。依存が変わっていないと `vp install` は `Already up to date` で終わり、`prepare` が動かないため。
 
 ```zsh
 vp exec playwright install chromium
 ```
 
-`vp test` は、Storybook のストーリーを 1 つずつテストとして、Playwright の Chromium で動かす。
-ストーリーが壊れずに表示されるかと、アクセシビリティの違反がないかを確かめる。テストコードを書く必要はない。入れていないと `vp test` が失敗する。
+`vp test` は、次の 2 つをまとめて動かす。ブラウザが入っていないと、ストーリーのテストで失敗し、`vp test` が通らない。
 
-`vite.config.ts` の `test.projects` には `storybook` プロジェクトしかないので、普通の単体テスト（`*.test.ts`）を置いても今は実行されない。
-単体テストを書くときは、`projects` に単体テスト用のプロジェクトを足す。
+- ストーリーのテスト: Storybook のストーリーを 1 つずつテストとして、Playwright の Chromium で動かす。ストーリーが壊れずに表示されるかと、アクセシビリティの違反がないかを確かめる。テストコードを書く必要はない
+- 単体テスト（`__tests__/` の `*.test.ts`）: jsdom で動かす（[docs/16](docs/16-単体テスト.md)）
 
 ### 5. VS Code の拡張機能を入れる（任意）
 
@@ -82,7 +89,8 @@ VS Code を使うときだけ。拡張機能の画面で `@recommended` と検�
 | CSS の決まりを検査する           | `vp run lint:css`                    | 部品の CSS に色の値や色の材料、定義のない CSS 変数を書いていないか（[docs/12](docs/12-デザイントークン.md)） |
 | lint + フォーマット + 型チェック | `vp check`                           | 確認だけ。ファイルは書き換えない                                                                             |
 | 上記をまとめて自動修正           | `vp check --fix`                     | フォーマットと lint の自動修正をしてから型チェックする                                                       |
-| テストを実行する                 | `vp test`                            | ストーリーをテストとして実行する（単体テストは未設定）。Chromium が必要                                      |
+| テストを実行する                 | `vp test`                            | ストーリーのテストと単体テストを実行する。Chromium が必要                                                    |
+| 単体テストだけを実行する         | `vp test --project unit`             | `__tests__/` の `*.test.ts(x)` だけを jsdom で実行する                                                       |
 | テストを監視モードで実行する     | `vp test watch`                      | ファイルを保存するたびに再実行する                                                                           |
 | 依存関係をインストールする       | `vp install`                         | clone した直後や、`git pull` で lockfile が変わった後に実行する                                              |
 | パッケージを追加する             | `vp add <名前>` / `vp add -D <名前>` | `-D` は devDependencies に追加する                                                                           |
@@ -134,3 +142,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/13 Base UI と Button](docs/13-Base%20UI%20と%20Button.md): 段階 3 の始まり。Base UI の作法、ボタンの状態ごとの色とコントラスト、a11y のチェックをエラーにしたこと、アイコン（Lucide）の選び方と置き方
 - [docs/14 TS の値で見た目を変える](docs/14-TS%20の値で見た目を変える.md): CSS Modules で、状態は data 属性、種類はクラス、連続した値は CSS 変数で伝える使い分けと、その落とし穴
 - [docs/15 ダークモードを切り替える](docs/15-ダークモードを切り替える.md): 部品の CSS を変えずに `<html data-theme>` で配色を切り替える仕組み、`localStorage` に保存して画面を描く前に付ける理由、zustand を使わない理由、Toggle から Switch に変えた理由、Storybook の「配色」
+- [docs/16 単体テスト](docs/16-単体テスト.md): jsdom で動く `unit` のプロジェクトの設定、`globals: true` と tsconfig を分ける理由、テストの置き場所と名前の決まり
