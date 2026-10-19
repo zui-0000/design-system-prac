@@ -15,7 +15,7 @@ curl -fsSL https://vite.plus | bash
 
 インストールが終わったら**新しいターミナルを開き**、次のコマンドでバージョンを確認する。
 
-1.1.0 以上になっていれば OK。
+1.3.0 以上になっていれば OK。
 
 ```zsh
 vp --version
@@ -143,3 +143,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/14 TS の値で見た目を変える](docs/14-TS%20の値で見た目を変える.md): CSS Modules で、状態は data 属性、種類はクラス、連続した値は CSS 変数で伝える使い分けと、その落とし穴
 - [docs/15 ダークモードを切り替える](docs/15-ダークモードを切り替える.md): 部品の CSS を変えずに `<html data-theme>` で配色を切り替える仕組み、`localStorage` に保存して画面を描く前に付ける理由、zustand を使わない理由、Toggle から Switch に変えた理由、Storybook の「配色」
 - [docs/16 単体テスト](docs/16-単体テスト.md): jsdom で動く `unit` のプロジェクトの設定、`globals: true` と tsconfig を分ける理由、テストの置き場所と名前の決まり
+- [docs/17 Vite+ を更新する](docs/17-Vite+%20を更新する.md): `vp upgrade` → `vp migrate` の手順、このリポジトリで追加で確かめること、1.3.0 に上げたときの記録

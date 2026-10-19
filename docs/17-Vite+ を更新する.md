@@ -1,0 +1,85 @@
+# Vite+ を更新する
+
+記録日: 2026-10-20 / 対象: Vite+ 1.1.0 → 1.3.0
+
+Vite+ を新しいバージョンに上げる手順と、このリポジトリで追加で確かめること。最後に、1.3.0 に上げたときの記録を残す。
+
+## 手順
+
+```zsh
+vp upgrade --check   # 新しいバージョンがあるかだけを確かめる（入れない）
+vp upgrade           # 1. グローバルの vp を上げる（PC 全体の vp が変わる）
+vp migrate           # 2. プロジェクトの vite-plus を、グローバルの vp と同じバージョンにそろえる（install までする）
+vp toolchain vitest  # 3. 同梱の Vitest のバージョンを確かめる
+```
+
+- **グローバルを先に上げる**。`vp migrate` は「プロジェクトを、グローバルの `vp` と同じバージョンにそろえる」コマンドなので、グローバルが古いままだと何も変わらない
+- `vp migrate` が書き換えるのは、`pnpm-workspace.yaml` の catalog の `vite-plus`・`vite`（`@voidzero-dev/vite-plus-core` の別名）と、`vitest` の固定のバージョン。Git フックなど、最初に一度だけ行う設定には触らない
+- 上げたあとに困ったら、`vp upgrade --rollback` でグローバルの `vp` を前のバージョンに戻せる（直近の 3 つが残っている）
+
+TS で言えば、グローバルの `vp` は `npm i -g` で入れた CLI、プロジェクトの `vite-plus` は `package.json` の依存。Gradle で言えば、Gradle Wrapper のバージョンを上げるのと、`build.gradle.kts` のプラグインのバージョンを上げるのを、別々に行う感じ。
+
+## このリポジトリで追加で確かめること
+
+| 確かめること                                                                | 理由                                                                                                                                                                                            |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| catalog の `@vitest/browser-playwright`・`@vitest/coverage-v8` のバージョン | Storybook のテストのために、このリポジトリで足したもの。`vp toolchain vitest` の同梱のバージョンと同じにする。ずれると Vitest が 2 つ入る（[docs/02](02-Storybook%20を%20Vite+%20で動かす.md)） |
+| `pnpm-workspace.yaml` に `minimumReleaseAgeExclude` が足されていないか      | 公開されたばかりのパッケージを入れるために、pnpm が自動で足すことがある。足されていたら受け入れない                                                                                             |
+| `CLAUDE.md`                                                                 | Vite+ の目印を外して日本語にしたので、自動では新しくならない。`node_modules/vite-plus/AGENTS.md` と見比べて、変わったところを手で直す（[docs/02](02-Storybook%20を%20Vite+%20で動かす.md)）     |
+| リリースノート                                                              | 間のバージョンも含めて、このリポジトリに関係する変更がないかを読む（`gh release view v1.3.0 -R voidzero-dev/vite-plus`）                                                                        |
+| 全部の検査                                                                  | `vp check`・`vp test`・`vp run build`・`vp run lint:deps`・`vp run lint:css`・`vp run build-storybook`                                                                                          |
+
+## 1.3.0 に上げたとき（2026-10-20）
+
+1.1.0 から、1.2.0（2026-10-14）を飛ばして 1.3.0（2026-10-16）に上げた。
+
+### 変わったもの
+
+| もの                                                          | 前             | 後             |
+| ------------------------------------------------------------- | -------------- | -------------- |
+| `vite-plus`・`@voidzero-dev/vite-plus-core`                   | 1.1.0          | 1.3.0          |
+| `vitest`・`@vitest/browser-playwright`・`@vitest/coverage-v8` | 5.0.3          | 5.0.5          |
+| 同梱の Vite                                                   | 8.3.3          | 8.3.4          |
+| 同梱の Oxlint・Oxfmt                                          | 1.87.0・0.72.0 | 1.88.0・0.73.0 |
+| 同梱の oxlint-tsgolint（型を使う lint）                       | 7.0.2003       | 7.0.2004       |
+| `react`・`react-dom`（`package.json` の範囲）                 | `^19.3.0`      | `^19.3.1`      |
+| `playwright`（`package.json` の範囲）                         | `^1.64.0`      | `^1.64.1`      |
+
+- catalog の `vitest` と `@vitest/*` の 3 つは、どれも同梱の 5.0.5 にそろっていた。`vp why vitest` でも 5.0.5 の 1 つだけだった
+- `pnpm-workspace.yaml` の変更は catalog だけで、`minimumReleaseAgeExclude` は足されていなかった
+- `AGENTS.md` は、1.1.0 と 1.3.0 で中身が同じだった（npm から 1.1.0 を落として比べた）。`CLAUDE.md` は、先頭のコメントのバージョンだけを直した
+- `vp install` のときに出ていた「非推奨のサブ依存が 24 個ある」（`@yuku-parser`・`@yuku-codegen` 0.9.5）の警告は、`@yuku-core` 0.19.0 に変わって出なくなった
+- Storybook の peerDependencies の警告（`vite-plus` に `^0.1.15 || ^0.2.0` を求める）は、上げる前から出ていたもので、変わらない
+
+### リリースノートで、このリポジトリに関係しそうなもの
+
+| バージョン | 変わったこと                                                                                               | このリポジトリでは                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1.2.0      | Oxlint・Oxfmt が上がり、前は通ったコードが引っかかることがある                                             | `vp check` は通った                                                                               |
+| 1.2.0      | 型を使う lint で、行ごとの除外のコメント（`oxlint-disable-next-line`）の効く位置が元に戻った               | 除外のコメントを使っていないので、関係ない                                                        |
+| 1.2.0      | Vitest が、結果のキャッシュをディスクに残すようになった                                                    | `vp test` は通った。作業ツリーに余計なファイルは増えていない                                      |
+| 1.2.0      | Git フックが、`~/.vite-plus/bin` を `PATH` に足さなくなった。プロジェクトの `node_modules/.bin` を先に使う | このリポジトリは `vite-plus` を依存に入れているので、フックはそのまま動いた（コミットで確かめた） |
+| 1.3.0      | `vp staged`（コミットのとき）の表示が、検査ごとに 1 行になった                                             | 表示が短くなっただけ                                                                              |
+| 1.3.0      | `vp create`・`vp migrate` で選べる AI の道具から、`CLAUDE.md` が消えた（今ある `CLAUDE.md` は使える）      | 今ある `CLAUDE.md` をそのまま使う                                                                 |
+
+### 確かめたこと
+
+| 検査                     | 結果                                                      |
+| ------------------------ | --------------------------------------------------------- |
+| `vp check`               | 通った                                                    |
+| `vp test`                | 27 件（ストーリー 12 件、単体テスト 15 件）がすべて通った |
+| `vp run build`           | 通った                                                    |
+| `vp run lint:deps`       | 違反なし                                                  |
+| `vp run lint:css`        | 通った                                                    |
+| `vp run build-storybook` | 通った                                                    |
+
+### まだ決めていないこと
+
+1.3.0 の docs（`node_modules/vite-plus/docs/guide/env.md`）は、pnpm 11 以降で Vite+ に Node.js と pnpm のバージョンを任せるなら、`pnpm-workspace.yaml` に次の 2 つを書くよう勧めている。
+
+```yaml
+runtimeOnFail: ignore # pnpm が、宣言された Node.js などを自分で用意しない
+pmOnFail: ignore # pnpm が、package.json に書いた pnpm のバージョンに切り替えない
+```
+
+このリポジトリは、`package.json` の `devEngines.runtime` を `onFail: "error"` にして、違うバージョンの Node.js ならエラーにしている（[docs/01](01-学習の進め方.md) の「ツールの決まり」）。今の形で困っていないので、今回は入れていない。入れるかどうかは、別に確かめてから決める。

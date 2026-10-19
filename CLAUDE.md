@@ -1,5 +1,5 @@
 <!--
-vite-plus 1.1.0 の node_modules/vite-plus/AGENTS.md を日本語にしたもの。
+vite-plus 1.3.0 の node_modules/vite-plus/AGENTS.md を日本語にしたもの（元のファイルは 1.1.0 から 1.3.0 で変わっていない）。
 Vite+ の目印（VITE PLUS START / END のコメント）を外してあるので、
 vp config（vp install のたびに prepare で動く）が英語のテンプレートで上書きしない。
 Vite+ を更新したら、元のファイルと見比べて、変わったところを手で反映する。
