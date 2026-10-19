@@ -144,6 +144,10 @@ export default defineConfig({
           // describe・test・expect を import せずに使う。型は tsconfig.test.json で、テストのファイルにだけ読ませる
           globals: true,
           setupFiles: ["./src/__setup__/setup.ts"],
+          // テストが終わるたびに、vi.stubGlobal で差し替えたもの（matchMedia の偽物など）と、
+          // vi.spyOn で差し替えた関数を元に戻す。前のテストの差し替えが、次のテストに残らないようにする
+          unstubGlobals: true,
+          restoreMocks: true,
         },
       },
       {

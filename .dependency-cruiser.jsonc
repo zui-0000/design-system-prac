@@ -46,6 +46,15 @@
       }
     },
     {
+      // テストのためのファイル（偽物など）を、アプリのコードに入れない。
+      // tsc -b は偽物の中の vi で止まるが、vp check（コミット時）は止まらなかったので、ここで止める
+      "name": "no-test-support-in-app",
+      "comment": "テストのためのファイル（src/__setup__/）を、アプリのコードから import しています。__tests__/ のテストからだけ使ってください（docs/16）",
+      "severity": "error",
+      "from": { "path": "^src/", "pathNot": "(^src/__setup__/|/__tests__/)" },
+      "to": { "path": "^src/__setup__/" }
+    },
+    {
       // ページどうしを絡ませない
       "name": "no-cross-page",
       "comment": "別のページを import しています。共有したい部品は ui/ か features/ に移してください（docs/06）",
