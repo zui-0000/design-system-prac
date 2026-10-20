@@ -25,6 +25,15 @@
   box-sizing: border-box;
 }
 
+/*
+ * アプリの外枠（index.html の #root）に、重なりの順番の区切り（スタッキングコンテキスト）を作る。
+ * ダイアログなどのポップアップは、Base UI が <body> の直下（#root の外）に出す。
+ * 区切りがあれば、アプリの中でどんな z-index を使っても、ポップアップより上に出ない（Base UI の Quick start、docs/19）
+ */
+#root {
+  isolation: isolate;
+}
+
 /* ブラウザが見出しや段落に付ける margin を消す。余白は部品の側で決める */
 body,
 h1,

@@ -6,8 +6,9 @@ type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   /**
    * ボタンの種類。何も指定しなければ secondary。
    * primary（目立たせるボタン）は、1 つの領域に 1 つだけにする（.claude/rules/ux.md の「見た目の強弱」）。
+   * danger は、削除などの取り消せない操作。確認ダイアログの中でだけ使う（docs/19）。
    */
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "danger";
 };
 
 /**

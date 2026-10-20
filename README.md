@@ -145,3 +145,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/16 単体テスト](docs/16-単体テスト.md): jsdom で動く `unit` のプロジェクトの設定、`globals: true` と tsconfig を分ける理由、テストの置き場所と名前の決まり
 - [docs/17 Vite+ を更新する](docs/17-Vite+%20を更新する.md): `vp upgrade` → `vp migrate` の手順、このリポジトリで追加で確かめること、1.3.0 に上げたときの記録
 - [docs/18 pnpm の設定](docs/18-pnpm%20の設定.md): `pnpm-workspace.yaml` に足した設定（`pmOnFail`・`autoDedupe`・`minimumReleaseAge`・`trustPolicy`）と、入れなかった設定、新しすぎる版で止まったときの直し方
+- [docs/19 確認ダイアログ](docs/19-確認ダイアログ.md): Dialog ではなく AlertDialog を包む理由、パーツの分け方、`isolation: isolate` と z-index、削除したあとのフォーカス、`play` 関数で動きを確かめる方法

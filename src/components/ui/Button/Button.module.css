@@ -55,6 +55,12 @@
   --button-foreground: var(--color-secondary-foreground);
 }
 
+/* 取り消せない操作（削除など）。確認ダイアログの中でだけ使う（docs/19） */
+.danger {
+  --button-background: var(--color-destructive);
+  --button-foreground: var(--color-destructive-foreground);
+}
+
 /*
  * マウスを乗せたとき・押しているときは、背景の色を --color-foreground（ページの文字の色）に少し寄せる。
  * 明るい配色では暗く、暗い配色では明るくなる。

@@ -44,6 +44,22 @@
     var(--color-primitive-blue-100)
   );
 
+  /*
+   * 取り消せない操作（削除など）のボタン。確認ダイアログの「削除する」に使う（docs/19）。
+   * 色は --color-error（エラーの文字）と同じ赤だが、役目が違うので分ける（こちらは背景、あちらは文字）
+   */
+  --color-destructive: light-dark(var(--color-primitive-red-800), var(--color-primitive-red-400));
+  --color-destructive-foreground: light-dark(
+    var(--color-neutral-white),
+    var(--color-neutral-solid-gray-900)
+  );
+
+  /* ダイアログの後ろに敷く幕。ページを暗くして、ダイアログに目を向けさせる（docs/19） */
+  --color-overlay: light-dark(
+    var(--color-neutral-opacity-gray-300),
+    var(--color-neutral-opacity-gray-500)
+  );
+
   /* 枠線（飾りの線。入力欄の枠のように形を見せる線には 3:1 以上の色を使う） */
   --color-border: light-dark(
     var(--color-neutral-solid-gray-200),

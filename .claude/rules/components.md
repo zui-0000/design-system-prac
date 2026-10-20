@@ -23,6 +23,8 @@ paths:
 - アイコンは `lucide-react` を使い、`SaveIcon` のように `Icon` の付いた名前で import する。大きさ（`size`）は使う側で渡さず、置き場所の部品の CSS（`.button svg` など）で `--size-icon` を使って決める。文字と一緒に置くアイコンには何も付けない（Lucide が `aria-hidden` を付ける）。アイコンだけのボタンには `aria-label` で名前を付ける（`docs/13-Base UI と Button.md`）
 - 見た目をそろえるため、`ui/` の部品は `className` と `style` を受け付けない。置く位置や間隔は、使う側の親が決める
 - 部品を作ったら、必ずストーリーを書く（Storybook で一覧にするため）。タイトルは `UI/<部品名>`
+- 開け閉めやフォーカスの移動など、操作で変わる動きは、ストーリーの `play` 関数で確かめる。ポータルで `<body>` の直下に出る要素は `screen` から、役割と名前（`getByRole`）で探す。フォーカスは移るまでに時間がかかることがあるので、`waitFor` で待ってから確かめる（`docs/19-確認ダイアログ.md`）
+- 削除・退会・公開などの取り消せない操作は、`AlertDialog` で確認を挟む。キャンセル（`AlertDialogCancel`）を先に、実行するボタン（`AlertDialogAction`）を後に置く。`Button` の `variant="danger"` は、確認ダイアログの中でだけ使う
 
 ## `src/components/features/`（機能ごとの部品）
 

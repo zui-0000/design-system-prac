@@ -1,34 +1,58 @@
+import { useEffect, useRef } from "react";
+
 import { CardList } from "~/components/features/Card/CardList";
+import { DeleteConfirmDialog } from "~/components/features/Card/DeleteConfirmDialog";
+import { useCards } from "~/components/features/Card/hooks/useCards";
 import { Header } from "~/components/layouts/Header";
 import { Button } from "~/components/ui/Button/Button";
 import { Card } from "~/components/ui/Card/Card";
 
 import styles from "./index.module.css";
 
-const action = <Button>詳しく見る</Button>;
-
 /** CSS の練習に使うページ */
 export const PracticePage = () => {
+  // カードは、削除の確認ダイアログ（docs/19）で消せる。再読み込みすると元に戻る
+  const { cards, lastDeletedCard } = useCards();
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  // 削除すると、ダイアログを開いた「削除」ボタンもカードごと消え、閉じたあとのフォーカスの戻り先がなくなる
+  // （<body> に落ちて、キーボードの人は今どこにいるか分からなくなる）。代わりにページの見出しへ移す
+  useEffect(() => {
+    if (lastDeletedCard) {
+      headingRef.current?.focus();
+    }
+  }, [lastDeletedCard]);
+
   return (
     <>
       <Header />
       <main className={styles.page}>
-        <h1>練習ページ</h1>
-        <CardList>
-          <Card title="短い本文" footer={action}>
-            1 行だけ。
-          </Card>
-          <Card title="長い本文" footer={action}>
-            本文が長いカード。Grid
-            は同じ行の高さをそろえるので、短いカードも同じ高さに伸び、ボタンは一番下にそろう。
-          </Card>
-          <Card title="中くらいの本文" footer={action}>
-            2 行くらいになる長さの本文を入れておく。
-          </Card>
-          <Card title="4 枚目" footer={action}>
-            画面の幅が足りなければ、次の行に回る。
-          </Card>
-        </CardList>
+        {/* tabIndex={-1}: Tab では止まらないが、削除のあとにフォーカスを移せるようにする */}
+        <h1 ref={headingRef} tabIndex={-1}>
+          練習ページ
+        </h1>
+        {/* 削除したことを、画面と読み上げソフトに知らせる。中身が変わると読み上げるよう、最初から置いておく */}
+        <p role="status">{lastDeletedCard && `「${lastDeletedCard.title}」を削除しました。`}</p>
+        {cards.length > 0 ? (
+          <CardList>
+            {cards.map((card) => (
+              <Card
+                key={card.id}
+                title={card.title}
+                footer={
+                  <>
+                    <Button>詳しく見る</Button>
+                    <DeleteConfirmDialog card={card} />
+                  </>
+                }
+              >
+                {card.body}
+              </Card>
+            ))}
+          </CardList>
+        ) : (
+          <p>カードはすべて削除しました。ページを再読み込みすると、元に戻ります。</p>
+        )}
       </main>
     </>
   );

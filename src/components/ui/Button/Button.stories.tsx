@@ -24,6 +24,14 @@ export const Primary: Story = {
   },
 };
 
+/** 取り消せない操作のボタン。確認ダイアログの中でだけ使う */
+export const Danger: Story = {
+  args: {
+    variant: "danger",
+    children: "削除する",
+  },
+};
+
 /** 無効のボタン。種類に関係なく、控えめな色になる */
 export const Disabled: Story = {
   args: {
