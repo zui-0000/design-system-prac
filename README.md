@@ -146,3 +146,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/17 Vite+ を更新する](docs/17-Vite+%20を更新する.md): `vp upgrade` → `vp migrate` の手順、このリポジトリで追加で確かめること、1.3.0 に上げたときの記録
 - [docs/18 pnpm の設定](docs/18-pnpm%20の設定.md): `pnpm-workspace.yaml` に足した設定（`pmOnFail`・`autoDedupe`・`minimumReleaseAge`・`trustPolicy`）と、入れなかった設定、新しすぎる版で止まったときの直し方
 - [docs/19 確認ダイアログ](docs/19-確認ダイアログ.md): Dialog ではなく AlertDialog を包む理由、パーツの分け方、`isolation: isolate` と z-index、削除したあとのフォーカス、`play` 関数で動きを確かめる方法
+- [docs/20 フルスタックのモノレポを試す](docs/20-フルスタックのモノレポを試す.md): Vite+ のモノレポで、oRPC の約束・CSS Modules の共有・MSW 3 の偽物の API・Hono の本物の API が組めるかを試した結果
