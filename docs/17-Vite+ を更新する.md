@@ -85,3 +85,29 @@ pmOnFail: ignore # pnpm が、package.json に書いた pnpm のバージョン�
 このリポジトリは、`package.json` の `devEngines.runtime` を `onFail: "error"` にして、違うバージョンの Node.js ならエラーにしている（[docs/01](01-学習の進め方.md) の「ツールの決まり」）。今の形で困っていないので、今回は入れていない。入れるかどうかは、別に確かめてから決める。
 
 2026-10-20 に決めた: `pmOnFail: ignore` は入れ、`runtimeOnFail` は入れない（[docs/18](18-pnpm%20の設定.md)）。
+
+## Node.js を上げる
+
+Node.js は、`package.json` の `devEngines.runtime` に具体的な版で書き、Vite+ が nodejs.org から落とす（[docs/20](20-フルスタックのモノレポを試す.md) の「`vp install` 1 回で、3 つともそろう」）。npm のパッケージではないので、pnpm の 2 日のルール（[docs/18](18-pnpm%20の設定.md)）は効かない。
+
+```zsh
+# package.json の devEngines.runtime.version を書き換えてから
+vp install            # 書いた版の Node.js が無ければ、Vite+ が落とす
+vp exec node --version
+```
+
+README の「`vp env install` で入る版」も一緒に直す。
+
+### 24.22.1 に上げたとき（2026-10-21）
+
+24.21.0 から、セキュリティリリースの 24.22.1 に上げた。公式の一覧（`https://nodejs.org/dist/index.json`）の `security: true` で、セキュリティリリースかどうかが分かる。
+
+| 深刻さ | 場所         | 直ったこと（リリースノートの要約）                                    |
+| ------ | ------------ | --------------------------------------------------------------------- |
+| High   | tls          | 普通でない書き方の IP アドレスを弾く。IP アドレスをそろえる処理のバグ |
+| High   | dns          | 名前を引くときの入力のヌル文字を確かめる                              |
+| High   | Brotli       | 依存しているライブラリの修正を取り込む                                |
+| Medium | http・crypto | 接続の使い回しの見張り、スナップショットをまたぐ乱数のキャッシュ      |
+| Low    | permission   | `realpathSync` で権限の決まりを確かめる                               |
+
+上げたあと、`vp check`・`vp test`・`vp run build`・`vp run lint:deps`・`vp run lint:css` が通った。

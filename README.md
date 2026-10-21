@@ -27,7 +27,7 @@ vp upgrade
 ### 2. Node.js・pnpm・依存関係をインストールする
 
 ```zsh
-vp env install   # Node.js 24.21.0 と pnpm 12.11.2 を入れる
+vp env install   # Node.js 24.22.1 と pnpm 12.11.2 を入れる
 vp install       # 依存関係をインストールする
 ```
 
