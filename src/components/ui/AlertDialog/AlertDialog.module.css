@@ -26,7 +26,7 @@
   gap: var(--spacing-12);
 
   /* 広い画面では 28rem まで。狭い画面では、左右に 16px ずつあける */
-  width: min(28rem, calc(100vw - var(--spacing-16) * 2));
+  width: min(28rem, 100vw - var(--spacing-16) * 2);
   padding: var(--spacing-24);
 
   /* 暗い配色では影がほとんど見えないので、枠線でも形を見せる */
@@ -60,6 +60,12 @@
 }
 
 /* 動きを減らす設定の人には、出るとき・消えるときの動きを付けない */
+/*
+ * 出るとき・消えるときに、透明で少し小さい姿と、ふだんの姿の間を、150ms かけてつなぐ。
+ * - 開くとき: Base UI が最初の一瞬だけ data-starting-style を付け、すぐ外す。始まりの姿から、ふだんの姿へ変わる
+ * - 閉じるとき: Base UI が data-ending-style を付け、動きが終わるのを待ってから要素を取り除く
+ * 幕は透明さだけを変える（大きさまで変えると、画面全体が揺れて見える）
+ */
 @media (prefers-reduced-motion: no-preference) {
   .backdrop {
     transition: opacity 150ms;
