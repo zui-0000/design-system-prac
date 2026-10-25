@@ -63,7 +63,7 @@ export default {
       { message: (name) => `${name}() で色を作らず、${useColorToken}` },
     ],
 
-    // 色の材料（tokens/primitive/color.css のトークン）を使わない。ダークモードで切り替わらなくなる
+    // 色の材料（tokens/primitive/base-color.css のトークン）を使わない。ダークモードで切り替わらなくなる
     "declaration-property-value-disallowed-list": [
       { "/.*/": ["/--color-(primitive|neutral)-/"] },
       {

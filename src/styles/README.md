@@ -10,7 +10,7 @@ styles/
 ├── reset.css                ブラウザの見た目の癖を消す（box-sizing、margin、ボタンの書体）。トークンは使わない
 ├── tokens/                  トークンだけを置く
 │   ├── primitive/
-│   │   └── color.css        色の材料。部品からは使わない
+│   │   └── base-color.css   色の材料。部品からは使わない
 │   ├── color.css            色（意味のトークン）
 │   ├── font.css             書体・文字サイズ・文字の太さ
 │   ├── line-height.css      行の高さ
@@ -30,10 +30,10 @@ styles/
     ├── size.mdx             Design Tokens/Size
     ├── z-index.mdx          Design Tokens/Z Index
     ├── primitive/
-    │   └── color.mdx        Design Tokens/Primitive/Color
+    │   └── base-color.mdx   Design Tokens/Primitive/Base Color
     ├── blocks/              ページに置く部品（見本を描く）
     │   ├── ColorTokens.tsx      Color のページ
-    │   ├── PaletteTokens.tsx    Primitive/Color のページ
+    │   ├── PaletteTokens.tsx    Primitive/Base Color のページ
     │   ├── ScaleTokens.tsx      残りの 7 ページ（見本の描き方を kind で選ぶ）
     │   ├── panel.module.css     一覧を囲む、今の配色の面
     │   └── *.module.css         部品ごとの見た目
@@ -43,7 +43,7 @@ styles/
 
 ## 部品から使うトークン
 
-**`tokens/primitive/color.css` のトークンは、部品から使わない。** 色は `tokens/color.css` のトークンだけを使う。
+**`tokens/primitive/base-color.css` のトークンは、部品から使わない。** 色は `tokens/color.css` のトークンだけを使う。
 
 `primitive` は、TS のプリミティブ型（`string`・`number`）と同じ言葉で、意味の名前が付く前の材料の値のこと。部品が使うのは、意味の名前が付いた `tokens/color.css` のほう。TS で、`string` のまま使い回さずに `type Email = string` を作って使うのと同じ（[docs/12](../../docs/12-デザイントークン.md) の「primitive という名前」）。
 

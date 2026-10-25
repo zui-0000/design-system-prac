@@ -63,7 +63,7 @@ overrides: [
 | `ThemeToggle/utils/__tests__/`     | `../theme`                       | 通る                 |
 | `ThemeToggle/utils/__tests__/`     | `../../index`                    | 止まる（2 つ以上上） |
 
-`.mdx`（Storybook のページ）は Oxlint の対象ではないので、決まりは手で守る（`primitive/color.mdx` から `../blocks/PaletteTokens`）。
+`.mdx`（Storybook のページ）は Oxlint の対象ではないので、決まりは手で守る（`primitive/base-color.mdx` から `../blocks/PaletteTokens`）。
 
 `@` ではなく `~` にしたのは、`@storybook/react-vite` のような、スコープ付きの npm パッケージと見分けるため。
 
