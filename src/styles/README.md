@@ -7,7 +7,7 @@
 ```text
 styles/
 ├── main.css                 入口。トークンと reset.css を読み込み、body と #root の土台を書く（main.tsx と .storybook/preview.tsx が読み込む）
-├── reset.css                ブラウザの見た目の癖を消す（box-sizing、margin、ボタンの書体）。トークンは使わない
+├── reset.css                ブラウザの見た目の癖を消す。中身は kiso.css（npm）に任せ、変えるものだけを書く。トークンは使わない
 ├── tokens/                  トークンだけを置く
 │   ├── primitive/
 │   │   └── base-color.css   色の材料。部品からは使わない

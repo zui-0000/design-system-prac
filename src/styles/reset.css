@@ -1,31 +1,22 @@
 /*
- * ブラウザが初めから付けている見た目の癖を消す。
- * トークンを使わない（どのプロジェクトでも同じ中身になる）。このアプリの土台は main.css に書く
+ * ブラウザが初めから付けている見た目の癖を消す。トークンを使わない。このアプリの土台は main.css に書く。
+ *
+ * 中身は kiso.css（https://github.com/tak-dcxi/kiso.css、MIT License）に任せる。
+ * 2026 年のブラウザと、日本語の組版（和文と英数字の間、行頭の禁則）に合わせてあり、
+ * すべて :where() で書かれているので強さが 0。部品のクラスに必ず負ける（docs/12）。
+ * 版は package.json で固定している。中身は node_modules/kiso.css/kiso.css で読める
+ */
+@import "kiso.css";
+
+/*
+ * ここから下は、kiso.css の上で、このプロジェクトが変えるもの。
+ * kiso.css と同じく :where() で強さを 0 にし、部品のクラスに負けるようにする
  */
 
 /*
- * width / height に padding と border を含める。
- * 初期値の content-box だと、width: 200px に padding: 16px を足すと 232px になり、計算が狂う。
+ * kiso.css は h1 にだけ、ブラウザと同じ上下の余白（0.67em）を残している。
+ * このプロジェクトでは、余白は部品とページの側で決めるので、ほかの見出しと同じく 0 にする
  */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* ブラウザが見出しや段落に付ける margin を消す。余白は部品の側で決める */
-body,
-h1,
-h2,
-h3,
-p {
-  margin: 0;
-}
-
-/* ボタンや入力欄は、ブラウザの初期設定では親の書体と文字サイズを受け継がない。受け継ぐようにする */
-button,
-input,
-select,
-textarea {
-  font: inherit;
+:where(h1) {
+  margin-block: 0;
 }

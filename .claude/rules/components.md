@@ -93,7 +93,7 @@ paths:
 - 余白は `--spacing-*`、部品そのものの大きさは `--size-*`（押せる部品の最小の大きさは `--size-touch-target`、部品の中に置くアイコンは `--size-icon`）、文字サイズは `--font-size-*`、角丸は `--border-radius-*`、影は `--elevation-*`、重なりは `--z-index-*` から選ぶ。合う値がなければ、値を直接書く前にトークンを足すか相談する
 - トークンを足すときは、名前を `--<ファイル名>-` で始め、そのファイルに置く（`--font-*` は `font.css`、`--line-height-*` は `line-height.css`）。新しい種類なら、ファイルを足して `main.css` で読み込む。Storybook のページ（`src/styles/stories/<ファイル名>.mdx`、タイトルは `Design Tokens/<名前>`）も足し、`.storybook/preview.tsx` の `storySort` に並び順を足す
 - レイアウトの境目（`minmax(min(16rem, 100%), 1fr)` の `16rem`、`@container (width < 30rem)` の `30rem` など）は、部品ごとの値なので直接書いてよい
-- `src/styles/` にはクラスを置かない。`main.css` は入口（トークンと `reset.css` を読み込み、`body`・`#root` の土台を書く）、`reset.css` はブラウザの見た目の癖を消すだけ（トークンを使わない）
+- `src/styles/` にはクラスを置かない。`main.css` は入口（トークンと `reset.css` を読み込み、`body`・`#root` の土台を書く）、`reset.css` はブラウザの見た目の癖を消すだけ（中身は kiso.css。変えるものだけを `:where()` で書き、トークンを使わない）
 - 見た目のクラスは、使う部品の CSS Modules に書く（スクリーンリーダーにだけ読ませる文字は、Header の `.visuallyHidden`）。ほかの部品でも同じものが要るようになったら、書き写さずに `ui/` の部品にする（`ui/VisuallyHidden` など）
 
 ## import のパス
