@@ -69,6 +69,6 @@ VS Code では、おすすめの拡張機能（CSS Variable Autocomplete）を�
 vp run lint:css
 ```
 
-部品の CSS に、色の値（`#fff` など）や色の材料（`--color-primitive-*` など）を書いていないか、定義のない CSS 変数（打ち間違い）を使っていないか、配色ごとの書き分け（`@media (prefers-color-scheme)` など）をしていないかを、Stylelint で確かめる。コミット時にも動く。VS Code では、おすすめの拡張機能（Stylelint）を入れると、書いている最中に赤線が出る。
+部品の CSS に、色の値（`#fff` など）や色の材料（`--color-primitive-*` など）を書いていないか、定義のない CSS 変数（打ち間違い。Base UI が付ける `--available-height` などは定義のある名前として扱う）を使っていないか、配色ごとの書き分け（`@media (prefers-color-scheme)` など）をしていないかを、Stylelint で確かめる。コミット時にも動く。VS Code では、おすすめの拡張機能（Stylelint）を入れると、書いている最中に赤線が出る。
 
 検査するルールは、リポジトリのルートの [`stylelint.config.js`](../../stylelint.config.js) を参照。

@@ -9,8 +9,11 @@ type AlertDialogProps = Pick<
   BaseAlertDialog.Root.Props,
   "open" | "onOpenChange" | "defaultOpen"
 > & {
-  /** 押すとダイアログを開くボタン（<Button>削除</Button> など） */
-  trigger: ReactElement;
+  /**
+   * 押すとダイアログを開くボタン（<Button>削除</Button> など）。
+   * メニューの項目から開くときは渡さず、open と onOpenChange で開け閉めする（docs/21）
+   */
+  trigger?: ReactElement;
   /** AlertDialogTitle・AlertDialogDescription・AlertDialogActions を並べる */
   children: ReactNode;
 };
@@ -23,7 +26,7 @@ type AlertDialogProps = Pick<
 export const AlertDialog = ({ trigger, children, ...props }: AlertDialogProps) => {
   return (
     <BaseAlertDialog.Root {...props}>
-      <BaseAlertDialog.Trigger render={trigger} />
+      {trigger && <BaseAlertDialog.Trigger render={trigger} />}
       <BaseAlertDialog.Portal>
         <BaseAlertDialog.Backdrop className={styles.backdrop} />
         <BaseAlertDialog.Popup className={styles.popup}>{children}</BaseAlertDialog.Popup>

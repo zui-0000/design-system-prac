@@ -17,6 +17,18 @@ const noThemeBranch =
 // プラグインは相対パスを実行した場所から探すので、どこから実行しても同じになるよう絶対パスにする
 const tokenEntry = path.join(import.meta.dirname, "src/styles/global.css");
 
+// Base UI が、動いている間に部品の要素へ付ける CSS 変数（ポップアップの位置や、使える高さなど）。
+// トークンではないので global.css には無いが、使ってよい名前として教える。
+// 使うものだけを足す。値は Base UI が入れるので、ここでは名前だけを渡す（docs/21）
+const baseUiCustomProperties = {
+  customProperties: Object.fromEntries(
+    [
+      "--available-height", // ポップアップを出せる残りの高さ（Menu など）
+      "--transform-origin", // ポップアップが広がる起点（trigger の側）
+    ].map((name) => [name, ""]),
+  ),
+};
+
 /** @type {import('stylelint').Config} */
 export default {
   plugins: ["stylelint-value-no-unknown-custom-properties"],
@@ -27,12 +39,13 @@ export default {
 
   rules: {
     // 定義のない CSS 変数を使わない。打ち間違えても、CSS はエラーにならず、その指定がなかったことになるため。
-    // 定義のある名前は、global.css が読み込むトークンと、同じファイルで定義した変数（--button-* など）。
+    // 定義のある名前は、global.css が読み込むトークンと、同じファイルで定義した変数（--button-* など）と、
+    // Base UI が付ける変数（baseUiCustomProperties）。
     // 色の材料もトークンとして定義はあるので、ここでは止めない（下の declaration-property-value-disallowed-list が止める）
     "csstools/value-no-unknown-custom-properties": [
       true,
       {
-        importFrom: [tokenEntry],
+        importFrom: [tokenEntry, baseUiCustomProperties],
         message: (name) =>
           `${name} は定義されていない CSS 変数です。打ち間違いがないか、src/styles/tokens/ のトークンの名前を確かめてください（docs/12）`,
       },

@@ -57,3 +57,31 @@ describe("deleteCard", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 });
+
+describe("duplicateCard", () => {
+  test("複製した場合、元のカードのすぐ後ろに、新しい id とコピーの見出しで足すこと", async () => {
+    const { duplicateCard, getCardsState } = await loadCards();
+    const [first, second] = getCardsState().cards;
+
+    duplicateCard(first);
+
+    const { cards } = getCardsState();
+    expect(cards).toHaveLength(5);
+    expect(cards[0]).toBe(first);
+    expect(cards[1]).toMatchObject({ id: 5, title: `${first.title}のコピー`, body: first.body });
+    expect(cards[2]).toBe(second);
+  });
+
+  test("複製した場合、登録した相手に知らせ、最後に削除したカードは変えないこと", async () => {
+    const { deleteCard, duplicateCard, getCardsState, subscribeCards } = await loadCards();
+    const [first, second] = getCardsState().cards;
+    deleteCard(first);
+    const onChange = vi.fn();
+    subscribeCards(onChange);
+
+    duplicateCard(second);
+
+    expect(onChange).toHaveBeenCalledOnce();
+    expect(getCardsState().lastDeletedCard).toBe(first);
+  });
+});

@@ -2,7 +2,7 @@
  * カードの一覧の読み書き。React を使わない、ただの関数と状態だけを置く（ThemeToggle/utils/theme.ts と同じ形）。
  * React には hooks/useCards.ts がつなぐ。一覧を使うのは、ページ（並べる）と DeleteConfirmDialog（消す）なので、
  * どちらからも読めるよう、部品のフォルダではなく features/Card/ の直下に置く（docs/19）。
- * 外に出すのは getCardsState・subscribeCards・deleteCard の 3 つ。
+ * 外に出すのは getCardsState・subscribeCards・duplicateCard・deleteCard の 4 つ。
  * 練習ページのための一覧なので、メモリの中だけに持つ。再読み込みすると元に戻る
  */
 
@@ -51,11 +51,27 @@ export const subscribeCards = (onChange: () => void) => {
   };
 };
 
+/** 一覧を新しい状態に置き換え、登録された相手に知らせる */
+const update = (next: CardsState) => {
+  state = next;
+  listeners.forEach((onChange) => onChange());
+};
+
+/** カードの写しを、元のカードのすぐ後ろに足す。id は今ある一番大きい id の次にする */
+export const duplicateCard = (card: CardData) => {
+  const id = Math.max(0, ...state.cards.map((current) => current.id)) + 1;
+  const copy = { ...card, id, title: `${card.title}のコピー` };
+  const index = state.cards.findIndex(({ id: currentId }) => currentId === card.id);
+  update({
+    ...state,
+    cards: [...state.cards.slice(0, index + 1), copy, ...state.cards.slice(index + 1)],
+  });
+};
+
 /** カードを一覧から外し、登録された相手に知らせる */
 export const deleteCard = (card: CardData) => {
-  state = {
+  update({
     cards: state.cards.filter(({ id }) => id !== card.id),
     lastDeletedCard: card,
-  };
-  listeners.forEach((onChange) => onChange());
+  });
 };

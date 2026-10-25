@@ -8,18 +8,20 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "~/components/ui/AlertDialog/AlertDialog";
-import { Button } from "~/components/ui/Button/Button";
 
 type DeleteConfirmDialogProps = {
   /** 削除するカード */
   card: CardData;
+  /** 開いているか。メニューの「削除…」から開くので、開け閉めは使う側（CardActionsMenu）が持つ */
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 };
 
 /**
  * カードを削除する前の確認。ui/AlertDialog を、カードの削除の文言で組み立てたもの（docs/19）。
- * 「削除」ボタンと、押すと開くダイアログをまとめて描く。消す処理もこの中に持つので、使う側はカードを渡すだけ
+ * 開くボタンは持たない（カードのメニュー CardActionsMenu の「削除…」から開く、docs/21）。消す処理はこの中に持つ
  */
-export const DeleteConfirmDialog = ({ card }: DeleteConfirmDialogProps) => {
+export const DeleteConfirmDialog = ({ card, open, onOpenChange }: DeleteConfirmDialogProps) => {
   const { deleteCard } = useCards();
 
   const handleDeleteCard = () => {
@@ -27,7 +29,7 @@ export const DeleteConfirmDialog = ({ card }: DeleteConfirmDialogProps) => {
   };
 
   return (
-    <AlertDialog trigger={<Button>削除</Button>}>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogTitle>「{card.title}」を削除しますか？</AlertDialogTitle>
       <AlertDialogDescription>
         削除すると、元に戻せません。キャンセルすると、何も変わりません。

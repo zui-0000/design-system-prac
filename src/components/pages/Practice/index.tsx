@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import { CardActionsMenu } from "~/components/features/Card/CardActionsMenu";
 import { CardList } from "~/components/features/Card/CardList";
-import { DeleteConfirmDialog } from "~/components/features/Card/DeleteConfirmDialog";
 import { useCards } from "~/components/features/Card/hooks/useCards";
 import { Header } from "~/components/layouts/Header";
 import { Button } from "~/components/ui/Button/Button";
@@ -11,7 +11,7 @@ import styles from "./index.module.css";
 
 /** CSS の練習に使うページ */
 export const PracticePage = () => {
-  // カードは、削除の確認ダイアログ（docs/19）で消せる。再読み込みすると元に戻る
+  // カードは、カードのメニュー（docs/21）から複製・削除できる。再読み込みすると元に戻る
   const { cards, lastDeletedCard } = useCards();
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -42,7 +42,7 @@ export const PracticePage = () => {
                 footer={
                   <>
                     <Button>詳しく見る</Button>
-                    <DeleteConfirmDialog card={card} />
+                    <CardActionsMenu card={card} />
                   </>
                 }
               >

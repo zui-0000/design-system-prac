@@ -25,6 +25,7 @@ paths:
 - 部品を作ったら、必ずストーリーを書く（Storybook で一覧にするため）。タイトルは `UI/<部品名>`
 - 開け閉めやフォーカスの移動など、操作で変わる動きは、ストーリーの `play` 関数で確かめる。ポータルで `<body>` の直下に出る要素は `screen` から、役割と名前（`getByRole`）で探す。フォーカスは移るまでに時間がかかることがあるので、`waitFor` で待ってから確かめる（`docs/19-確認ダイアログ.md`）
 - 削除・退会・公開などの取り消せない操作は、`AlertDialog` で確認を挟む。キャンセル（`AlertDialogCancel`）を先に、実行するボタン（`AlertDialogAction`）を後に置く。`Button` の `variant="danger"` は、確認ダイアログの中でだけ使う
+- 1 つの物に操作がいくつかあるときは、`Menu` にしまう（カードの「⋯」）。取り消せない操作は `MenuItem` の `variant="danger"` にし、`MenuSeparator` で分けて一番下に置く。確認が続く項目は、名前の最後に「…」を付ける（「削除…」）。メニューの項目から確認ダイアログを開くときは、`AlertDialog` に `trigger` を渡さず、`open`・`onOpenChange` で開け閉めする（`docs/21-Menu.md`）
 
 ## `src/components/features/`（機能ごとの部品）
 

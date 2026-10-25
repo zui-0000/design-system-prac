@@ -1,0 +1,99 @@
+/*
+ * 操作の一覧（メニュー）。位置は Base UI が計算して Positioner に付ける。
+ * 項目の状態は、Base UI が付ける属性（data-highlighted・data-disabled）で見分ける。
+ */
+
+/* 重なりの順番は「ドロップダウン」。ダイアログ（--z-index-modal）より下 */
+.positioner {
+  z-index: var(--z-index-dropdown);
+  outline: 0;
+}
+
+.popup {
+  /* 項目の文字が短くても、押しやすい幅にする */
+  min-width: 12rem;
+  /* 画面の下まで足りないときは、残りの高さ（Base UI が計算）に収め、中をスクロールさせる */
+  max-height: var(--available-height);
+  overflow-y: auto;
+  padding: var(--spacing-4);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-8);
+  color: var(--color-card-foreground);
+  background-color: var(--color-card);
+  box-shadow: var(--elevation-2);
+  outline: 0;
+
+  /* 開くとき・閉じるときは、trigger の側から広がる（--transform-origin は Base UI が計算） */
+  transform-origin: var(--transform-origin);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+
+  /* 押せる範囲を縦 44px 以上にする（.claude/rules/ux.md の「押しやすさ」） */
+  min-height: var(--size-touch-target);
+  padding: 0 var(--spacing-12);
+
+  border-radius: var(--border-radius-4);
+  cursor: default;
+  outline: 0;
+  user-select: none;
+}
+
+.item svg {
+  flex-shrink: 0;
+  width: var(--size-icon);
+  height: var(--size-icon);
+}
+
+/*
+ * 選んでいる項目（マウスを乗せた、矢印キーで動いた）。フォーカスの輪の代わりに、背景で見せる。
+ * 項目は、フォーカスが当たっても :focus-visible の輪を出さないので、背景の色で今どこにいるかを伝える
+ */
+.item[data-highlighted] {
+  color: var(--color-secondary-foreground);
+  background-color: var(--color-secondary);
+}
+
+/* 取り消せない操作。文字を赤にする */
+.danger {
+  color: var(--color-error);
+}
+
+/*
+ * 選んでいる取り消せない操作は、確認ダイアログの「削除する」と同じ赤の背景にする。
+ * 赤の文字のまま灰色の背景にすると、明るい配色で 4.11:1 になり 4.5:1 に届かず、
+ * 暗い配色では --color-muted がカードの面と同じ色なので、選んでいることが見えなかった（docs/21）
+ */
+.danger[data-highlighted] {
+  color: var(--color-destructive-foreground);
+  background-color: var(--color-destructive);
+}
+
+.item[data-disabled] {
+  color: var(--color-muted-foreground);
+}
+
+.separator {
+  height: 1px;
+  margin: var(--spacing-4) 0;
+  background-color: var(--color-border);
+}
+
+/* 動きを減らす設定の人には、出るとき・消えるときの動きを付けない */
+@media (prefers-reduced-motion: no-preference) {
+  .popup {
+    transition:
+      opacity 100ms,
+      scale 100ms;
+  }
+
+  .popup[data-starting-style],
+  .popup[data-ending-style] {
+    opacity: 0;
+    scale: 0.96;
+  }
+}

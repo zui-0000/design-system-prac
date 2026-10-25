@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { EllipsisIcon } from "lucide-react";
+import { useState } from "react";
 import { expect, fn, screen, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "~/components/ui/Button/Button";
+import { Menu, MenuItem } from "~/components/ui/Menu/Menu";
 
 import {
   AlertDialog,
@@ -143,5 +146,56 @@ export const CancelDoesNothing: Story = {
 
     await waitFor(() => expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument());
     await expect(onDelete).not.toHaveBeenCalled();
+  },
+};
+
+/** メニューの項目から開く形。trigger を渡さず、open と onOpenChange で開け閉めする（docs/21） */
+const OpenFromMenuExample = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Menu
+        trigger={
+          <Button aria-label="「4 枚目」の操作">
+            <EllipsisIcon />
+          </Button>
+        }
+      >
+        <MenuItem variant="danger" onClick={() => setOpen(true)}>
+          削除…
+        </MenuItem>
+      </Menu>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogTitle>「4 枚目」を削除しますか？</AlertDialogTitle>
+        <AlertDialogDescription>
+          削除すると、元に戻せません。キャンセルすると、何も変わりません。
+        </AlertDialogDescription>
+        <AlertDialogActions>
+          <AlertDialogCancel>キャンセル</AlertDialogCancel>
+          <AlertDialogAction onClick={onDelete}>削除する</AlertDialogAction>
+        </AlertDialogActions>
+      </AlertDialog>
+    </>
+  );
+};
+
+/** メニューの「削除…」から開き、閉じると、メニューを開いたボタンにフォーカスが戻る */
+export const OpenFromMenu: Story = {
+  render: () => <OpenFromMenuExample />,
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole("button", { name: "「4 枚目」の操作" });
+    await userEvent.click(trigger);
+    await userEvent.click(await screen.findByRole("menuitem", { name: "削除…" }));
+
+    const dialog = await screen.findByRole("alertdialog", { name: "「4 枚目」を削除しますか？" });
+    await waitFor(() =>
+      expect(within(dialog).getByRole("button", { name: "キャンセル" })).toHaveFocus(),
+    );
+
+    await userEvent.keyboard("{Escape}");
+
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument());
+    await waitFor(() => expect(trigger).toHaveFocus());
   },
 };
