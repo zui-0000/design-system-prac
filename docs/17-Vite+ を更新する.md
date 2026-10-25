@@ -86,6 +86,66 @@ pmOnFail: ignore # pnpm が、package.json に書いた pnpm のバージョン�
 
 2026-10-20 に決めた: `pmOnFail: ignore` は入れ、`runtimeOnFail` は入れない（[docs/18](18-pnpm%20の設定.md)）。
 
+## 1.4.0 に上げたとき（2026-10-25）
+
+1.3.0 から 1.4.0（2026-10-23 公開）に上げた。`vp migrate` は公開の当日に動かした。
+
+### 2 日待ってから `minimumReleaseAgeExclude` を消した
+
+`vp migrate` が、また `minimumReleaseAgeExclude` に Vite+ の道具を 10 個足した（[docs/18](18-pnpm%20の設定.md)）。今回は 1.4.0 の公開から 1 日たっていなかったので、消すと `vp install` が止まる状態だった。
+
+1. migrate したあとは、作業ツリーのままにして、コミットしなかった
+2. 公開から 2 日たった（10/25 12:40 ごろ。日本の時間）のを確かめてから、`minimumReleaseAgeExclude` を消した
+3. `vp install` が止まらずに通った
+
+公開日は `https://registry.npmjs.org/<パッケージ>` の `time` で分かる。`vite-plus`・`@voidzero-dev/vite-plus-core`・`@voidzero-dev/vite-plus-darwin-arm64` のように、同じ版でも数分ずつずれて公開されているので、一番遅いものに合わせる。
+
+### 変わったもの
+
+| もの                                        | 前             | 後             |
+| ------------------------------------------- | -------------- | -------------- |
+| `vite-plus`・`@voidzero-dev/vite-plus-core` | 1.3.0          | 1.4.0          |
+| 同梱の Vite・Rolldown                       | 8.3.4・1.2.14  | 8.3.5・1.2.15  |
+| 同梱の Oxlint・Oxfmt                        | 1.88.0・0.73.0 | 1.89.0・0.74.0 |
+| `vitest`・`@vitest/*`                       | 5.0.5          | 5.0.5（同じ）  |
+
+- `pnpm-lock.yaml` で版が変わったのは、Vite+ の道具（`@oxfmt/*`・`@oxlint/*`・`@oxc-project/*` を含む）だけだった。Storybook などの行も変わったが、名前の後ろに付く `vite-plus-core` の版が変わっただけ
+- `AGENTS.md` に「Running Scripts」（`vpx`）の節が増えたので、`CLAUDE.md` に「スクリプトを動かす」として足した
+- Storybook の peerDependencies の警告は、前と同じく出る
+
+### リリースノートで、このリポジトリに関係しそうなもの
+
+| 変わったこと                                                                                                    | このリポジトリでは                                                     |
+| --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `vpx <file>` で、TS・JS のファイルを動かせる（oxc-node を使う）。`vpx --watch` で動かし直す                     | 今は TS のスクリプトが無い。書くときは `tsx` を足さずに `vpx` で動かす |
+| `vp check --deny-warnings` で、lint の警告でも失敗にできる                                                      | 今は警告が 0 件。CI を作るときに使う                                   |
+| `vp` が Node.js・pnpm・更新を落とすとき、信用されなくなった emSign（eMudhra）の中間認証局の証明書を受け付けない | Node.js 24.22.1・Homebrew の `ca-certificates` と同じ事故への対策      |
+| `vp upgrade` が、リリースごとに公開されるロックファイルで、グローバルの CLI の依存を入れる                      | 同じ版なら、どの PC でも同じ依存になる                                 |
+| pnpm の `node_modules/.modules.yaml` だけが違うときに、`vp run` のキャッシュが外れなくなった                    | pnpm の版を上げたあとも、キャッシュが使える                            |
+| `vp run` が、日本語などを含むスクリプトで落ちたり、表示を途中で切ったりしなくなった                             | scripts に日本語を書いても大丈夫                                       |
+| Oxlint・Oxfmt が上がり、前は通ったコードが引っかかることがある                                                  | `vp check` は通った                                                    |
+
+### `vpx` と `tsx` の速さを比べた
+
+TS のファイルを、温めてから何度も動かし、かかった時間の中央値を比べた（Node.js 24.22.1、tsx 4.23.15、この PC）。
+
+| 動かし方                                | `.ts` 2 つ（20 回） | `.ts` 500 個（10 回） |
+| --------------------------------------- | ------------------- | --------------------- |
+| `node -e 1`（Node.js が起きるだけ）     | 35ms                | -                     |
+| `node <file>`（Node.js が型を消すだけ） | 61ms                | 175ms                 |
+| `vpx <file>`                            | 60ms                | 165ms                 |
+| `tsx <file>`                            | 146ms               | 251ms                 |
+
+- `vpx` は `tsx` より速く、Node.js が自分で型を消すのとほぼ同じ速さだった
+- `node <file>` は enum で止まる（`ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`）。`vpx` と `tsx` は動く
+- どれも型チェックはしない。型は `vp check` で確かめる
+
+速さの差は、作りの違いだと考えている（中のコードまでは追っていない）。`tsx` が使う esbuild の JS の API は、Go で作られた esbuild の本体を別のプロセスで立ち上げる。`vpx` が使う oxc-node は、Rust で作られたネイティブのアドオンで、Node.js と同じプロセスの中で動く。
+
+### 確かめたこと
+
+`vp check`・`vp test`（49 件）・`vp run build`・`vp run lint:deps`・`vp run lint:css`・`vp run build-storybook` が通った。
+
 ## Node.js を上げる
 
 Node.js は、`package.json` の `devEngines.runtime` に具体的な版で書き、Vite+ が nodejs.org から落とす（[docs/20](20-フルスタックのモノレポを試す.md) の「`vp install` 1 回で、3 つともそろう」）。npm のパッケージではないので、pnpm の 2 日のルール（[docs/18](18-pnpm%20の設定.md)）は効かない。

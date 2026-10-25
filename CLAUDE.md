@@ -1,5 +1,5 @@
 <!--
-vite-plus 1.3.0 の node_modules/vite-plus/AGENTS.md を日本語にしたもの（元のファイルは 1.1.0 から 1.3.0 で変わっていない）。
+vite-plus 1.4.0 の node_modules/vite-plus/AGENTS.md を日本語にしたもの（1.4.0 で「スクリプトを動かす」の節が増えた）。
 Vite+ の目印（VITE PLUS START / END のコメント）を外してあるので、
 vp config（vp install のたびに prepare で動く）が英語のテンプレートで上書きしない。
 Vite+ を更新したら、元のファイルと見比べて、変わったところを手で反映する。
@@ -15,6 +15,10 @@ Vite+ を更新したら、元のファイルと見比べて、変わったと�
 ## 組み込みコマンドとスクリプト
 
 `vp <name>` は組み込みコマンドを実行する。`vp run <name>` は `package.json` のスクリプトか `vite.config.ts` のタスクを実行する。スクリプトで組み込みコマンドを上書きすることはできないので、`vp dev` と `vp run dev` は別の動きになることがある。先に `package.json` と `vite.config.ts` を確認し、同じ名前のスクリプトやタスクがあれば `vp run <name>` で実行する。
+
+## スクリプトを動かす
+
+TypeScript と JavaScript のファイルは `vpx <file>` で動かす（例: `vpx ./scripts/seed.ts --dry-run`）。enum・デコレーター・JSX・tsconfig の `paths` も扱えるので、スクリプトを動かすために `tsx` や `ts-node` を足さない。`tsx watch` の代わりに `vpx --watch <file>` を使うと、読んでいるファイルが変わるたびに動かし直す。素の Node.js で動かすときは `vp node <file>`。
 
 ## ツールのバージョン
 

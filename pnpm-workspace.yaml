@@ -16,8 +16,8 @@ permissions:
 # Vite+ がそろえる版。vp migrate が書き換えるので、手で版を変えない（docs/17）
 # ---------------------------------------------------------------------------
 catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@1.3.0
-  vite-plus: 1.3.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.4.0
+  vite-plus: 1.4.0
   vitest: 5.0.5
   "@vitest/browser-playwright": 5.0.5
   "@vitest/coverage-v8": 5.0.5

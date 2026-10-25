@@ -1,6 +1,6 @@
 # pnpm の設定
 
-記録日: 2026-10-20（2026-10-25 に `permissions` を追記） / 対象: pnpm 12.11.2・12.15.0、Vite+ 1.3.0
+記録日: 2026-10-20（2026-10-25 に `permissions` を追記） / 対象: pnpm 12.11.2・12.15.0、Vite+ 1.3.0・1.4.0
 
 `pnpm-workspace.yaml` に足した設定と、その理由。pnpm の docs（pnpm.io の Settings。12 系の最新）と、Vite+ 1.3.0 の docs（`node_modules/vite-plus/docs/guide/env.md`）を読んで決めた。
 
@@ -147,6 +147,7 @@ vp update seroval -- --depth 10 --config.trust-lockfile=true
 | `vp add --save-catalog`                          | 残った         | catalog に 1 行足された                                                                                  |
 | `vp fmt`・`vp check --fix`（コミットのとき）     | 残った         | なし（YAML は整形しない）                                                                                |
 | `vp migrate`（1.2.0 → 1.3.0）                    | 残った         | catalog の版が変わった。`"catalog:"` が `'catalog:'` になった。**`minimumReleaseAgeExclude` が足された** |
+| `vp migrate`（1.3.0 → 1.4.0）                    | 残った         | catalog の版が変わった。**`minimumReleaseAgeExclude` がまた足された**                                    |
 | `pnpm approve`                                   | 残った         | `permissions` がファイルの最後に足された                                                                 |
 
 そこで、空行と見出しのコメントで、設定をまとまりごとに分けた（Vite+ がそろえる版、pnpm の版の管理、依存の入れ方、サプライチェーン攻撃への備え）。
@@ -169,7 +170,7 @@ minimumReleaseAgeExclude:
   - '@vitest/*'
 ```
 
-足したままにすると、Vite+ の道具だけは 2 日待たずに入るようになる。**`vp migrate` の後に、足されていたら消す**（[docs/17](17-Vite+%20を更新する.md) の「このリポジトリで追加で確かめること」）。
+足したままにすると、Vite+ の道具だけは 2 日待たずに入るようになる。1.4.0 のときは、公開から 1 日たたずに `vp migrate` したので、消すと `vp install` が止まる状態だった。2 日たつのを待ってから消した（[docs/17](17-Vite+%20を更新する.md)）。**`vp migrate` の後に、足されていたら消す**（[docs/17](17-Vite+%20を更新する.md) の「このリポジトリで追加で確かめること」）。
 
 `"` が `'` に変わるのは、見た目だけで意味は同じ。`vp fmt` も YAML を整形しないので、どちらかにそろえる仕組みはない。
 

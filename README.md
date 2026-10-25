@@ -15,7 +15,7 @@ curl -fsSL https://vite.plus | bash
 
 インストールが終わったら**新しいターミナルを開き**、次のコマンドでバージョンを確認する。
 
-1.3.0 以上になっていれば OK。
+1.4.0 以上になっていれば OK。
 
 ```zsh
 vp --version
@@ -143,7 +143,7 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/14 TS の値で見た目を変える](docs/14-TS%20の値で見た目を変える.md): CSS Modules で、状態は data 属性、種類はクラス、連続した値は CSS 変数で伝える使い分けと、その落とし穴
 - [docs/15 ダークモードを切り替える](docs/15-ダークモードを切り替える.md): 部品の CSS を変えずに `<html data-theme>` で配色を切り替える仕組み、`localStorage` に保存して画面を描く前に付ける理由、zustand を使わない理由、Toggle から Switch に変えた理由、Storybook の「配色」
 - [docs/16 単体テスト](docs/16-単体テスト.md): jsdom で動く `unit` のプロジェクトの設定、`globals: true` と tsconfig を分ける理由、テストの置き場所と名前の決まり
-- [docs/17 Vite+ を更新する](docs/17-Vite+%20を更新する.md): `vp upgrade` → `vp migrate` の手順、このリポジトリで追加で確かめること、1.3.0 に上げたときの記録
+- [docs/17 Vite+ を更新する](docs/17-Vite+%20を更新する.md): `vp upgrade` → `vp migrate` の手順、このリポジトリで追加で確かめること、1.3.0・1.4.0 に上げたときの記録、Node.js・pnpm の上げ方
 - [docs/18 pnpm の設定](docs/18-pnpm%20の設定.md): `pnpm-workspace.yaml` に足した設定（`pmOnFail`・`autoDedupe`・`minimumReleaseAge`・`trustPolicy`）と、入れなかった設定、新しすぎる版で止まったときの直し方
 - [docs/19 確認ダイアログ](docs/19-確認ダイアログ.md): Dialog ではなく AlertDialog を包む理由、パーツの分け方、`isolation: isolate` と z-index、削除したあとのフォーカス、`play` 関数で動きを確かめる方法
 - [docs/20 フルスタックのモノレポを試す](docs/20-フルスタックのモノレポを試す.md): Vite+ のモノレポで、oRPC の約束・CSS Modules の共有・MSW 3 の偽物の API・Hono の本物の API が組めるかを試した結果
