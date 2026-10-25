@@ -5,11 +5,9 @@
  */
 
 /*
- * デザイントークン。色の材料（primitive/base-color.css）、意味のトークン（color.css）の順に読み込む。
- * 順番は読みやすさのため。var() はブラウザが要素の値を決めるときに読むので、順番を変えても動く。
- * 部品から使ってよいのは tokens/ の直下の CSS だけ。primitive/ の中は使わない。
+ * デザイントークン。部品から使ってよいもの（tokens/ の直下）だけを並べる。
+ * 色の材料（primitive/base-color.css）は、それを使う color.css が読み込む。部品からは使わない。
  */
-@import "./tokens/primitive/base-color.css";
 @import "./tokens/color.css";
 @import "./tokens/font.css";
 @import "./tokens/line-height.css";
