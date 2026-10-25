@@ -20,5 +20,9 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
   },
-  "cssVariables.lookupFiles": ["src/styles/tokens/*.css"]
+  "cssVariables.lookupFiles": ["src/styles/tokens/*.css"],
+  "files.watcherExclude": {
+    "**/dist/**": true,
+    "**/storybook-static/**": true
+  }
 }
