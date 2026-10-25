@@ -1,6 +1,6 @@
 # pnpm の設定
 
-記録日: 2026-10-20 / 対象: pnpm 12.11.2、Vite+ 1.3.0
+記録日: 2026-10-20（2026-10-25 に `permissions` を追記） / 対象: pnpm 12.11.2・12.15.0、Vite+ 1.3.0
 
 `pnpm-workspace.yaml` に足した設定と、その理由。pnpm の docs（pnpm.io の Settings。12 系の最新）と、Vite+ 1.3.0 の docs（`node_modules/vite-plus/docs/guide/env.md`）を読んで決めた。
 
@@ -15,6 +15,9 @@ minimumReleaseAge: 2880
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - semver@6.3.1
+permissions:
+  "@tanstack/router-plugin":
+    skills: false
 ```
 
 | 設定                        | 既定       | 何をするか                                                                                 |
@@ -23,6 +26,7 @@ trustPolicyExclude:
 | `autoDedupe: true`          | `false`    | 同じパッケージが複数の版で入っていて、1 つの版で全員の範囲を満たせるなら、その版にまとめる |
 | `minimumReleaseAge: 2880`   | `1440`     | 公開から 2 日（2880 分）たっていない版を入れない                                           |
 | `trustPolicy: no-downgrade` | `off`      | 前に公開された版より、公開の証明が弱い版を入れない                                         |
+| `permissions`               | なし       | 依存が持つ AI エージェント向けの skill を、リンクしてよいか                                |
 
 ### `pmOnFail: ignore`
 
@@ -75,6 +79,28 @@ pnpm 12.6.0 で入った設定。`pnpm install`・`pnpm add`（`vp install`・`v
 
 6.3.1 は、古い 6 系に後から出た修正版。日付の順で 7.5.4 の後なので、証明が下がったように見える。乗っ取りではないので、`trustPolicyExclude` でこの版だけを外した。`@babel/core` が使っていて、TanStack Router のプラグインや Storybook の部品から入っている。
 
+### `permissions`（依存の skill を拒否する）
+
+pnpm 12.11.0 で入った仕組み。パッケージが `skills/<名前>/SKILL.md` を持っていると、pnpm は、それを AI エージェント（Claude Code など）が読む skill として見つける。承認すると、`.claude/skills/pnpm-<パッケージ>-<skill>` にリンクを作る。承認するまでは何もリンクせず、インストールも止めない。
+
+```
+Agent skills awaiting approval: @tanstack/router-plugin.
+Run "pnpm approve" to review them.
+```
+
+2026-10-25 に、`@tanstack/router-plugin` 1.168.46 でこの表示が出た。中身は、TanStack Router の Vite プラグインの設定方法を書いた 250 行の `SKILL.md`。拒否した。
+
+```zsh
+vp exec pnpm approve '!@tanstack/router-plugin'   # ! を付けると拒否。pnpm-workspace.yaml の permissions に書かれる
+vp exec pnpm permissions list                     # 承認・拒否した一覧と、待っているもの
+```
+
+- skill は、エージェントが作業のたびに従う指示になる。中にスクリプトがあれば、エージェントが動かすこともある
+- 一度承認すると、**後の版もずっと承認したまま**になる。版が上がって中身が変わっても、もう一度は聞かれない。`allowBuilds` でスクリプトを止めているのと同じ考え方で、知らない間に増える指示を入れない
+- 書いてある `library_version` は 1.168.23 で、入っている版とずれていた。TanStack Router の設定も済んでいる
+
+`allowBuilds` で止めているもの（`esbuild`・`@swc/core`）も、`pnpm permissions list` では「build を拒否」として並ぶ。`pnpm approve` は `permissions` をファイルの最後に `'` で書いたので、`allowBuilds` の隣に動かし、`"` にそろえた。
+
 ## 入れなかった設定
 
 | 設定                 | 入れなかった理由                                                                                                                                                                                        |
@@ -121,6 +147,7 @@ vp update seroval -- --depth 10 --config.trust-lockfile=true
 | `vp add --save-catalog`                          | 残った         | catalog に 1 行足された                                                                                  |
 | `vp fmt`・`vp check --fix`（コミットのとき）     | 残った         | なし（YAML は整形しない）                                                                                |
 | `vp migrate`（1.2.0 → 1.3.0）                    | 残った         | catalog の版が変わった。`"catalog:"` が `'catalog:'` になった。**`minimumReleaseAgeExclude` が足された** |
+| `pnpm approve`                                   | 残った         | `permissions` がファイルの最後に足された                                                                 |
 
 そこで、空行と見出しのコメントで、設定をまとまりごとに分けた（Vite+ がそろえる版、pnpm の版の管理、依存の入れ方、サプライチェーン攻撃への備え）。
 
@@ -159,4 +186,5 @@ minimumReleaseAgeExclude:
 - [pnpm: CLI Settings（`pmOnFail`・`runtimeOnFail`）](https://pnpm.io/settings/cli)
 - [pnpm: Dependency Resolution（`minimumReleaseAge`・`trustPolicy`・`autoDedupe`・`blockExoticSubdeps`）](https://pnpm.io/settings/dependency-resolution)
 - [pnpm: Build Settings（`allowBuilds`・`strictDepBuilds`）](https://pnpm.io/settings/build)
+- [pnpm: Agent Skills（`permissions`・`pnpm approve`）](https://pnpm.io/agent-skills)
 - [pnpm: Other Settings（`savePrefix`・`optimisticRepeatInstall`）](https://pnpm.io/settings/other)

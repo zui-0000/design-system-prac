@@ -6,6 +6,12 @@ allowBuilds:
   esbuild: false
   "@swc/core": false
 
+# 依存が持つ AI エージェント向けの skill（skills/*/SKILL.md）を、.claude/skills にリンクしてよいか。
+# 承認すると後の版も承認したままになるので、入れない（docs/18）
+permissions:
+  "@tanstack/router-plugin":
+    skills: false
+
 # ---------------------------------------------------------------------------
 # Vite+ がそろえる版。vp migrate が書き換えるので、手で版を変えない（docs/17）
 # ---------------------------------------------------------------------------

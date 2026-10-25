@@ -27,11 +27,11 @@ vp upgrade
 ### 2. Node.js・pnpm・依存関係をインストールする
 
 ```zsh
-vp env install   # Node.js 24.22.1 と pnpm 12.11.2 を入れる
+vp env install   # Node.js 24.22.1 と pnpm 12.15.0 を入れる
 vp install       # 依存関係をインストールする
 ```
 
-- `vp install` は中で pnpm 12.11.2 の `pnpm install` を実行するので、`pnpm install` を別に実行する必要はない
+- `vp install` は中で pnpm 12.15.0 の `pnpm install` を実行するので、`pnpm install` を別に実行する必要はない
 
 - Node.js のバージョンは `package.json` の `devEngines.runtime` に書いてあり、`onFail` を `"error"` にしている。違うバージョンの Node.js で実行するとエラーになる
 - `vp install` の最後に `prepare` スクリプトが動く。`vp config` で Git フックを有効にし、`playwright install chromium` でテスト用のブラウザ（Chromium）を入れる

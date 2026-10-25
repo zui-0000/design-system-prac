@@ -111,3 +111,43 @@ README の「`vp env install` で入る版」も一緒に直す。
 | Low    | permission   | `realpathSync` で権限の決まりを確かめる                               |
 
 上げたあと、`vp check`・`vp test`・`vp run build`・`vp run lint:deps`・`vp run lint:css` が通った。
+
+## pnpm を上げる
+
+pnpm も、`package.json` の `devEngines.packageManager` に具体的な版で書き、Vite+ が落とす。上げ方は Node.js と同じ。
+
+```zsh
+# package.json の devEngines.packageManager.version を書き換えてから
+vp install            # 書いた版の pnpm が無ければ、Vite+ が落とす
+vp exec pnpm --version
+```
+
+- 選ぶのは、npm の `latest` の版。`next` は先行版なので選ばない
+- pnpm 自身を落とすときに、`pnpm-workspace.yaml` の `minimumReleaseAge` が効くかは確かめていない。公開から 2 日たった版を、自分で選ぶ（[docs/18](18-pnpm%20の設定.md)）
+- セキュリティの修正があるかは、GitHub のセキュリティ勧告（`gh api repos/pnpm/pnpm/security-advisories`）とリリースノートで確かめる
+
+README の「`vp env install` で入る版」と、docs/01 のツールの表も一緒に直す。
+
+### 12.14.0 に上げたとき（2026-10-22）
+
+12.11.2 から、`latest` の 12.14.0 に上げた（公開は 10/15）。12.15.0 は `next` で、公開から 2 日たっていなかったので見送った。9 月からあとに、pnpm のセキュリティ勧告は出ていない。
+
+| 版      | このリポジトリに関係しそうなもの                                                                                                                   |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 12.12.0 | `dangerouslyAllowAllBuilds` が `allowBuilds` の `false` を無視していた。このリポジトリは `dangerouslyAllowAllBuilds` を使っていない                |
+| 12.13.0 | `pnpm audit signatures` が、`devEngines.runtime` で入れた Node.js を npm のパッケージと照合して、署名がおかしいと言っていた                        |
+| 12.14.0 | `overrides` で差し替えている catalog の項目があると、毎回すべてを解決し直していた（このリポジトリは `vite@*`・`vitest@*` を catalog に向けている） |
+
+`pnpm-lock.yaml` は変わらなかった。上げたあと、`vp check`・`vp test`・`vp run build`・`vp run lint:deps`・`vp run lint:css` が通った。
+
+### 12.15.0 に上げたとき（2026-10-25）
+
+Vite+ 1.4.0 への migrate のあと、`package.json` が 12.15.0 になっていた。12.15.0 は `latest` になり、公開（10/21）から 2 日たっていたので、そのまま使う。セキュリティ勧告は出ていない。
+
+| このリポジトリに関係しそうなもの                                                                                                                                |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| レジストリが、頼んだものと違う名前のパッケージの情報を返したら、エラーにする（`ERR_PNPM_REGISTRY_NAME_MISMATCH`）。前は、`allowBuilds` の決まりをすり抜けられた |
+| 依存を解決し直すとき、同じ install ですでに選んだ版を使い回す。前は、lockfile の版を残して、同じパッケージを 2 つ入れていた                                     |
+| `pnpm-workspace.yaml` の設定を、`include` で別のファイルに分けられる                                                                                            |
+
+インストールのときに、依存の skill を承認するかを聞かれたので、拒否した（[docs/18](18-pnpm%20の設定.md) の `permissions`）。この仕組みは 12.11.0 からある。
