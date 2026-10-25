@@ -88,6 +88,20 @@
 }
 
 /*
+ * 画面には見せず、スクリーンリーダーには読ませる文字（外部リンクの「（新しいタブで開く）」）。
+ * display: none や visibility: hidden にすると、読み上げからも消えてしまう。
+ * ほかの部品でも要るようになったら、ここから ui/ の部品（VisuallyHidden）に移す
+ */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/*
  * ヘッダーの幅が 30rem（初期設定で 480px）より狭いときは、余白を詰めて 1 行に収める。
  * コンテナ自身（.header）は条件の対象なので、ここで変えるのは中の要素だけ。
  */

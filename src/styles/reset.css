@@ -1,0 +1,31 @@
+/*
+ * ブラウザが初めから付けている見た目の癖を消す。
+ * トークンを使わない（どのプロジェクトでも同じ中身になる）。このアプリの土台は main.css に書く
+ */
+
+/*
+ * width / height に padding と border を含める。
+ * 初期値の content-box だと、width: 200px に padding: 16px を足すと 232px になり、計算が狂う。
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ブラウザが見出しや段落に付ける margin を消す。余白は部品の側で決める */
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+/* ボタンや入力欄は、ブラウザの初期設定では親の書体と文字サイズを受け継がない。受け継ぐようにする */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}

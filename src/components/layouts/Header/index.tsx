@@ -31,7 +31,7 @@ export const Header = () => {
                 >
                   GitHub
                   <span aria-hidden="true">↗</span>
-                  <span className="global-visually-hidden">（新しいタブで開く）</span>
+                  <span className={styles.visuallyHidden}>（新しいタブで開く）</span>
                 </a>
               </li>
             </ul>

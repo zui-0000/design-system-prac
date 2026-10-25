@@ -88,7 +88,7 @@ AlertDialog と同じく、パーツに分けた。
 
 ### Base UI が付ける CSS 変数と Stylelint
 
-`--available-height` を使ったら、Stylelint が「定義されていない CSS 変数です」と止めた。トークンではなく、Base UI が動いている間に付ける変数なので、`global.css` には無い。
+`--available-height` を使ったら、Stylelint が「定義されていない CSS 変数です」と止めた。トークンではなく、Base UI が動いている間に付ける変数なので、`main.css` が読み込むトークンには無い。
 
 プラグインの `importFrom` は、CSS のファイルだけでなく、`{ customProperties: { … } }` の形のオブジェクトも受け取る（プラグインのソースの `get-custom-properties-from-imports.mjs` で確かめた）。`stylelint.config.js` に、使う変数の名前だけを並べて渡した。
 

@@ -13,12 +13,12 @@ const useColorToken =
 const noThemeBranch =
   "配色（ライト・ダーク）ごとに書き分けないでください。意味のトークン（--color-primary など）を使えば、どちらの配色にも切り替わります（docs/15）";
 
-// トークンの入口。アプリと同じく global.css から @import をたどって、定義のある CSS 変数を集める。
+// トークンの入口。アプリと同じく main.css から @import をたどって、定義のある CSS 変数を集める。
 // プラグインは相対パスを実行した場所から探すので、どこから実行しても同じになるよう絶対パスにする
-const tokenEntry = path.join(import.meta.dirname, "src/styles/global.css");
+const tokenEntry = path.join(import.meta.dirname, "src/styles/main.css");
 
 // Base UI が、動いている間に部品の要素へ付ける CSS 変数（ポップアップの位置や、使える高さなど）。
-// トークンではないので global.css には無いが、使ってよい名前として教える。
+// トークンではないので main.css には無いが、使ってよい名前として教える。
 // 使うものだけを足す。値は Base UI が入れるので、ここでは名前だけを渡す（docs/21）
 const baseUiCustomProperties = {
   customProperties: Object.fromEntries(
@@ -39,7 +39,7 @@ export default {
 
   rules: {
     // 定義のない CSS 変数を使わない。打ち間違えても、CSS はエラーにならず、その指定がなかったことになるため。
-    // 定義のある名前は、global.css が読み込むトークンと、同じファイルで定義した変数（--button-* など）と、
+    // 定義のある名前は、main.css が読み込むトークンと、同じファイルで定義した変数（--button-* など）と、
     // Base UI が付ける変数（baseUiCustomProperties）。
     // 色の材料もトークンとして定義はあるので、ここでは止めない（下の declaration-property-value-disallowed-list が止める）
     "csstools/value-no-unknown-custom-properties": [

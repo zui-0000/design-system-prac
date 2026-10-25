@@ -44,7 +44,7 @@ const padding = rootFontSize * 1.5; // 1.5rem
 
 ### 基準（`<html>` の文字サイズ）はわざと書かない
 
-`src/styles/global.css` には、`<html>` の文字サイズを書いていない。rem の基準は、ブラウザの初期設定（ユーザーが決めた値。ふつうは 16px）のまま。
+`src/styles/main.css`（と `reset.css`）には、`<html>` の文字サイズを書いていない。rem の基準は、ブラウザの初期設定（ユーザーが決めた値。ふつうは 16px）のまま。
 
 ```css
 html {
@@ -140,7 +140,7 @@ Card（`article`）はブロック要素なので、何もしなければ親の�
 | `margin`・`padding` | `0`                                    |
 | `gap`               | `normal`（flex と grid では 0 と同じ） |
 
-ただし `h1`・`p`・`ul` などには、ブラウザが独自に margin を付けている。`ul` には左の padding と黒丸も付く。そのため `global.css` で `h1`・`p` の margin を消し、CardList でも `ul` の margin・padding・黒丸を消している。
+ただし `h1`・`p`・`ul` などには、ブラウザが独自に margin を付けている。`ul` には左の padding と黒丸も付く。そのため `reset.css`（2026-10-26 までは `global.css`）で `h1`・`p` の margin を消し、CardList でも `ul` の margin・padding・黒丸を消している。
 
 ### 決め方
 
@@ -158,7 +158,7 @@ Card（`article`）はブロック要素なので、何もしなければ親の�
 
 Card（`src/components/ui/Card/Card.module.css`）でも、余白・角丸は rem、枠線だけ `1px` にした。
 
-補足: 行の高さ（`line-height`）は単位なしで書く（`global.css` の `line-height: 1.5`）。文字サイズの 1.5 倍になり、文字サイズが変わっても追従する。
+補足: 行の高さ（`line-height`）は単位なしで書く（`main.css` の `body` の `line-height`。トークンの `--line-height-body` は 1.5）。文字サイズの 1.5 倍になり、文字サイズが変わっても追従する。
 
 ## 試し方
 

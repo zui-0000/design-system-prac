@@ -1,5 +1,11 @@
 /*
- * デザイントークン。色の材料（primitive/）、意味のトークン（color.css）の順に読み込む。
+ * CSS の入口（main.tsx と .storybook/preview.tsx が読み込む）。
+ * 読み込むものを並べ、最後に、このアプリの土台（body と #root）を書く。
+ * 部品の見た目は、部品のフォルダの CSS Modules に書く。ここにはクラスを置かない
+ */
+
+/*
+ * デザイントークン。色の材料（primitive/color.css）、意味のトークン（color.css）の順に読み込む。
  * 順番は読みやすさのため。var() はブラウザが要素の値を決めるときに読むので、順番を変えても動く。
  * 部品から使ってよいのは tokens/ の直下の CSS だけ。primitive/ の中は使わない。
  */
@@ -13,17 +19,8 @@
 @import "./tokens/size.css";
 @import "./tokens/z-index.css";
 
-/* すべての要素に共通する土台の設定 */
-
-/*
- * width / height に padding と border を含める。
- * 初期値の content-box だと、width: 200px に padding: 16px を足すと 232px になり、計算が狂う。
- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/* ブラウザの見た目の癖を消す */
+@import "./reset.css";
 
 /*
  * アプリの外枠（index.html の #root）に、重なりの順番の区切り（スタッキングコンテキスト）を作る。
@@ -34,45 +31,10 @@
   isolation: isolate;
 }
 
-/* ブラウザが見出しや段落に付ける margin を消す。余白は部品の側で決める */
-body,
-h1,
-h2,
-h3,
-p {
-  margin: 0;
-}
-
-/* ボタンや入力欄は、ブラウザの初期設定では親の書体と文字サイズを受け継がない。受け継ぐようにする */
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
 body {
   font-family: var(--font-family-body);
   /* 行の高さは単位なしで書く（--line-height-150 は 1.5）。文字サイズが変わっても、その 1.5 倍に追従する */
   line-height: var(--line-height-body);
   color: var(--color-foreground);
   background-color: var(--color-background);
-}
-
-/*
- * ここに書くクラスは CSS Modules を通らず、どこからでも同じ名前で使える。
- * CSS Modules のクラスと見分けるため、名前の先頭に global- を付ける。
- */
-
-/*
- * 画面には見せず、スクリーンリーダーには読ませる文字。
- * display: none や visibility: hidden にすると、読み上げからも消えてしまう。
- */
-.global-visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }

@@ -6,7 +6,8 @@
 
 ```text
 styles/
-├── global.css               トークンを読み込み、全体の土台を整える（main.tsx と .storybook/preview.tsx が読み込む）
+├── main.css                 入口。トークンと reset.css を読み込み、body と #root の土台を書く（main.tsx と .storybook/preview.tsx が読み込む）
+├── reset.css                ブラウザの見た目の癖を消す（box-sizing、margin、ボタンの書体）。トークンは使わない
 ├── tokens/                  トークンだけを置く
 │   ├── primitive/
 │   │   └── color.css        色の材料。部品からは使わない
@@ -46,7 +47,7 @@ styles/
 
 `primitive` は、TS のプリミティブ型（`string`・`number`）と同じ言葉で、意味の名前が付く前の材料の値のこと。部品が使うのは、意味の名前が付いた `tokens/color.css` のほう。TS で、`string` のまま使い回さずに `type Email = string` を作って使うのと同じ（[docs/12](../../docs/12-デザイントークン.md) の「primitive という名前」）。
 
-部品の CSS では、`tokens/` の直下の CSS のトークンを `var()` で使う。import は要らない（`global.css` が `:root` に定義している）。
+部品の CSS では、`tokens/` の直下の CSS のトークンを `var()` で使う。import は要らない（`main.css` が読み込むトークンのファイルが `:root` に定義している）。
 
 ファイル名は、トークンの名前の始まりにそろえている（`--font-*` は `font.css`、`--line-height-*` は `line-height.css`）。名前を見れば、どのファイルにあるか分かる。トークンを足すときも、この決まりで置き場所を決める。
 

@@ -197,4 +197,4 @@ import { URLS } from "~/constants/urls";
 import styles from "./index.module.css"; // 同じフォルダ
 ```
 
-**副作用だけの import は動かさない。** `import "./styles/global.css"` のように、値を受け取らない import は、読み込む順番そのものに意味がある（後に読んだ CSS が勝つ）。並べ替えると見た目が変わることがあるので、書いた位置に残る。
+**副作用だけの import は動かさない。** `import "./styles/main.css"` のように、値を受け取らない import は、読み込む順番そのものに意味がある（後に読んだ CSS が勝つ）。並べ替えると見た目が変わることがあるので、書いた位置に残る。

@@ -11,7 +11,7 @@
   --font-family-sans: "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-family-mono: "Noto Sans Mono", monospace;
 
-  /* 本文の書体（global.css の body が使う） */
+  /* 本文の書体（main.css の body が使う） */
   --font-family-body: var(--font-family-sans);
 
   /* 文字サイズ */

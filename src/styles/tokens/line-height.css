@@ -15,6 +15,6 @@
   --line-height-170: 1.7;
   --line-height-175: 1.75;
 
-  /* 本文の行の高さ（global.css の body が使う） */
+  /* 本文の行の高さ（main.css の body が使う） */
   --line-height-body: var(--line-height-150);
 }

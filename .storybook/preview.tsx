@@ -4,7 +4,7 @@ import { addons } from "storybook/preview-api";
 
 import { THEMES } from "~/constants/theme";
 
-import "~/styles/global.css";
+import "~/styles/main.css";
 
 /**
  * 選んだ配色を、アプリと同じく <html data-theme> で付ける（docs/15）。
@@ -63,7 +63,7 @@ const preview: Preview = {
   parameters: {
     options: {
       // サイドバーの並び順。何も決めないと、Storybook がファイルを読み込んだ順になる。
-      // トークンのページは global.css で読み込む順に並べ、部品から使わない材料（Primitive）を最後にする
+      // トークンのページは main.css で読み込む順に並べ、部品から使わない材料（Primitive）を最後にする
       storySort: {
         order: [
           "Design Tokens",

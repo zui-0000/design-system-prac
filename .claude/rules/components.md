@@ -75,7 +75,7 @@ paths:
 
 - `Link` の `to` には URL を直接書かず、`src/constants/pages.ts` の `PAGES` を使う（`docs/07-ルーティング.md`）
 - 外部サイトの URL も直接書かず、`src/constants/urls.ts` の `URLS` を使う。新しい外部リンクを足すときは `URLS` に足す
-- 外部リンクは `target="_blank" rel="noreferrer"` で別のタブで開き、`↗`（`aria-hidden="true"`）と `global-visually-hidden` の「（新しいタブで開く）」を添える
+- 外部リンクは `target="_blank" rel="noreferrer"` で別のタブで開き、`↗`（`aria-hidden="true"`）と、画面には見せずに読み上げさせる「（新しいタブで開く）」を添える（Header の `.visuallyHidden`）
 
 ## 保存（localStorage）
 
@@ -91,9 +91,10 @@ paths:
 - CSS を変えたら `vp run lint:css` を実行する。色の値や色の材料、定義のない CSS 変数（打ち間違い）を書くと Stylelint が止める
 - 配色（ライト・ダーク）ごとの書き分けを、部品の CSS に書かない（`@media (prefers-color-scheme)` や `[data-theme]`）。意味のトークンを使えば、OS の設定でもヘッダーのスイッチでも切り替わる。書くと Stylelint が止める（`docs/15-ダークモードを切り替える.md`）
 - 余白は `--spacing-*`、部品そのものの大きさは `--size-*`（押せる部品の最小の大きさは `--size-touch-target`、部品の中に置くアイコンは `--size-icon`）、文字サイズは `--font-size-*`、角丸は `--border-radius-*`、影は `--elevation-*`、重なりは `--z-index-*` から選ぶ。合う値がなければ、値を直接書く前にトークンを足すか相談する
-- トークンを足すときは、名前を `--<ファイル名>-` で始め、そのファイルに置く（`--font-*` は `font.css`、`--line-height-*` は `line-height.css`）。新しい種類なら、ファイルを足して `global.css` で読み込む。Storybook のページ（`src/styles/stories/<ファイル名>.mdx`、タイトルは `Design Tokens/<名前>`）も足し、`.storybook/preview.tsx` の `storySort` に並び順を足す
+- トークンを足すときは、名前を `--<ファイル名>-` で始め、そのファイルに置く（`--font-*` は `font.css`、`--line-height-*` は `line-height.css`）。新しい種類なら、ファイルを足して `main.css` で読み込む。Storybook のページ（`src/styles/stories/<ファイル名>.mdx`、タイトルは `Design Tokens/<名前>`）も足し、`.storybook/preview.tsx` の `storySort` に並び順を足す
 - レイアウトの境目（`minmax(min(16rem, 100%), 1fr)` の `16rem`、`@container (width < 30rem)` の `30rem` など）は、部品ごとの値なので直接書いてよい
-- どの部品でも使うクラスだけ `src/styles/global.css` に書く。名前の先頭に `global-` を付ける（例: `global-visually-hidden`）。使うときは `className="global-visually-hidden"` と文字列で書く
+- `src/styles/` にはクラスを置かない。`main.css` は入口（トークンと `reset.css` を読み込み、`body`・`#root` の土台を書く）、`reset.css` はブラウザの見た目の癖を消すだけ（トークンを使わない）
+- 見た目のクラスは、使う部品の CSS Modules に書く（スクリーンリーダーにだけ読ませる文字は、Header の `.visuallyHidden`）。ほかの部品でも同じものが要るようになったら、書き写さずに `ui/` の部品にする（`ui/VisuallyHidden` など）
 
 ## import のパス
 
