@@ -130,6 +130,44 @@ export const ClickRunsAction: Story = {
   },
 };
 
+/**
+ * 無効の取り消せない操作は、赤にしない。選んでいるときも、ふつうの項目と同じ背景にする
+ * （赤の背景に灰色の文字にならないように。docs/21）
+ */
+export const DisabledDangerItem: Story = {
+  render: (args) => (
+    <Menu {...args}>
+      <MenuItem onClick={onDuplicate}>
+        <CopyIcon />
+        複製する
+      </MenuItem>
+      <MenuSeparator />
+      <MenuItem variant="danger" onClick={onDelete} disabled>
+        <Trash2Icon />
+        削除…
+      </MenuItem>
+    </Menu>
+  ),
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole("button", { name: "「4 枚目」の操作" });
+    trigger.focus();
+    await userEvent.keyboard("{Enter}");
+    const menu = await screen.findByRole("menu");
+    const duplicate = within(menu).getByRole("menuitem", { name: "複製する" });
+    const remove = within(menu).getByRole("menuitem", { name: "削除…" });
+
+    // フォーカスが移る前に矢印キーを押すと、項目を動けないので、移るのを待つ
+    await waitFor(() => expect(duplicate).toHaveFocus());
+    await expect(duplicate).toHaveAttribute("data-highlighted");
+    const highlightedBackground = getComputedStyle(duplicate).backgroundColor;
+
+    await userEvent.keyboard("{ArrowDown}");
+    await waitFor(() => expect(remove).toHaveFocus());
+    await expect(remove).toHaveAttribute("data-highlighted");
+    await expect(getComputedStyle(remove).backgroundColor).toBe(highlightedBackground);
+  },
+};
+
 /** 無効の項目は、押しても何も起きず、メニューも閉じない */
 export const DisabledItemDoesNothing: Story = {
   play: async ({ canvasElement }) => {

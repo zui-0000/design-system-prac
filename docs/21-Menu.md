@@ -121,6 +121,33 @@ const baseUiCustomProperties = {
 
 確認ダイアログの「削除する」と同じ、赤の背景と白の文字にして、どちらも直った。
 
+### 無効の「削除…」を選んだとき（2026-10-25 に直した）
+
+項目の色は、次の 4 つの決まりで決まる。下の 3 つは「クラス 1 つ ＋ 属性 1 つ」で強さ（詳細度）が同じなので、**ファイルの後ろに書いたほうが勝つ**。
+
+| 決まり                      | 強さ             | 文字                   | 背景         |
+| --------------------------- | ---------------- | ---------------------- | ------------ |
+| `.danger`                   | クラス 1         | 赤                     | なし         |
+| `.item[data-highlighted]`   | クラス 1・属性 1 | ふつう                 | 薄い色       |
+| `.danger[data-highlighted]` | クラス 1・属性 1 | 白                     | 赤           |
+| `.item[data-disabled]`      | クラス 1・属性 1 | 灰色（一番後ろで勝つ） | 決めていない |
+
+無効の「削除…」を選ぶと、文字は一番後ろの `.item[data-disabled]` の灰色になるが、背景は `.danger[data-highlighted]` の赤のまま残り、**赤の背景に灰色の文字**になっていた。無効の「削除…」はまだ使っていないので、画面には出ていなかった。
+
+属性を 2 つ重ねた決まりを足し、強さで勝たせた。
+
+```css
+/* クラス 1・属性 2。上の 4 つより強いので、書く場所に関係なく勝つ */
+.item[data-disabled][data-highlighted] {
+  color: var(--color-muted-foreground);
+  background-color: var(--color-secondary);
+}
+```
+
+- 無効の項目は押せないので、取り消せない操作でも赤にしない。選んでいるときは、ふつうの項目と同じ背景で、今どこにいるかだけを見せる
+- 順番で勝たせると、決まりを並べ替えたときに、また壊れる。強さで勝たせれば、書く場所に左右されない
+- 無効の項目の文字は、WCAG のコントラストの決まり（4.5:1）の対象から外れている。押せないことを、薄い色で伝えている
+
 項目の高さは、押しやすさの決まり（ux.md）に合わせて 44px 以上にした。
 
 ## メニューから確認ダイアログを開く
@@ -178,6 +205,7 @@ const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 | `EscapeCloses`                | Esc で閉じると何も実行せず、「⋯」に戻る                                               |
 | `ClickRunsAction`             | 項目を押すと、処理を呼んでから閉じる                                                  |
 | `DisabledItemDoesNothing`     | 無効の項目は、押しても何も起きず、メニューも閉じない                                  |
+| `DisabledDangerItem`          | 無効の「削除…」を選んでも、赤の背景にならず、ふつうの項目と同じ背景になる             |
 | AlertDialog の `OpenFromMenu` | メニューの「削除…」から開き、Esc で閉じると「⋯」に戻る                                |
 
 5 回続けて通った。わざと壊すと、失敗した。
@@ -186,6 +214,7 @@ const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 | ---------------------------------------------------------- | --------------------------------------- |
 | 項目を押しても `onClick` を呼ばない                        | `KeyboardNavigation`・`ClickRunsAction` |
 | 項目を押してもメニューを閉じない（`closeOnClick={false}`） | `KeyboardNavigation`・`ClickRunsAction` |
+| `.item[data-disabled][data-highlighted]` の決まりを外す    | `DisabledDangerItem`（背景が赤のまま）  |
 
 Menu のストーリーを初めて動かしたときは、テストが 1 つも読み込まれなかった。Vite が、新しく使った Base UI の Menu を組み直していたため（[docs/19](19-確認ダイアログ.md) と同じ）。
 

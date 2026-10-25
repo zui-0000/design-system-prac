@@ -73,8 +73,18 @@
   background-color: var(--color-destructive);
 }
 
+/* 無効の項目。押せないので、取り消せない操作（danger）でも赤にしない */
 .item[data-disabled] {
   color: var(--color-muted-foreground);
+}
+
+/*
+ * 無効の項目にも矢印キーで止まる（docs/21）ので、選んでいるときは、ふつうの項目と同じ背景で場所を見せる。
+ * 属性を 2 つ重ねて、上の [data-highlighted] の決まり（danger の赤の背景も）より強くする
+ */
+.item[data-disabled][data-highlighted] {
+  color: var(--color-muted-foreground);
+  background-color: var(--color-secondary);
 }
 
 .separator {
