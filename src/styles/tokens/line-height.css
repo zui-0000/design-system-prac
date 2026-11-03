@@ -1,8 +1,6 @@
 /*
  * 行の高さのトークン。名前は % の値（本文用の --line-height-body だけは役割の名前）。
  * 単位なしの倍率なので、文字サイズが変わっても追従する。
- * 値は、デジタル庁デザインシステムのデザイントークン（@digital-go-jp/design-tokens 2.0.1）を元にしている。
- * ライセンスは ./DADS-LICENSE.txt（MIT License, Copyright (c) 2023 デジタル庁）。
  */
 
 :root {

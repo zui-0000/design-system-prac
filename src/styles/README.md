@@ -18,8 +18,7 @@ styles/
 │   ├── elevation.css        影
 │   ├── spacing.css          余白
 │   ├── size.css             部品の大きさ（押せる部品の最小の大きさ、アイコンの大きさ）
-│   ├── z-index.css          重なりの順番
-│   └── DADS-LICENSE.txt     デジタル庁デザインシステムを元にした値のライセンス
+│   └── z-index.css          重なりの順番
 └── stories/                 Storybook のトークンのページ（Design Tokens）。トークンのファイルと 1 対 1
     ├── color.mdx            Design Tokens/Color
     ├── font.mdx             Design Tokens/Font

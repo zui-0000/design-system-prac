@@ -5,8 +5,6 @@
  * ../color.css の意味のトークン（--color-primary など）が、ここの色を参照する。
  * ブランドの色の段（DADS の --color-key-*）は除いた。その役目は ../color.css の --color-primary などが持つ。
  * 状態の色の段（DADS の --color-semantic-*）も除いた。成功・エラー・警告という意味は、../color.css の --color-success などが持つ。
- * 値は、デジタル庁デザインシステムのデザイントークン（@digital-go-jp/design-tokens 2.0.1）を元にしている。
- * ライセンスは ../DADS-LICENSE.txt（MIT License, Copyright (c) 2023 デジタル庁）。
  */
 
 :root {
