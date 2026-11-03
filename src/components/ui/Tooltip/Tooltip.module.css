@@ -1,0 +1,56 @@
+/*
+ * 短い説明（Tooltip）。位置は Base UI が計算して Positioner に付ける。
+ * 出ている・消えていくなどの状態は、Base UI が付ける属性（data-starting-style・data-instant）で見分ける。
+ */
+
+/*
+ * 重なりの順番は、一番上の「Tooltip」。
+ * ダイアログの中のボタンに出すこともあるので、ダイアログ（--z-index-modal）より上にする
+ */
+.positioner {
+  z-index: var(--z-index-tooltip);
+}
+
+.popup {
+  /* 長い文字は、ここで折り返す */
+  max-width: 20rem;
+  padding: var(--spacing-4) var(--spacing-8);
+
+  border-radius: var(--border-radius-4);
+  font-size: var(--font-size-14);
+  line-height: var(--line-height-140);
+
+  /*
+   * 文字と背景の色を、ページと逆にする（明るい配色なら黒の地に白の文字）。
+   * ページの上で目立ち、ボタンやカードの面と見分けが付く。
+   * 文字と背景は、ページの文字と背景と同じ組み合わせなので、コントラストもそのまま足りる
+   */
+  color: var(--color-background);
+  background-color: var(--color-foreground);
+
+  /* 出るとき・消えるときは、trigger の側から広がる（--transform-origin は Base UI が計算） */
+  transform-origin: var(--transform-origin);
+}
+
+/* 動きを減らす設定の人には、出るとき・消えるときの動きを付けない */
+@media (prefers-reduced-motion: no-preference) {
+  .popup {
+    transition:
+      opacity 100ms,
+      scale 100ms;
+  }
+
+  .popup[data-starting-style],
+  .popup[data-ending-style] {
+    opacity: 0;
+    scale: 0.96;
+  }
+
+  /*
+   * すぐに出すとき（Base UI が data-instant を付ける）は、動きを付けない。
+   * キーボードでフォーカスしたとき・Esc キーで閉じたときなど
+   */
+  .popup[data-instant] {
+    transition: none;
+  }
+}

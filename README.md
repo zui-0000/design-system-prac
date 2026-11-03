@@ -148,3 +148,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/19 確認ダイアログ](docs/19-確認ダイアログ.md): Dialog ではなく AlertDialog を包む理由、パーツの分け方、`isolation: isolate` と z-index、削除したあとのフォーカス、`play` 関数で動きを確かめる方法
 - [docs/20 フルスタックのモノレポを試す](docs/20-フルスタックのモノレポを試す.md): Vite+ のモノレポで、oRPC の約束・CSS Modules の共有・MSW 3 の偽物の API・Hono の本物の API が組めるかを試した結果
 - [docs/21 Menu](docs/21-Menu.md): カードの操作を「⋯」のメニューにしまう、取り消せない操作の置き方、メニューから確認ダイアログを開く方法、無効の項目にも止まる理由、Base UI が付ける CSS 変数と Stylelint
+- [docs/22 Tooltip](docs/22-Tooltip.md): Tooltip は見える人への補足であること、出す文字と `aria-label` の関係、Menu の trigger に重ねる方法、ページと逆の色、重なりの順番
