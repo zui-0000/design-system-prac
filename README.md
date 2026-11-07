@@ -150,3 +150,5 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/21 Menu](docs/21-Menu.md): カードの操作を「⋯」のメニューにしまう、取り消せない操作の置き方、メニューから確認ダイアログを開く方法、無効の項目にも止まる理由、Base UI が付ける CSS 変数と Stylelint
 - [docs/22 Tooltip](docs/22-Tooltip.md): Tooltip は見える人への補足であること、出す文字と `aria-label` の関係、Menu の trigger に重ねる方法、ページと逆の色、重なりの順番
 - [docs/23 入力欄](docs/23-入力欄.md): `:has()` で親が中の状態を見る方法、ラベル・説明・エラーの結び付け、検証の時期、IME の変換を確定する Enter、打った分だけ高くなる Textarea（`field-sizing`）
+- [docs/24 疑似クラスと疑似要素](docs/24-疑似クラスと疑似要素.md): `:hover` などの状態を選ぶ疑似クラスと、`::placeholder`・`::after` などの部分を選ぶ疑似要素の違い、Base UI の `data-*` との使い分け、強さ
+- [docs/25 position](docs/25-position.md): `static`・`relative`・`absolute`・`fixed`・`sticky` の違い、`absolute` の基準の探し方、`transform` を持つ先祖が基準になる落とし穴、`inset` の書き方
