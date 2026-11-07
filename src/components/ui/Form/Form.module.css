@@ -1,0 +1,12 @@
+/* 項目どうしの間は、項目の中（4px）より広くあけて、どのラベルがどの入力欄のものか迷わないようにする */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+}

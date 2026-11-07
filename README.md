@@ -130,7 +130,7 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/01 学習の進め方](docs/01-学習の進め方.md): このリポジトリの目的、5 段階の進め方、CSS で勉強すること、使うツール
 - [docs/02 Storybook を Vite+ で動かす](docs/02-Storybook%20を%20Vite+%20で動かす.md): Storybook を入れる手順と、つまずいたところ、組み込みコマンドと同じ名前のスクリプトを消した理由
 - [docs/03 UX のルール](docs/03-UX%20のルール.md): `.claude/rules/ux.md` の理由と、元にした心理学の法則の仕分け
-- [docs/04 Flexbox で並べる](docs/04-Flexbox%20で並べる.md): `display: flex` の基本、コンテナとアイテム、`gap` と margin の使い分け
+- [docs/04 Flexbox で並べる](docs/04-Flexbox%20で並べる.md): `display: flex` の基本、コンテナとアイテム、`gap` と margin の使い分け、余った場所の分け方（`flex: 1`・`margin: auto`）
 - [docs/05 px と rem](docs/05-px%20と%20rem.md): rem を使う理由、em との違い、ズームと文字サイズの設定の違い
 - [docs/06 コンポーネントの置き方](docs/06-コンポーネントの置き方.md): `ui/`・`features/`・`pages/` の分け方と、ファイル名の付け方を変える理由
 - [docs/07 ルーティング](docs/07-ルーティング.md): TanStack Router の構成、`routeTree.gen.ts` の扱い、型が効く仕組み
@@ -149,3 +149,4 @@ VP_GIT_HOOKS=0 git commit -m "..."
 - [docs/20 フルスタックのモノレポを試す](docs/20-フルスタックのモノレポを試す.md): Vite+ のモノレポで、oRPC の約束・CSS Modules の共有・MSW 3 の偽物の API・Hono の本物の API が組めるかを試した結果
 - [docs/21 Menu](docs/21-Menu.md): カードの操作を「⋯」のメニューにしまう、取り消せない操作の置き方、メニューから確認ダイアログを開く方法、無効の項目にも止まる理由、Base UI が付ける CSS 変数と Stylelint
 - [docs/22 Tooltip](docs/22-Tooltip.md): Tooltip は見える人への補足であること、出す文字と `aria-label` の関係、Menu の trigger に重ねる方法、ページと逆の色、重なりの順番
+- [docs/23 入力欄](docs/23-入力欄.md): `:has()` で親が中の状態を見る方法、ラベル・説明・エラーの結び付け、検証の時期、IME の変換を確定する Enter、打った分だけ高くなる Textarea（`field-sizing`）

@@ -58,6 +58,39 @@ describe("deleteCard", () => {
   });
 });
 
+describe("addCard", () => {
+  test("足した場合、一覧の最後に新しい id で足し、足したカードを返すこと", async () => {
+    const { addCard, getCardsState } = await loadCards();
+
+    const added = addCard({ title: "新しいカード", body: "本文" });
+
+    const { cards } = getCardsState();
+    expect(added).toEqual({ id: 5, title: "新しいカード", body: "本文" });
+    expect(cards).toHaveLength(5);
+    expect(cards.at(-1)).toBe(added);
+  });
+
+  test("足した場合、登録した相手に知らせ、最後に削除したカードは変えないこと", async () => {
+    const { addCard, deleteCard, getCardsState, subscribeCards } = await loadCards();
+    const [first] = getCardsState().cards;
+    deleteCard(first);
+    const onChange = vi.fn();
+    subscribeCards(onChange);
+
+    addCard({ title: "新しいカード", body: "" });
+
+    expect(onChange).toHaveBeenCalledOnce();
+    expect(getCardsState().lastDeletedCard).toBe(first);
+  });
+
+  test("すべて削除した場合、足すと id は 1 から始まること", async () => {
+    const { addCard, deleteCard, getCardsState } = await loadCards();
+    getCardsState().cards.forEach((card) => deleteCard(card));
+
+    expect(addCard({ title: "新しいカード", body: "" }).id).toBe(1);
+  });
+});
+
 describe("duplicateCard", () => {
   test("複製した場合、元のカードのすぐ後ろに、新しい id とコピーの見出しで足すこと", async () => {
     const { duplicateCard, getCardsState } = await loadCards();

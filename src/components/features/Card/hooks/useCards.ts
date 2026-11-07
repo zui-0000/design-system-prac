@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-import { deleteCard, duplicateCard, getCardsState, subscribeCards } from "../utils/cards";
+import { addCard, deleteCard, duplicateCard, getCardsState, subscribeCards } from "../utils/cards";
 
 /**
  * カードの一覧と、最後に削除したカード、カードを複製・削除する関数を返す。
@@ -9,5 +9,5 @@ import { deleteCard, duplicateCard, getCardsState, subscribeCards } from "../uti
  */
 export const useCards = () => {
   const { cards, lastDeletedCard } = useSyncExternalStore(subscribeCards, getCardsState);
-  return { cards, lastDeletedCard, duplicateCard, deleteCard };
+  return { cards, lastDeletedCard, addCard, duplicateCard, deleteCard };
 };

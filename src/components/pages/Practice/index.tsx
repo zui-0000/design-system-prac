@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+import { AddCardForm } from "~/components/features/Card/AddCardForm";
 import { CardActionsMenu } from "~/components/features/Card/CardActionsMenu";
 import { CardList } from "~/components/features/Card/CardList";
 import { useCards } from "~/components/features/Card/hooks/useCards";
@@ -11,7 +12,7 @@ import styles from "./index.module.css";
 
 /** CSS の練習に使うページ */
 export const PracticePage = () => {
-  // カードは、カードのメニュー（docs/21）から複製・削除できる。再読み込みすると元に戻る
+  // カードは、下のフォームで足し（docs/23）、カードのメニュー（docs/21）から複製・削除できる。再読み込みすると元に戻る
   const { cards, lastDeletedCard } = useCards();
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -51,8 +52,11 @@ export const PracticePage = () => {
             ))}
           </CardList>
         ) : (
-          <p>カードはすべて削除しました。ページを再読み込みすると、元に戻ります。</p>
+          <p>
+            カードはすべて削除しました。下のフォームで足すか、ページを再読み込みすると、元に戻ります。
+          </p>
         )}
+        <AddCardForm />
       </main>
     </>
   );

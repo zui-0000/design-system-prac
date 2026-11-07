@@ -26,6 +26,7 @@ paths:
 - 開け閉めやフォーカスの移動など、操作で変わる動きは、ストーリーの `play` 関数で確かめる。ポータルで `<body>` の直下に出る要素は `screen` から、役割と名前（`getByRole`）で探す。フォーカスは移るまでに時間がかかることがあるので、`waitFor` で待ってから確かめる（`docs/19-確認ダイアログ.md`）
 - 削除・退会・公開などの取り消せない操作は、`AlertDialog` で確認を挟む。キャンセル（`AlertDialogCancel`）を先に、実行するボタン（`AlertDialogAction`）を後に置く。`Button` の `variant="danger"` は、確認ダイアログの中でだけ使う
 - 1 つの物に操作がいくつかあるときは、`Menu` にしまう（カードの「⋯」）。取り消せない操作は `MenuItem` の `variant="danger"` にし、`MenuSeparator` で分けて一番下に置く。確認が続く項目は、名前の最後に「…」を付ける（「削除…」）。メニューの項目から確認ダイアログを開くときは、`AlertDialog` に `trigger` を渡さず、`open`・`onOpenChange` で開け閉めする（`docs/21-Menu.md`）
+- 入力欄は `Field` の中に、`FieldLabel`・`FieldDescription`・`Input`（または `Textarea`）・`FieldError` の順に置く。`required` は `Input` にだけ書く（ラベルの「必須」は `:has()` で出る）。エラーの文は `match` ごとに書く（文を渡さないとブラウザの言語の文が出る）。`validate` は、1 回送信したあとは `required` で失敗していても呼ばれるので、空の値では失敗を返さない（エラーが 2 つ並ぶ）。送信するものは `Form` で包み、検証の時期は初期値の `onSubmit` のままにする。`Field` なしで置くときは `aria-label` で名前を付ける。枠のように Base UI が `data-*` を付けない要素は、`:has()` で中の状態を見る（`docs/23-入力欄.md`）
 - アイコンだけのボタンには、見える人向けに `Tooltip` で短い名前を出す（カードの「⋯」）。Tooltip はタッチの画面と読み上げソフトには届かないので、`aria-label` は別に付け、Tooltip の文字はその一部にする（「操作」と「「4 枚目」の操作」）。知らないと操作できない説明は、Tooltip にしまわず画面に書く。Menu の trigger に重ねるときは、`<Menu trigger={<Tooltip label="…"><Button aria-label="…" /></Tooltip>}>` の順にする（`docs/22-Tooltip.md`）
 
 ## `src/components/features/`（機能ごとの部品）

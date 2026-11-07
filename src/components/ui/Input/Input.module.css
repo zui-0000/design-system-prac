@@ -1,0 +1,119 @@
+/*
+ * 入力欄。枠（.frame）の中に、本物の入力欄（.control）と、アイコン・ボタンを置く。
+ * 状態は中の .control にしか付かないので、枠は :has() で中を見て、見た目を変える（docs/23）。
+ */
+.frame {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: var(--size-touch-target);
+
+  /* --color-input は、形を見せるための 3:1 以上の色 */
+  border: 1px solid var(--color-input);
+  border-radius: var(--border-radius-8);
+
+  /* iOS の Safari は、16px より小さい入力欄にフォーカスすると画面を拡大するので、16px にする */
+  font-size: var(--font-size-16);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+}
+
+/*
+ * 中の入力欄にフォーカスしているときだけ、枠に輪を出す。
+ * :focus-within だと、右端のボタンにフォーカスしたときも枠に輪が出て、ボタンの輪と 2 重になる。
+ */
+.frame:has(.control:focus-visible) {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* data-invalid は、Base UI が検証で失敗したときに付ける。:invalid は、打つ前の空の欄でも赤くなるので使わない */
+.frame:has(.control[data-invalid]) {
+  border-color: var(--color-error);
+}
+
+/* 無効のときは Button と同じ色にする */
+.frame:has(.control[data-disabled]) {
+  border-color: var(--color-border);
+  color: var(--color-muted-foreground);
+  background-color: var(--color-muted);
+}
+
+.control {
+  flex: 1;
+
+  /* flex の子は、中身より小さくならない。入力欄は幅の初期値が大きいので、はみ出さないように 0 にする */
+  min-width: 0;
+  padding-inline: var(--spacing-12);
+
+  /* 枠と輪は .frame が受け持つ */
+  border: none;
+  outline: none;
+
+  /* ブラウザの自動入力の背景が、枠の角からはみ出さないようにする */
+  border-radius: inherit;
+  background-color: transparent;
+}
+
+.control::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+.control[data-disabled] {
+  cursor: not-allowed;
+}
+
+/*
+ * アイコンは入力欄の上に重ね、pointer-events: none で押せなくする。押すと、下の入力欄にフォーカスする。
+ * 横に並べると、アイコンを押してもフォーカスしない。
+ */
+.icon {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--spacing-12);
+  display: flex;
+  align-items: center;
+  color: var(--color-muted-foreground);
+  pointer-events: none;
+}
+
+.icon svg {
+  width: var(--size-icon);
+  height: var(--size-icon);
+}
+
+/* アイコンがあるときだけ、文字がアイコンに重ならないように、その分をあける */
+.frame:has(> .icon) .control {
+  padding-inline-start: calc(var(--spacing-12) + var(--size-icon) + var(--spacing-8));
+}
+
+/*
+ * ボタンを枠の線の上まで広げる（-1px は枠の太さ）。
+ * ボタンは 44px、枠の内側は 42px なので、広げないと、ボタンのある欄だけ 2px 高くなる。
+ * Textarea では、高くなっても右下に残るように、下に寄せる。
+ */
+.action {
+  display: flex;
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin-block: -1px;
+  margin-inline-end: -1px;
+}
+
+/* 何も打っていなくても 3 行の高さにする。field-sizing があると rows が効かないので、min-height で決める */
+.textarea {
+  min-height: calc(3lh + var(--spacing-8) * 2);
+  padding-block: var(--spacing-8);
+}
+
+/*
+ * 打った分だけ高くする。2026 年 6 月にそろったばかりの機能なので、使えるブラウザだけに書く。
+ * 使えないブラウザでは 3 行のままで、手で高さを変えられる（reset.css の resize: block）。
+ */
+@supports (field-sizing: content) {
+  .textarea {
+    field-sizing: content;
+    max-height: calc(10lh + var(--spacing-8) * 2);
+    resize: none;
+  }
+}

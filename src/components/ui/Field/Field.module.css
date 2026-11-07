@@ -1,0 +1,46 @@
+/* ラベル・説明・入力欄・エラーは 1 つのまとまりなので近づける。項目どうしの間は Form が広くあける */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+/* 幅を文字の分だけにする。横いっぱいだと、何もない場所を押しても入力欄にフォーカスする */
+.label {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: baseline;
+  gap: var(--spacing-8);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-700);
+}
+
+.label[data-disabled] {
+  color: var(--color-muted-foreground);
+}
+
+.required {
+  display: none;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-400);
+  color: var(--color-muted-foreground);
+}
+
+/*
+ * 中の入力欄に required があるときだけ「必須」を出す。
+ * Base UI は required の属性を付けず、ラベルは入力欄より前にあって、+ や ~ では後ろの要素を見られない。
+ * :has() なら親から中を見られるので、required を 2 か所に書かずに済む（docs/23）。
+ */
+.field:has(:required) .required {
+  display: inline;
+}
+
+.description {
+  font-size: var(--font-size-14);
+  color: var(--color-muted-foreground);
+}
+
+.error {
+  font-size: var(--font-size-14);
+  color: var(--color-error);
+}
